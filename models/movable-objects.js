@@ -10,10 +10,12 @@ class MovableObject{
         this.img = new Image(); //this.img = document.getelementById('image') - <img id='image' src="">
         this.img.src = path;
     }
-    moveRight() {
-        console.log('moving right')
+    moveRight(element,speed) {
+        console.log('move right ' + element)
+        element.x = element.x + speed;
     }
-    moveLeft() {
-        console.log('move Left')
+    moveLeft(element) {
+        // console.log('move Left')
+        element.x = element.x - speed;
     }
 }

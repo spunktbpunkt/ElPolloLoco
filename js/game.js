@@ -8,7 +8,7 @@ function init() {
     world = new World(canvas);
     console.log('my charater is ', world.character)
 
-    KeyboardEvent.charCode
+    // KeyboardEvent.charCode
 
     // ctx = canvas.getContext('2d')
 
@@ -20,17 +20,25 @@ function init() {
 }
 
 function chickenMove() {
-    world.enemies[0].moveRight(world.enemies[0],2);
+    world.enemies[0].moveRight(world.enemies[0], 2);
     // Hier kommt dein wiederholender Code hin
 }
 
-let intervallId = setInterval(chickenMove, 100);
+// let intervallId = setInterval(chickenMove, 100);
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
     if (event.key === "ArrowRight") {
-        world.character.moveRight(world.character,5);
+        world.character.moveRight(world.character, 5);
+        // world.backgrounds[1].moveRight(world.backgrounds[1], -0.5)
+        // world.backgrounds[2].moveRight(world.backgrounds[2], -1)
+        // world.backgrounds[3].moveRight(world.backgrounds[3], -1.5)
+        // world.backgrounds[4].moveRight(world.backgrounds[4], -2)
     }
     if (event.key === "ArrowLeft") {
-        world.character.moveLeft(world.character,5);
+        world.character.moveLeft(world.character, 5);
+        // world.backgrounds[1].moveLeft(world.backgrounds[1], -0.5)
+        // world.backgrounds[2].moveLeft(world.backgrounds[2], -1)
+        // world.backgrounds[3].moveLeft(world.backgrounds[3], -1.5)
+        // world.backgrounds[4].moveLeft(world.backgrounds[4], -2)
     }
 });

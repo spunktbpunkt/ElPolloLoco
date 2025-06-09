@@ -1,7 +1,7 @@
 class Endboss extends MovableObject {
     height = 350;
     width = this.height / 4 * 3;
-    y = 480 - this.height - 50;
+    y = 500 - this.height - 50;
     x = 400;
 
     images_walking = [

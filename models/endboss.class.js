@@ -4,6 +4,9 @@ class Endboss extends MovableObject {
     y = 500 - this.height - 50;
     x = 400;
 
+    angry_images =[];
+    attack_images =[]
+    
     images_walking = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -27,6 +30,11 @@ class Endboss extends MovableObject {
         // this.moveLeft();
         setInterval(() => {
             this.playAnimation(this.images_walking)
+            if(this.x -100 < world.character.x){
+                console.log("attack img")
+            }else{
+                console.log("angry img")
+            }
         }, 200);
     }
 

@@ -17,6 +17,7 @@ class World {
     canvas;
     ctx;
     keyboard;
+    camera_x = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -33,10 +34,13 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        this.ctx.translate(this.camera_x,0);
         this.addObjectsToMap(this.backgroundObjects)
         this.addObjectsToMap(this.clouds)
         this.addObjectsToMap(this.enemies)
         this.addToMap(this.character)
+
+        this.ctx.translate(-this.camera_x,0);
 
         // draw wird immer wieder neu aufgerufen
         let self = this;
@@ -55,7 +59,7 @@ class World {
         if (mo.otherDirection) {
             this.flipImage(mo)
         }
-        
+
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
 
         if (mo.otherDirection) {

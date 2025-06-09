@@ -21,13 +21,25 @@ class MovableObject {
         });
     }
 
-    moveRight(element, speed) {
+    // moveRight(element, speed) {
         // console.log('move right ' + element)
-        element.x = element.x + speed;
+        // element.x = element.x + speed;
+    // }
+    moveRight() {
+        setInterval(() => {
+            this.x += this.speed
+        }, 1000 / 120)
     }
     moveLeft() {
         setInterval(() => {
             this.x -= this.speed
         }, 1000 / 120)
+    }
+
+    playAnimation(images) {
+        let i = this.currentImage % this.images_walking.length;// let i = 6 % 6; => 1, Rest 0 // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, ...
+        let path = images[i]
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 }

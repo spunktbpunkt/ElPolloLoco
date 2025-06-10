@@ -1,6 +1,6 @@
 class Chicken extends MovableObject {
-    height = 120;
-    width = this.height / 4 * 3;
+    height = 110;
+    width = this.height / 98 * 95;
     y = 480 - this.height - 50;
 
 

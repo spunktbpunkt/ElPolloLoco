@@ -2,13 +2,14 @@ let canvas;
 // let ctx;
 let world;
 let keyboard = new Keyboard();
-
+let backgroundMusic = new Audio('audio/mariachi.wav');
 
 function init() {
     canvas = document.getElementById("canvas");
-    world = new World(canvas,keyboard);
+    world = new World(canvas, keyboard);
     console.log('my charater is ', world.character)
-
+    backgroundMusic.loop = true;
+    // backgroundMusic.play();
 
 }
 

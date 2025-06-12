@@ -25,6 +25,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-39.png'
     ]
 
+    walking_sound = new Audio('audio/footstep2.mp3');
     world;
 
 
@@ -40,11 +41,12 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                this.walkingSound();
                 this.moveRight();
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
-                this.x -= this.speed
-                this.otherDirection = true;
+                this.walkingSound();
+                this.moveLeft();
             }
 
             if (this.world.keyboard.UP && !this.isAboveGround()) {

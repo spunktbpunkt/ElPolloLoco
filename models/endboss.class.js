@@ -31,9 +31,9 @@ class Endboss extends MovableObject {
         setInterval(() => {
             this.playAnimation(this.images_walking)
             if(this.x -100 < world.character.x){
-                console.log("attack img")
+                // console.log("attack img")
             }else{
-                console.log("angry img")
+                // console.log("angry img")
             }
         }, 200);
     }

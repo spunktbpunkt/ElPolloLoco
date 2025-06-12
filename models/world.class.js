@@ -4,6 +4,7 @@ class World {
     canvas;
     ctx;
     keyboard;
+    // ground = 185;
     camera_x = 0;
 
     constructor(canvas, keyboard) {

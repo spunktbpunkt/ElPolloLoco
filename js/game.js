@@ -9,7 +9,7 @@ function init() {
     world = new World(canvas, keyboard);
     console.log('my charater is ', world.character)
     backgroundMusic.loop = true;
-    // backgroundMusic.play();
+    backgroundMusic.play();
 
 }
 

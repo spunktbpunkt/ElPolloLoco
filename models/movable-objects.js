@@ -10,7 +10,7 @@ class MovableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
-    
+    lastHit = 0;
     offset = {
         top: 0,
         bottom: 0,
@@ -88,13 +88,32 @@ class MovableObject {
             this.outerLines.left < mo.outerLines.left &&
             this.outerLines.top < mo.outerLines.bottom;
     }
-
     // isColliding(mo) {
     //     return this.x + this.width > mo.x &&
     //         this.y + this.height > mo.y &&
     //         this.x < mo.x &&
     //         this.y < mo.y + mo.height;
     // }
+    hit() {
+        this.energy -= 10;
+        if (this.energy <= 0) {
+            this.energy = 0
+        }else{
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isHurt(){
+        let timePassed = new Date().getTime() - this.lastHit; // DIFFERENCE IN MS
+        timePassed = timePassed / 1000; //DIFFERENCE IN S
+        // console.log(timePassed)
+        return timePassed < 1;
+    }
+
+    isDead() {
+        return this.energy == 0;
+    }
+
 
     moveLeft() {
         this.x -= this.speed
@@ -108,7 +127,7 @@ class MovableObject {
     }
 
     playAnimation(images) {
-        let i = this.currentImage % this.images_walking.length;// let i = 6 % 6; => 1, Rest 0 // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, ...
+        let i = this.currentImage % images.length;// let i = 6 % 6; => 1, Rest 0 // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, ...
         let path = images[i]
         this.img = this.imageCache[path];
         this.currentImage++;

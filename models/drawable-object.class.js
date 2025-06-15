@@ -19,8 +19,31 @@ class DrawableObject {
             this.imageCache[path] = img;
         });
     }
+    
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+    definingOffsetFrame() {
+        this.outerLines.left = this.x + this.offset.left
+        this.outerLines.right = this.x + this.width - this.offset.right;
+        this.outerLines.top = this.y + this.offset.top;
+        this.outerLines.bottom = this.y + this.height - this.offset.bottom;
+    }
+
+    showFrame(ctx) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+            this.definingOffsetFrame();
+            ctx.beginPath();
+            ctx.lineWidth = '3';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(
+                this.outerLines.left,
+                this.outerLines.top,
+                this.outerLines.right - this.outerLines.left,
+                this.outerLines.bottom - this.outerLines.top
+            );
+            ctx.stroke();
+        }
+    }
 }

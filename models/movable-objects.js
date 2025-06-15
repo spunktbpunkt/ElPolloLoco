@@ -1,5 +1,5 @@
-class MovableObject extends DrawableObject{
-    
+class MovableObject extends DrawableObject {
+
 
     speed = 0.2;
     otherDirection = false;
@@ -45,28 +45,7 @@ class MovableObject extends DrawableObject{
 
 
 
-    definingOffsetFrame() {
-        this.outerLines.left = this.x + this.offset.left
-        this.outerLines.right = this.x + this.width - this.offset.right;
-        this.outerLines.top = this.y + this.offset.top;
-        this.outerLines.bottom = this.y + this.height - this.offset.bottom;
-    }
 
-    showFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
-            this.definingOffsetFrame();
-            ctx.beginPath();
-            ctx.lineWidth = '3';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(
-                this.outerLines.left,
-                this.outerLines.top,
-                this.outerLines.right - this.outerLines.left,
-                this.outerLines.bottom - this.outerLines.top
-            );
-            ctx.stroke();
-        }
-    }
 
     isColliding(mo) {
         return this.outerLines.right > mo.outerLines.left && // true
@@ -84,12 +63,12 @@ class MovableObject extends DrawableObject{
         this.energy -= 10;
         if (this.energy <= 0) {
             this.energy = 0
-        }else{
+        } else {
             this.lastHit = new Date().getTime();
         }
     }
 
-    isHurt(){
+    isHurt() {
         let timePassed = new Date().getTime() - this.lastHit; // DIFFERENCE IN MS
         timePassed = timePassed / 1000; //DIFFERENCE IN S
         return timePassed < 1;

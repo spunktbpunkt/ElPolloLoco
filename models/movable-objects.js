@@ -9,7 +9,12 @@ class MovableObject {
     ground = 180;
     speedY = 0;
     acceleration = 2.5;
-
+    offset = {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+    }
 
 
 
@@ -47,14 +52,32 @@ class MovableObject {
     }
 
     showFrame(ctx) {
-
-        if (this instanceof Character || this instanceof Chicken) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
             ctx.beginPath();
             ctx.lineWidth = '3';
             ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.rect(
+                this.x + this.offset.left,
+                this.y + this.offset.top,
+                this.width - this.offset.left - this.offset.right,
+                this.height - this.offset.top - this.offset.bottom
+            );
             ctx.stroke();
         }
+    }
+
+    // character.isColiding(chicken)
+    // isColliding(mo) {
+    //     return this.x + this.width - this.offset.right> mo.x + mo.offset.left&&
+    //         this.y + this.height - this.offset.bottom> mo.y + mo.offset.top&&
+    //         this.x + this.offset.left < mo.x + mo.offset.left &&
+    //         this.y + this.offset.top < mo.y + mo.height;
+    // }
+    isColliding(mo) {
+        return this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height;
     }
 
     moveLeft() {

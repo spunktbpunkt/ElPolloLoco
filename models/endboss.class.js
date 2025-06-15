@@ -2,7 +2,13 @@ class Endboss extends MovableObject {
     height = 350;
     width = this.height / 4 * 3;
     y = 500 - this.height - 50;
-    x = 1400;
+    x = 400;
+    offset = {
+        top: 55,
+        bottom: 10,
+        left: 5,
+        right: 5
+    }
 
     angry_images =[];
     attack_images =[]

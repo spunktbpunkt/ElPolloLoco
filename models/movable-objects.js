@@ -9,7 +9,15 @@ class MovableObject {
     ground = 180;
     speedY = 0;
     acceleration = 2.5;
+    energy = 100;
+    
     offset = {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+    }
+    outerLines = {
         top: 0,
         bottom: 0,
         left: 0,
@@ -51,34 +59,42 @@ class MovableObject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+    definingOffsetFrame() {
+        this.outerLines.left = this.x + this.offset.left
+        this.outerLines.right = this.x + this.width - this.offset.right;
+        this.outerLines.top = this.y + this.offset.top;
+        this.outerLines.bottom = this.y + this.height - this.offset.bottom;
+    }
+
     showFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+            this.definingOffsetFrame();
             ctx.beginPath();
             ctx.lineWidth = '3';
             ctx.strokeStyle = 'blue';
             ctx.rect(
-                this.x + this.offset.left,
-                this.y + this.offset.top,
-                this.width - this.offset.left - this.offset.right,
-                this.height - this.offset.top - this.offset.bottom
+                this.outerLines.left,
+                this.outerLines.top,
+                this.outerLines.right - this.outerLines.left,
+                this.outerLines.bottom - this.outerLines.top
             );
             ctx.stroke();
         }
     }
 
-    // character.isColiding(chicken)
-    // isColliding(mo) {
-    //     return this.x + this.width - this.offset.right> mo.x + mo.offset.left&&
-    //         this.y + this.height - this.offset.bottom> mo.y + mo.offset.top&&
-    //         this.x + this.offset.left < mo.x + mo.offset.left &&
-    //         this.y + this.offset.top < mo.y + mo.height;
-    // }
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height;
+        return this.outerLines.right > mo.outerLines.left && // true
+            this.outerLines.bottom > mo.outerLines.bottom && // false
+            this.outerLines.left < mo.outerLines.left &&
+            this.outerLines.top < mo.outerLines.bottom;
     }
+
+    // isColliding(mo) {
+    //     return this.x + this.width > mo.x &&
+    //         this.y + this.height > mo.y &&
+    //         this.x < mo.x &&
+    //         this.y < mo.y + mo.height;
+    // }
 
     moveLeft() {
         this.x -= this.speed

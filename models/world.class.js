@@ -14,9 +14,6 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        // this.statusBarEnergy.y = 0;
-        // this.statusBarBottles.y = 50;
-        // this.statusBarCoins.y = 50;
         this.draw();
         this.setWorld();
         this.checkCollisions();
@@ -29,6 +26,7 @@ class World {
     checkCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
+                // console.log(this.enemies.)
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
                     this.statusBarEnergy.setPercentage(this.character.energy)

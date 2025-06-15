@@ -1,6 +1,4 @@
 class MovableObject extends DrawableObject {
-
-
     speed = 0.2;
     otherDirection = false;
     ground = 180;
@@ -37,13 +35,6 @@ class MovableObject extends DrawableObject {
     isAboveGround() {
         return this.y < this.ground;
     }
-
-
-
-
-
-
-
 
 
 

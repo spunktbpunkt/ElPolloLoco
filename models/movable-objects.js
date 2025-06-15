@@ -1,9 +1,6 @@
-class MovableObject {
-    x = 100;
-    y = 280;
-    img;
-    imageCache = {};
-    currentImage = 0;
+class MovableObject extends DrawableObject{
+    
+
     speed = 0.2;
     otherDirection = false;
     ground = 180;
@@ -42,22 +39,11 @@ class MovableObject {
     }
 
 
-    loadImage(path) {
-        this.img = new Image(); //this.img = document.getelementById('image') - <img id='image' src="">
-        this.img.src = path;
-    }
 
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
-    }
 
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
+
+
+
 
     definingOffsetFrame() {
         this.outerLines.left = this.x + this.offset.left
@@ -106,7 +92,6 @@ class MovableObject {
     isHurt(){
         let timePassed = new Date().getTime() - this.lastHit; // DIFFERENCE IN MS
         timePassed = timePassed / 1000; //DIFFERENCE IN S
-        // console.log(timePassed)
         return timePassed < 1;
     }
 

@@ -6,12 +6,17 @@ class World {
     keyboard;
     // ground = 185;
     camera_x = 0;
-    statusBar = new Statusbar();
+    statusBarEnergy = new Statusbar('energy');
+    statusBarBottles = new Statusbar('bottle');
+    statusBarCoins = new Statusbar('coin');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        // this.statusBarEnergy.y = 0;
+        // this.statusBarBottles.y = 50;
+        // this.statusBarCoins.y = 50;
         this.draw();
         this.setWorld();
         this.checkCollisions();
@@ -26,7 +31,7 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
-                    this.statusBar.setPercentage(this.character.energy)
+                    this.statusBarEnergy.setPercentage(this.character.energy)
                 }
             })
         }, 200);
@@ -38,7 +43,9 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         // space for fixed objects
-        this.addToMap(this.statusBar)
+        this.addToMap(this.statusBarEnergy)
+        this.addToMap(this.statusBarBottles)
+        this.addToMap(this.statusBarCoins)
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.clouds)

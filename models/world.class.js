@@ -27,7 +27,7 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects)
         this.addObjectsToMap(this.level.clouds)
         this.addObjectsToMap(this.level.enemies)
-        
+
         this.addToMap(this.character)
 
         this.ctx.translate(-this.camera_x, 0);
@@ -50,12 +50,15 @@ class World {
             this.flipImage(mo)
         }
 
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        mo.draw(this.ctx)
+        mo.showFrame(this.ctx)
 
         if (mo.otherDirection) {
             this.flipImageBack(mo)
         }
     }
+
+
 
     flipImage(mo) {
         this.ctx.save();

@@ -49,8 +49,8 @@ class Endboss extends MovableObject {
         // this.moveLeft();
         setInterval(() => {
             // console.log(world.character.x)
-            console.log(world.character.x + 300 >= this.x)
-            if (i < 30) {
+            
+            if (world.character.x + 300 < this.x) {
                 this.playAnimation(this.images_walking)
             }else{
                 this.playAnimation(this.images_attack)

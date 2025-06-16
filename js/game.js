@@ -11,7 +11,7 @@ function init() {
     console.log('my charater is ', world.character)
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.5;
-    backgroundMusic.play();
+    // backgroundMusic.play();
 }
 
 function chickenMove() {

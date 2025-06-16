@@ -10,8 +10,8 @@ class Endboss extends MovableObject {
         right: 5
     }
 
-    angry_images =[];
-    attack_images =[]
+    // angry_images =[];
+    // attack_images =[]
     
     images_walking = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -24,23 +24,38 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ]
 
+        images_attack = [
+        'img/4_enemie_boss_chicken/3_attack/G13.png',
+        'img/4_enemie_boss_chicken/3_attack/G14.png',
+        'img/4_enemie_boss_chicken/3_attack/G15.png',
+        'img/4_enemie_boss_chicken/3_attack/G16.png',
+        'img/4_enemie_boss_chicken/3_attack/G17.png',
+        'img/4_enemie_boss_chicken/3_attack/G18.png',
+        'img/4_enemie_boss_chicken/3_attack/G19.png',
+        'img/4_enemie_boss_chicken/3_attack/G20.png'
+    ]
+
     constructor() {
         super().loadImage(this.images_walking[0]);
         // this.x = 300 + Math.random() * 500;
         this.speed = 0.15 + Math.random() * 0.25;
         this.loadImages(this.images_walking);
+        this.loadImages(this.images_attack);
         this.animate();
     }
 
     animate() {
+        let i = 0;
         // this.moveLeft();
         setInterval(() => {
-            this.playAnimation(this.images_walking)
-            if(this.x -100 < world.character.x){
-                // console.log("attack img")
+            // console.log(world.character.x)
+            console.log(world.character.x + 300 >= this.x)
+            if (i < 30) {
+                this.playAnimation(this.images_walking)
             }else{
-                // console.log("angry img")
+                this.playAnimation(this.images_attack)
             }
+            i++
         }, 200);
     }
 

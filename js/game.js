@@ -5,13 +5,13 @@ let keyboard = new Keyboard();
 let backgroundMusic = new Audio('audio/mariachi.wav');
 
 function init() {
+    initLevel();
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
     console.log('my charater is ', world.character)
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.5;
-    // backgroundMusic.play();
-
+    backgroundMusic.play();
 }
 
 function chickenMove() {

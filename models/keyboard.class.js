@@ -4,7 +4,7 @@ class Keyboard {
     UP = false;
     DOWN = false;
     SPACE = false;
-    THROW = false; // taste D
+    D = false; // taste D
 
 
 

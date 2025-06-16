@@ -10,7 +10,7 @@ function init() {
     console.log('my charater is ', world.character)
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.5;
-    backgroundMusic.play();
+    // backgroundMusic.play();
 
 }
 
@@ -20,6 +20,7 @@ function chickenMove() {
 }
 
 window.addEventListener("keydown", (e) => {
+    // console.log(e.keyCode)
     if (e.keyCode == 39) {
         keyboard.RIGHT = true;
     }
@@ -40,7 +41,11 @@ window.addEventListener("keydown", (e) => {
         keyboard.SPACE = true;
     }
 
-    // console.log(e)
+    if (e.keyCode == 68) {
+        keyboard.D = true;
+        // console.log('Ddown')
+    }
+
 })
 
 window.addEventListener("keyup", (e) => {
@@ -64,5 +69,9 @@ window.addEventListener("keyup", (e) => {
         keyboard.SPACE = false;
     }
 
-    // console.log(e)
+    if (e.keyCode == 68) {
+        keyboard.D = false;
+        // console.log('Dup')
+    }
+    
 })

@@ -1,10 +1,24 @@
-class ThrowableObject {
-    speedY = 30
-    speedX = 20
+class ThrowableObject extends MovableObject{
+    // speedY = 30
+    // speedX = 20
 
-    throw(){
-
+    constructor(x,y){
+        super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
+        this.x = x;
+        this.y = y;
+        this.height = 60;
+        this.width = 50;
+        this.throw();
+        // this.loadImage();
     }
 
+
+    throw(){
+        this.speedY = 30;
+        this.applyGravity();
+        setInterval(() => {
+            this.x += 10;
+        }, 25);
+    }
     
 }

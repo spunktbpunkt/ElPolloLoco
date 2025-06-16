@@ -1,9 +1,54 @@
-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    @font-face {
+        font-family: zabars;
+        src: url('fonts/zabars.ttf') format('truetype');
+    }
 
-canvas{
-    background-color: black;
-}
+    body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0;
+        /* background-image: url('img/wueste.png'); */
+        /* background-position: center; */
+        /* font-family: zabars, Arial, Helvetica, sans-serif; */
+        background:red;
+    }
+
+    canvas {
+        background-color: black;
+        display: block;
+    }
+
+    h1 {
+        font-size: 64px;
+        letter-spacing: 5px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    p{
+        background: blue;
+        margin:0;
+    }
+
+    /* Smartphone */
+    @media only screen and (max-width: 720px) {
+        canvas {
+            width: 100%;
+        }
+
+        h1{
+            display: none;
+        }
+    }
+
+    /* Smartphone */
+    @media only screen and (max-height: 480px) {
+        canvas {
+            height: 100vh;
+        }
+        h1{
+            display: none;
+        }
+    }

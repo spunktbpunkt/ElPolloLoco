@@ -34,7 +34,4 @@ class Chicken extends MovableObject {
         }, 200);
     }
 
-    eat() {
-        console.log('eat')
-    }
 }

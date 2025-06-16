@@ -2,13 +2,15 @@ class Endboss extends MovableObject {
     height = 350;
     width = this.height / 4 * 3;
     y = 500 - this.height - 50;
-    x = 1400;
+    x = 700;
+    attack = false;
     offset = {
         top: 55,
         bottom: 10,
         left: 5,
         right: 5
     }
+    
 
     // angry_images =[];
     // attack_images =[]
@@ -46,17 +48,21 @@ class Endboss extends MovableObject {
 
     animate() {
         let i = 0;
-        // this.moveLeft();
         setInterval(() => {
-            // console.log(world.character.x)
+
             
-            if (world.character.x + 300 < this.x) {
+            if (world.character.x + 300 < this.x && !this.attack) {
                 this.playAnimation(this.images_walking)
+                console.log(this.attack);
+                
             }else{
                 this.playAnimation(this.images_attack)
+                this.attack = true;
+                console.log(this.attack);
             }
             i++
         }, 200);
+
     }
 
 }

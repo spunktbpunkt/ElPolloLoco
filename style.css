@@ -10,10 +10,12 @@
         justify-content: center;
         flex-direction: column;
         margin: 0;
-        /* background-image: url('img/wueste.png'); */
-        /* background-position: center; */
+        background-image: url('img/wueste.png');
+        background-position: center;
+        background-repeat: no-repeat;
+
         /* font-family: zabars, Arial, Helvetica, sans-serif; */
-        background:red;
+        /* background:red; */
     }
 
     canvas {

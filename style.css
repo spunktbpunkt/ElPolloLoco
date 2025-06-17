@@ -10,15 +10,21 @@
         justify-content: center;
         flex-direction: column;
         margin: 0;
-        /* background-image: url('img/wueste.png'); */
-        /* background-position: center; */
-        /* font-family: zabars, Arial, Helvetica, sans-serif; */
-        background:red;
+        background-image: linear-gradient(#0AA3C9, #994409);
+        font-family: zabars, Arial, Helvetica, sans-serif;
+        /* background:red; */
+    }
+
+    .background-img {
+        background-image: url('img/wueste.png');
+        background-position: center;
+        background-repeat: no-repeat;
     }
 
     canvas {
         background-color: black;
-        display: block;
+        display: none;
+        /* display: block; */
     }
 
     h1 {
@@ -27,9 +33,67 @@
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
     }
 
-    p{
+    p {
         background: blue;
-        margin:0;
+        margin: 0;
+    }
+
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .image-container img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .button {
+        position: absolute;
+        width: 100px;
+        /* feste Breite für stabile Zentrierung */
+        text-align: center;
+        padding: 10px 0;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transform-origin: center center;
+    }
+
+    .button:hover {
+        animation: wiggle 0.4s ease-in-out;
+    }
+
+    @keyframes wiggle {
+        0% {transform: translateX(-50%) rotate(0deg);}
+
+        25% {transform: translateX(-50%) rotate(3deg);}
+
+        50% {transform: translateX(-50%) rotate(-3deg);}
+
+        75% {transform: translateX(-50%) rotate(3deg);}
+
+        100% {transform: translateX(-50%) rotate(0deg);}
+    }
+
+    .start-button {
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .settings-button {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .audio-button {
+        bottom: 10px;
+        left: 10px;
     }
 
     /* Smartphone */
@@ -38,7 +102,7 @@
             width: 100%;
         }
 
-        h1{
+        h1 {
             display: none;
         }
     }
@@ -48,7 +112,8 @@
         canvas {
             height: 100vh;
         }
-        h1{
+
+        h1 {
             display: none;
         }
     }

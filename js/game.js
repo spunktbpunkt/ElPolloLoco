@@ -4,6 +4,8 @@ let keyboard = new Keyboard();
 let backgroundMusic = new Audio('audio/mariachi.wav');
 
 function init() {
+    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("canvas").classList.remove("hidden");
     initLevel();
     setupCanvasAndWorld();
     playBackgroundMusic();

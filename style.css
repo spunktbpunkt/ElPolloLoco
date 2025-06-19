@@ -23,8 +23,8 @@
 
     canvas {
         background-color: black;
-        display: none;
-        /* display: block; */
+        
+        display: block;
     }
 
     h1 {
@@ -66,6 +66,10 @@
 
     .button:hover {
         animation: wiggle 0.4s ease-in-out;
+    }
+
+    .hidden{
+        display: none;
     }
 
     @keyframes wiggle {

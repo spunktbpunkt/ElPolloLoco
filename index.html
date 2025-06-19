@@ -13,6 +13,7 @@
     <script src="models/background-object.class.js"></script>
     <script src="models/charater.class.js"></script>
     <script src="models/chicken.class.js"></script>
+    <script src="models/coins.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="models/endboss.class.js"></script>
@@ -29,17 +30,17 @@
 
 </style>
 
-<body>
+<body onload="init()">
 
-  <div id="intro" class="image-container">
+  <div id="intro" class="image-container hidden">
     <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="Hintergrundbild">
-    <!-- <button class="button start-button" onclick="init()">Start</button>
+    <button class="button start-button" onclick="init()">Start</button>
     <button class="button audio-button">Audio</button>
-    <button class="button settings-button">Settings</button> -->
+    <button class="button settings-button">Settings</button>
   </div>
 
     <!-- <h1>El Pollo Loco</h1> -->
-    <canvas id="canvas" width="720" height="480" class="hidden">
+    <canvas id="canvas" width="720" height="480">
         <!-- <p>hello</p> -->
     </canvas>
 

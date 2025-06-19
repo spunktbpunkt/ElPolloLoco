@@ -3,7 +3,7 @@ let level1;
 function initLevel() {
     level1 = new Level(
         [
-            ...createElements('chicken', 3,300),
+            ...createElements('chicken', 3,250,50),
             new Endboss()
         ],
         [
@@ -36,14 +36,17 @@ function initLevel() {
         ]
         ,
         [
-            ...createElements('coins', 7,150)
+            ...createElements('coins', 7,150,50)
+        ],
+        [ 
+            ...createElements('bottles',5,100,100)
+
         ]
     );
 }
 
-function createElements(type, count,startX, options = {}) {
+function createElements(type, count,startX,minDistance, options = {}) {
     const {
-        minDistance = 50,
         range = 1000
     } = options;
 
@@ -67,11 +70,14 @@ function createElements(type, count,startX, options = {}) {
                     element = new Chicken();
                     break;
                 case 'coins':
-                    element = new Coins();  // oder `new Coin()` je nach Klassennamen
+                    element = new Coins();
+                    break;
+                case 'bottles':
+                    element = new Bottles();
                     break;
                 // weitere Typen nach Bedarf
                 default:
-                // throw new Error(`Unbekannter Elementtyp: ${type}`);
+                    throw new Error(`Unbekannter Elementtyp: ${type}`);
             }
             element.x = randomX;
             elements.push(element);

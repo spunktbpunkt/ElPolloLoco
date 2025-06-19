@@ -2,7 +2,7 @@ class Endboss extends MovableObject {
     height = 350;
     width = this.height / 4 * 3;
     y = 500 - this.height - 50;
-    x = 700;
+    x = 1400;
     attack = false;
     offset = {
         top: 55,

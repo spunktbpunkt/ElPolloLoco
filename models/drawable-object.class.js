@@ -36,6 +36,7 @@ class DrawableObject {
             || this instanceof Chicken
             || this instanceof Endboss
             || this instanceof Coins
+            || this instanceof Bottles
         ) {
             this.definingOffsetFrame();
             ctx.beginPath();

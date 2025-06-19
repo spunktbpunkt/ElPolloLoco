@@ -62,7 +62,7 @@ function createElements(type, count,startX, options = {}) {
 
         if (valid) {
             let element;
-            switch (type.toLowerCase()) {
+            switch (type) {
                 case 'chicken':
                     element = new Chicken();
                     break;

@@ -48,6 +48,13 @@ class World {
                     this.statusBarEnergy.setPercentage(this.character.energy)
                 }
             })
+
+            this.level.enemies.forEach((coins) => {
+                if (this.character.isColliding(coins)) {
+                    this.character.hit();
+                    this.statusBarEnergy.setPercentage(this.character.coinsAmount)
+                }
+            })
     }
 
     draw() {

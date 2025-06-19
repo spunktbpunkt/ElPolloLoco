@@ -5,6 +5,8 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
+    coinsAmount = 0;
+    bottlesAmount = 0;
     lastHit = 0;
     offset = {
         top: 0,
@@ -43,13 +45,30 @@ class MovableObject extends DrawableObject {
     }
 
 
+    isCollidingNew(mo) {
+        //this = charater
+        let CA =[this.outerLines.left,this.outerLines.right,this.outerLines.top,this.outerLines.bottom];
+        let EN = [mo.outerLines.left,mo.outerLines.right,mo.outerLines.top,mo.outerLines.bottom];
 
-    isColliding(mo) {
+
         return this.outerLines.right > mo.outerLines.left && // true
             this.outerLines.bottom > mo.outerLines.bottom && // false
             this.outerLines.left < mo.outerLines.left &&
             this.outerLines.top < mo.outerLines.bottom;
     }
+
+    isColliding(mo) {
+        //this = charater
+        let CA =[this.outerLines.left,this.outerLines.right,this.outerLines.top,this.outerLines.bottom];
+        let EN = [mo.outerLines.left,mo.outerLines.right,mo.outerLines.top,mo.outerLines.bottom];
+        if(CA[2]>EN[2]){console.log('BLA')}
+        
+        return this.outerLines.right > mo.outerLines.left && // true
+            this.outerLines.bottom > mo.outerLines.bottom && // false
+            this.outerLines.left < mo.outerLines.left &&
+            this.outerLines.top < mo.outerLines.bottom;
+    }
+
     // isColliding(mo) {
     //     return this.x + this.width > mo.x &&
     //         this.y + this.height > mo.y &&

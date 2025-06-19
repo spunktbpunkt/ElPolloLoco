@@ -53,12 +53,12 @@ class Endboss extends MovableObject {
             
             if (world.character.x + 300 < this.x && !this.attack) {
                 this.playAnimation(this.images_walking)
-                console.log(this.attack);
+                // console.log(this.attack);
                 
             }else{
                 this.playAnimation(this.images_attack)
                 this.attack = true;
-                console.log(this.attack);
+                // console.log(this.attack);
             }
             i++
         }, 200);

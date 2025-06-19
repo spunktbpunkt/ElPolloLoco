@@ -1,7 +1,8 @@
 class MovableObject extends DrawableObject {
     speed = 0.2;
     otherDirection = false;
-    ground = 180;
+    // ground = 180;
+    ground = 60;
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
@@ -61,7 +62,18 @@ class MovableObject extends DrawableObject {
         //this = charater
         let CA =[this.outerLines.left,this.outerLines.right,this.outerLines.top,this.outerLines.bottom];
         let EN = [mo.outerLines.left,mo.outerLines.right,mo.outerLines.top,mo.outerLines.bottom];
-        if(CA[2]>EN[2]){console.log('BLA')}
+        // if(CA[3]>EN[2]&&CA[3]<EN[3]){console.log('collision height')}
+        let CRS = (CA[1]>EN[0]&&CA[1]<EN[1])
+        let CLS = (CA[0]>EN[0]&&CA[0]<EN[1])
+        // let CY = (CA[3]>EN[2]&&CA[2]<EN[2])
+        let CY = (EN[3]>CA[2])
+
+        if(CY && (CRS || CLS)){
+            console.log("HIT")
+            }
+        
+
+
         
         return this.outerLines.right > mo.outerLines.left && // true
             this.outerLines.bottom > mo.outerLines.bottom && // false

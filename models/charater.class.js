@@ -10,6 +10,7 @@ class Character extends MovableObject {
         right: 22
     }
     falling = false;
+    gravityInterval;
 
     images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -51,18 +52,38 @@ class Character extends MovableObject {
     world;
 
 
+
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.images_walking);
         this.loadImages(this.images_jumping);
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_dead);
-        this.applyGravity();
+
+        this.applyGravity();  // Nur hier aufrufen
         this.animate();
     }
 
-    animate() {
+    applyGravity() {
+        if (this.gravityInterval) return; // Wenn schon läuft, nicht nochmal starten
 
+        this.gravityInterval = setInterval(() => {
+            if (this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+            } else {
+                // Damit der Character nicht "unter" den Boden fällt
+                this.speedY = 0;
+                this.y = this.ground;
+            }
+
+            this.falling = this.speedY < 0;
+            // Optional: Debug
+            // console.log('speedY:', this.speedY.toFixed(2), 'falling:', this.falling);
+        }, 1000 / 25);
+    }
+
+    animate() {
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.walkingSound();
@@ -75,10 +96,9 @@ class Character extends MovableObject {
                 this.moveLeft();
             }
             if (!this.isAboveGround() && (this.world.keyboard.SPACE || this.world.keyboard.UP)) {
-                this.jump()
+                this.jump();
             }
             this.world.camera_x = -this.x + 100;
-
         }, 1000 / 60);
 
         setInterval(() => {
@@ -87,19 +107,52 @@ class Character extends MovableObject {
             } else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);
             } else if (this.isAboveGround()) {
-                // in der Luft – Springen oder Fallen
                 this.playAnimation(this.images_jumping);
-                if (this.isFalling()) {
-                    this.falling = true
-                } else {
-                    this.falling = false;
-                }
+                // Nur lesen:
+                // this.falling ist aktuell gesetzt von applyGravity()
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.images_walking);
             }
         }, 50);
-
     }
+
+    // animate() {
+
+    //     setInterval(() => {
+    //         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+    //             this.walkingSound();
+    //             this.otherDirection = false;
+    //             this.moveRight();
+    //         }
+    //         if (this.world.keyboard.LEFT && this.x > 0) {
+    //             this.walkingSound();
+    //             this.otherDirection = true;
+    //             this.moveLeft();
+    //         }
+    //         if (!this.isAboveGround() && (this.world.keyboard.SPACE || this.world.keyboard.UP)) {
+    //             this.jump()
+    //         }
+    //         this.world.camera_x = -this.x + 100;
+
+    //     }, 1000 / 60);
+
+    //     setInterval(() => {
+    //         if (this.isDead()) {
+    //             this.playAnimation(this.images_dead);
+    //         } else if (this.isHurt()) {
+    //             this.playAnimation(this.images_hurt);
+    //         } else if (this.isAboveGround()) {
+    //             this.playAnimation(this.images_jumping);
+    //             if (this.falling) {
+    //                 // Hier kannst du spezielle Effekte für das Fallen einbauen, falls gewünscht
+    //             }
+    //         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+    //             this.playAnimation(this.images_walking);
+    //         }
+    //     }, 50);
+
+
+    // }
 
 
 }

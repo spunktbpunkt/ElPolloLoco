@@ -1,8 +1,8 @@
 class MovableObject extends DrawableObject {
     speed = 0.2;
     otherDirection = false;
-    // ground = 180;
-    ground = 60;
+    ground = 180;
+    // ground = 60;
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
@@ -24,14 +24,18 @@ class MovableObject extends DrawableObject {
 
 
 
-    applyGravity() {
-        setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
-            }
-        }, 1000 / 25);
-    }
+applyGravity() {
+    if(this.gravityInterval) return; // Verhindere Mehrfachstart
+
+    this.gravityInterval = setInterval(() => {
+        if (this.isAboveGround() || this.speedY > 0) {
+            this.y -= this.speedY;
+            this.speedY -= this.acceleration;
+        }
+        this.falling = this.speedY < 0;
+    }, 1000 / 25);
+}
+
 
 
 
@@ -47,13 +51,12 @@ class MovableObject extends DrawableObject {
 
 
     isColliding(mo) {
-        let CA = [this.outerLines.left, this.outerLines.right, this.outerLines.top, this.outerLines.bottom];
-        let EN = [mo.outerLines.left, mo.outerLines.right, mo.outerLines.top, mo.outerLines.bottom];
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height;
+        return this.outerLines.right > mo.outerLines.left &&
+            this.outerLines.left < mo.outerLines.right &&
+            this.outerLines.bottom > mo.outerLines.top &&
+            this.outerLines.top < mo.outerLines.bottom;
     }
+
 
     hit() {
         this.energy -= 10;
@@ -75,7 +78,7 @@ class MovableObject extends DrawableObject {
     }
 
     isFalling() {
-        return this.speedY < 0 && this.isAboveGround();
+        return this.speedY < 0; // weil speedY nach unten negativ ist
     }
 
     moveLeft() {
@@ -85,9 +88,12 @@ class MovableObject extends DrawableObject {
     moveRight() {
         this.x += this.speed
     }
-    jump() {
-        this.speedY = 30;
-    }
+jump() {
+  if (!this.isAboveGround()) { // Nur springen wenn auf Boden
+    this.speedY = 30;
+  }
+}
+
 
     playAnimation(images) {
         let i = this.currentImage % images.length;// let i = 6 % 6; => 1, Rest 0 // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, ...

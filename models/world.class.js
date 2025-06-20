@@ -84,6 +84,7 @@ class World {
         });
     }
 
+
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o)
@@ -116,4 +117,5 @@ class World {
         this.ctx.restore();
         mo.x = mo.x * -1;
     }
+    
 }

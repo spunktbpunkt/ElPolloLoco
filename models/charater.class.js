@@ -9,7 +9,7 @@ class Character extends MovableObject {
         left: 22,
         right: 22
     }
-
+    falling = false;
 
     images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -32,7 +32,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-39.png'
     ]
 
-    images_hurt =[
+    images_hurt = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png'
@@ -82,21 +82,24 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-
             if (this.isDead()) {
                 this.playAnimation(this.images_dead);
-            } else if (this.isHurt()){
+            } else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);
-            }else if (this.isAboveGround()) {
-                this.playAnimation(this.images_jumping)
-            } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    // walk animation    
-                    this.playAnimation(this.images_walking)
+            } else if (this.isAboveGround()) {
+                // in der Luft – Springen oder Fallen
+                this.playAnimation(this.images_jumping);
+                if (this.isFalling()) {
+                    this.falling = true
+                } else {
+                    this.falling = false;
                 }
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.images_walking);
             }
         }, 50);
 
     }
+
 
 }

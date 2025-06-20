@@ -46,47 +46,15 @@ class MovableObject extends DrawableObject {
     }
 
 
-    isCollidingNew(mo) {
-        //this = charater
-        let CA =[this.outerLines.left,this.outerLines.right,this.outerLines.top,this.outerLines.bottom];
-        let EN = [mo.outerLines.left,mo.outerLines.right,mo.outerLines.top,mo.outerLines.bottom];
-
-
-        return this.outerLines.right > mo.outerLines.left && // true
-            this.outerLines.bottom > mo.outerLines.bottom && // false
-            this.outerLines.left < mo.outerLines.left &&
-            this.outerLines.top < mo.outerLines.bottom;
-    }
-
     isColliding(mo) {
-        //this = charater
-        let CA =[this.outerLines.left,this.outerLines.right,this.outerLines.top,this.outerLines.bottom];
-        let EN = [mo.outerLines.left,mo.outerLines.right,mo.outerLines.top,mo.outerLines.bottom];
-        // if(CA[3]>EN[2]&&CA[3]<EN[3]){console.log('collision height')}
-        let CRS = (CA[1]>EN[0]&&CA[1]<EN[1])
-        let CLS = (CA[0]>EN[0]&&CA[0]<EN[1])
-        // let CY = (CA[3]>EN[2]&&CA[2]<EN[2])
-        let CY = (EN[3]>CA[2])
-
-        if(CY && (CRS || CLS)){
-            console.log("HIT")
-            }
-        
-
-
-        
-        return this.outerLines.right > mo.outerLines.left && // true
-            this.outerLines.bottom > mo.outerLines.bottom && // false
-            this.outerLines.left < mo.outerLines.left &&
-            this.outerLines.top < mo.outerLines.bottom;
+        let CA = [this.outerLines.left, this.outerLines.right, this.outerLines.top, this.outerLines.bottom];
+        let EN = [mo.outerLines.left, mo.outerLines.right, mo.outerLines.top, mo.outerLines.bottom];
+        return this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height;
     }
 
-    // isColliding(mo) {
-    //     return this.x + this.width > mo.x &&
-    //         this.y + this.height > mo.y &&
-    //         this.x < mo.x &&
-    //         this.y < mo.y + mo.height;
-    // }
     hit() {
         this.energy -= 10;
         if (this.energy <= 0) {
@@ -106,6 +74,9 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
+    isFalling() {
+        return this.speedY < 0 && this.isAboveGround();
+    }
 
     moveLeft() {
         this.x -= this.speed

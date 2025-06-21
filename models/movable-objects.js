@@ -24,17 +24,17 @@ class MovableObject extends DrawableObject {
 
 
 
-applyGravity() {
-    if(this.gravityInterval) return; // Verhindere Mehrfachstart
+    applyGravity() {
+        if (this.gravityInterval) return; // Verhindere Mehrfachstart
 
-    this.gravityInterval = setInterval(() => {
-        if (this.isAboveGround() || this.speedY > 0) {
-            this.y -= this.speedY;
-            this.speedY -= this.acceleration;
-        }
-        this.falling = this.speedY < 0;
-    }, 1000 / 25);
-}
+        this.gravityInterval = setInterval(() => {
+            if (this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+            }
+            this.falling = this.speedY < 0;
+        }, 1000 / 25);
+    }
 
 
 
@@ -78,7 +78,7 @@ applyGravity() {
     }
 
     isFalling() {
-        return this.speedY < 0; // weil speedY nach unten negativ ist
+        return this.speedY < 0;
     }
 
     moveLeft() {
@@ -88,11 +88,11 @@ applyGravity() {
     moveRight() {
         this.x += this.speed
     }
-jump() {
-  if (!this.isAboveGround()) { // Nur springen wenn auf Boden
-    this.speedY = 30;
-  }
-}
+    jump() {
+        if (!this.isAboveGround()) { 
+            this.speedY = 30;
+        }
+    }
 
 
     playAnimation(images) {

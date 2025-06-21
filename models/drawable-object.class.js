@@ -20,9 +20,18 @@ class DrawableObject {
         });
     }
     
-    draw(ctx) {
+draw(ctx) {
+    if (this.type === 'endboss') {
+        ctx.save();
+        ctx.translate(this.x + this.width, this.y);
+        ctx.scale(-1, 1); // Spiegelt das Bild horizontal
+        ctx.drawImage(this.img, 0, 0, this.width, this.height);
+        ctx.restore();
+    } else {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
+}
+
 
     definingOffsetFrame() {
         this.outerLines.left = this.x + this.offset.left

@@ -40,23 +40,33 @@ class Statusbar extends DrawableObject {
                 this.currentImages = this.images_bottles;
                 this.loadImages(this.currentImages);
                 this.setPercentage(0, 5); // z.B. max 5 Flaschen
+                this.x = 20;
                 this.y = 50;
                 break;
             case 'coin':
                 this.currentImages = this.images_coins;
                 this.loadImages(this.currentImages);
                 this.setPercentage(0, 5);
+                this.x = 20;
                 this.y = 100;
+                break;
+            case 'endboss':
+                this.currentImages = this.images_energy;
+                this.loadImages(this.currentImages);
+                this.setPercentage(100, 100); // Health: 0–100%
+                this.x = 500;
+                this.y = 0;
                 break;
             default:
                 this.currentImages = this.images_energy;
                 this.loadImages(this.currentImages);
                 this.setPercentage(100, 100); // Health: 0–100%
+                this.x = 20;
                 this.y = 0;
                 break;
         }
 
-        this.x = 20;
+        // if(type == 'endboss'){this.x = 500}else{this.x = 20}
         this.width = 200;
         this.height = 60;
     }

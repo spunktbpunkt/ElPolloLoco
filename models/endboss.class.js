@@ -58,6 +58,7 @@ class Endboss extends MovableObject {
             }else{
                 this.playAnimation(this.images_attack)
                 this.attack = true;
+                this.statusBarEnergy = new Statusbar('endboss');
                 // console.log(this.attack);
             }
             i++

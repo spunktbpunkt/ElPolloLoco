@@ -9,6 +9,8 @@ class World {
     statusBarEnergy = new Statusbar('energy');
     statusBarBottles = new Statusbar('bottle');
     statusBarCoins = new Statusbar('coin');
+    statusBarEndboss = new Statusbar('endboss')
+
     newBottle = createElements('bottles', 1, 100, 100)
 
     constructor(canvas, keyboard) {
@@ -161,6 +163,10 @@ class World {
         this.addToMap(this.statusBarEnergy);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
+        const endboss = this.level.enemies.find(e => e instanceof Endboss);
+        if (endboss && endboss.attack) {
+            this.addToMap(this.statusBarEndboss);
+        }
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.clouds);

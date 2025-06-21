@@ -17,7 +17,7 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        this.speedY = 30;
+        this.speedY = 10;
 
         // Entscheide Flugrichtung basierend auf throwDirection
         const interval = setInterval(() => {

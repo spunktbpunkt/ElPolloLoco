@@ -112,8 +112,9 @@ class World {
 
             if (this.character.isColliding(enemy)) {
                 if (this.character.falling && this.character.y < enemy.y && !enemy.isDead) {
-                    // Gegner "stirbt" – Bild ändern
-                    enemy.img = enemy.image_dead;
+                    // Gegner "stirbt" – Bilder laden und Bild setzen
+                    enemy.loadImages(enemy.images_dead);
+                    enemy.img = enemy.imageCache[enemy.images_dead[0]];
                     enemy.isDead = true;  // Gegner als tot markieren
 
                     // Nach 0,5 Sekunde entfernen
@@ -153,6 +154,73 @@ class World {
         });
     }
 
+
+    checkBottleHitsEnemies() {
+        this.throwablObjects.forEach((bottle, bottleIndex) => {
+            this.level.enemies.forEach((enemy, enemyIndex) => {
+
+                bottle.definingOffsetFrame();
+                enemy.definingOffsetFrame();
+
+                if (bottle.isColliding(enemy)) {
+
+                    // Chicken wird getroffen
+                    if (enemy instanceof Chicken) {
+                        this.throwablObjects.splice(bottleIndex, 1);
+
+                        enemy.loadImages(enemy.images_dead);
+                        enemy.img = enemy.imageCache[enemy.images_dead[0]];
+                        enemy.isDead = true;
+
+                        setTimeout(() => {
+                            this.level.enemies.splice(enemyIndex, 1);
+                        }, 1000);
+                    }
+
+                    // Endboss wird getroffen, aber nur wenn attack == true
+                    if (enemy instanceof Endboss && enemy.attack === true) {
+                        this.throwablObjects.splice(bottleIndex, 1);
+                        this.reduceEndbossEnergy();
+                    }
+                }
+            });
+        });
+    }
+
+
+
+
+
+reduceEndbossEnergy() {
+    if (!this.statusBarEndboss) return;
+
+    // Aktuellen Wert berechnen
+    let current = (this.statusBarEndboss.percentage / 100) * this.statusBarEndboss.max;
+    current = Math.max(0, current - 20); // min. 0
+
+    this.statusBarEndboss.setPercentage(current, 100);
+
+    // Endboss töten und entfernen, wenn Energie 0 ist
+    if (current === 0) {
+        // Endboss finden (angenommen nur ein Endboss im enemies-Array)
+        let endbossIndex = this.level.enemies.findIndex(enemy => enemy instanceof Endboss);
+        if (endbossIndex !== -1) {
+            // Optional: Endboss „tot“ markieren oder Animation starten
+            let endboss = this.level.enemies[endbossIndex];
+            endboss.isDead = true;
+
+            // Endboss nach kurzer Zeit entfernen (z.B. 1 Sekunde)
+            setTimeout(() => {
+                this.level.enemies.splice(endbossIndex, 1);
+            }, 500);
+
+            // Statusbar ggf. ausblenden oder entfernen
+            this.statusBarEndboss = null;
+        }
+    }
+}
+
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -177,6 +245,8 @@ class World {
         this.addToMap(this.character);
 
         this.ctx.translate(-this.camera_x, 0);
+
+        this.checkBottleHitsEnemies();
 
         // draw wird immer wieder neu aufgerufen
         let self = this;

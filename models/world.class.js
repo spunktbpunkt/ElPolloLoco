@@ -9,6 +9,7 @@ class World {
     statusBarEnergy = new Statusbar('energy');
     statusBarBottles = new Statusbar('bottle');
     statusBarCoins = new Statusbar('coin');
+    newBottle = createElements('bottles', 1, 100, 100)
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -31,14 +32,72 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.D) {
+        if (this.keyboard.D && this.character.bottlesAmount != 0) {
+            let bottleX;
+            if (this.character.otherDirection) {
+                bottleX = this.character.x - 50;
+            } else {
+                bottleX = this.character.x + this.character.width - 50;
+            }
+
             let bottle = new ThrowableObject(
-                this.character.x + this.character.width - 50,
-                this.character.y + 100
+                bottleX,
+                this.character.y + 100,
+                this.character
             );
+
+            this.character.bottlesAmount--;
+            this.statusBarBottles.setPercentage(this.character.bottlesAmount, 5);
             this.throwablObjects.push(bottle);
+
+            if (this.character.bottlesAmount === 0) {
+                this.spawnMultipleBottles(5);
+            }
         }
     }
+
+
+
+    spawnMultipleBottles(count) {
+        for (let i = 0; i < count; i++) {
+            this.spawnNewBottle();
+        }
+    }
+
+
+    spawnNewBottle() {
+        const buffer = 100;
+        const bottleWidth = 80;
+        const levelEnd = this.level.level_end_x - bottleWidth - buffer;
+        const mapStart = 0 + buffer;
+
+        const rightMinX = this.character.x + 200;
+        const rightMaxX = Math.min(this.character.x + 600, levelEnd);
+
+        if (rightMinX < rightMaxX) {
+            const randomX = Math.random() * (rightMaxX - rightMinX) + rightMinX;
+            const bottle = new Bottles();
+            bottle.x = randomX;
+            // bottle.y = 480 - bottle.height - 45; // falls Höhe gesetzt werden muss
+            this.level.bottles.push(bottle);
+            return;
+        }
+
+        // Dann links vom Charakter
+        const leftMaxX = this.character.x - 200;
+        const leftMinX = Math.max(this.character.x - 600, mapStart);
+
+        if (leftMinX < leftMaxX) {
+            const randomX = Math.random() * (leftMaxX - leftMinX) + leftMinX;
+            const bottle = new Bottles();
+            bottle.x = randomX;
+            // bottle.y = 480 - bottle.height - 45;
+            this.level.bottles.push(bottle);
+        }
+    }
+
+
+
 
     checkCollisions() {
         // === Gegner-Kollision ===

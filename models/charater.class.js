@@ -85,12 +85,17 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            let leftBoundary = -120;
+            let rightBoundary = this.world.level.level_end_x + 500;
+            let minFocusX = 0;
+            let maxFocusX = this.world.level.level_end_x;
+
+            if (this.world.keyboard.RIGHT && this.x < rightBoundary) {
                 this.walkingSound();
                 this.otherDirection = false;
                 this.moveRight();
             }
-            if (this.world.keyboard.LEFT && this.x > 0) {
+            if (this.world.keyboard.LEFT && this.x > leftBoundary) {
                 this.walkingSound();
                 this.otherDirection = true;
                 this.moveLeft();
@@ -98,7 +103,15 @@ class Character extends MovableObject {
             if (!this.isAboveGround() && (this.world.keyboard.SPACE || this.world.keyboard.UP)) {
                 this.jump();
             }
-            this.world.camera_x = -this.x + 100;
+
+            
+
+            if (this.x >= minFocusX && this.x <= maxFocusX) {
+                this.world.camera_x = -this.x + 100;
+            }
+
+
+
         }, 1000 / 60);
 
         setInterval(() => {

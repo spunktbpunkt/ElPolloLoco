@@ -8,17 +8,16 @@ class Chicken extends MovableObject {
         left: 4,
         right: 4
     };
-
+    isDead = false; // Standardwert
+    dead_image_path = 'img/3_enemies_chicken/chicken_normal/2_dead/dead.png';
+    image_dead = new Image();
     images_walking = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
 
-    dead_image_path = 'img/3_enemies_chicken/chicken_normal/2_dead/dead.png';
-    image_dead = new Image();
-
-    isDead = false; // Standardwert
+    
 
     constructor() {
         super();

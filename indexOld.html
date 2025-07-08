@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="models/drawable-object.class.js"></script>
+    <script src="models/statusbar.class.js"></script>
+    <script src="models/movable-objects.js"></script>
+    <script src="models/world.class.js"></script>
+    <script src="models/cloud.class.js"></script>
+    <script src="models/background-object.class.js"></script>
+    <script src="models/charater.class.js"></script>
+    <script src="models/chicken.class.js"></script>
+    <script src="models/coins.class.js"></script>
+    <script src="models/bottles.class.js"></script>
+    <script src="models/keyboard.class.js"></script>
+    <script src="models/level.class.js"></script>
+    <script src="models/endboss.class.js"></script>
+    <script src="levels/level1.js"></script>
+    <script src="models/throwable-object.class.js"></script>
+    <script src="js/game.js"></script>
+    <!-- <script src="js/click.js"></script> -->
+    <title>El Pollo Loco</title>
+</head>
+
+<style>
+
+    
+
+</style>
+
+<body onload="init()">
+
+  <div id="intro" class="image-container hidden">
+    <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="Hintergrundbild">
+    <button class="button start-button" onclick="init()">Start</button>
+    <button class="button audio-button">Audio</button>
+    <button class="button settings-button">Settings</button>
+  </div>
+
+    <!-- <h1>El Pollo Loco</h1> -->
+    <canvas id="canvas" width="720" height="480">
+        <!-- <p>hello</p> -->
+    </canvas>
+
+</body>
+
+</html>

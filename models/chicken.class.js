@@ -1,53 +1,41 @@
 class Chicken extends MovableObject {
-    height = 110;
-    width = this.height / 98 * 95;
-    y = 480 - this.height - 50;
-    attack = true;
-    offset = {
-        top: 5,
-        bottom: 8,
-        left: 4,
-        right: 4
-    };
-    isDead = false; // Standardwert
-    images_dead = ['img/3_enemies_chicken/chicken_normal/2_dead/dead.png'];
+    y = 335;
+    width = 100;
+    height = 100;
     images_walking = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
-    ];
-
+    ]
+    currentImage = 0;
+    offset = {
+        left:5,
+        right:10,
+        top:5,
+        bottom:5
+    }
 
 
     constructor() {
         super();
-        this.loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
-        this.speed = 0.15 + Math.random() * 0.25;
-        this.loadImages(this.images_walking);
-        // this.image_dead.src = this.dead_image_path;
+        this.loadImage(this.images_walking[0]);
+        this.loadImages(this.images_walking)
+        this.x = 350 + Math.random() * 500;
         this.animate();
+        this.speed = 0.15 + Math.random() * 0.25;
     }
 
     animate() {
         setInterval(() => {
-            if (!this.isDead) {
-                this.moveLeft();
-            }
+            this.moveLeft();
         }, 1000 / 60);
 
         setInterval(() => {
-            if (!this.isDead) {
-                this.playAnimation(this.images_walking);
-            }
-        }, 200);
+            let i = this.currentImage % this.images_walking.length;
+            let path = this.images_walking[i]
+            this.img = this.imageCache[path]
+            this.currentImage++;
+        }, 100);
     }
-
-
-    // Optional: Methode um den Tod zu triggern
-die() {
-    this.isDead = true;
-    this.loadImages(this.images_dead);
-    this.img = this.imageCache[this.images_dead[0]];
-}
 
 }

@@ -1,21 +1,10 @@
 class Endboss extends MovableObject {
-    height = 350;
-    width = this.height / 4 * 3;
-    y = 500 - this.height - 50;
-    x = 1400;
-    attack = false;
-    offset = {
-        top: 55,
-        bottom: 10,
-        left: 5,
-        right: 5
-    }
-    
-
-    // angry_images =[];
-    // attack_images =[]
-    
-    images_walking = [
+    x = 1000;
+    y = 140;
+    width = 250;
+    height = 300;
+    speed = 0.5
+    images_alert = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
         'img/4_enemie_boss_chicken/2_alert/G7.png',
@@ -25,45 +14,31 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G11.png',
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ]
-
-        images_attack = [
-        'img/4_enemie_boss_chicken/3_attack/G13.png',
-        'img/4_enemie_boss_chicken/3_attack/G14.png',
-        'img/4_enemie_boss_chicken/3_attack/G15.png',
-        'img/4_enemie_boss_chicken/3_attack/G16.png',
-        'img/4_enemie_boss_chicken/3_attack/G17.png',
-        'img/4_enemie_boss_chicken/3_attack/G18.png',
-        'img/4_enemie_boss_chicken/3_attack/G19.png',
-        'img/4_enemie_boss_chicken/3_attack/G20.png'
-    ]
+    currentImage = 0;
+    offset = {
+        left:10,
+        right:15,
+        top:50,
+        bottom:10
+    }
+    
 
     constructor() {
-        super().loadImage(this.images_walking[0]);
-        // this.x = 300 + Math.random() * 500;
-        this.speed = 0.15 + Math.random() * 0.25;
-        this.loadImages(this.images_walking);
-        this.loadImages(this.images_attack);
+        super();
+        this.loadImage(this.images_alert[0]);
+        this.loadImages(this.images_alert)
         this.animate();
+        // this.speed = 0.15 + Math.random() * 0.25;
     }
 
     animate() {
-        let i = 0;
+        // this.moveLeft();
         setInterval(() => {
-
-            
-            if (world.character.x + 300 < this.x && !this.attack) {
-                this.playAnimation(this.images_walking)
-                // console.log(this.attack);
-                
-            }else{
-                this.playAnimation(this.images_attack)
-                this.attack = true;
-                this.statusBarEnergy = new Statusbar('endboss');
-                // console.log(this.attack);
-            }
-            i++
-        }, 200);
-
+            let i = this.currentImage % this.images_alert.length;
+            let path = this.images_alert[i]
+            this.img = this.imageCache[path]
+            this.currentImage++;
+        }, 100);
     }
 
 }

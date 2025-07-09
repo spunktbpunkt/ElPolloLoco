@@ -1,9 +1,11 @@
 let level1;
 
-function initLevel() {
-    level1 = new Level(
+function createLevel() {
+    return new Level(
         [
             ...createElements('chicken', 3,300,50),
+        ],
+        [
             new Endboss()
         ],
         [

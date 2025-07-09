@@ -1,20 +1,18 @@
 class World {
-    character = new Character();
-    level = level1;
-    canvas;
-    ctx;
-    keyboard;
-    camera_x = 0;
-    statusBarEnergy = new Statusbar('energy');
-    statusBarBottles = new Statusbar('bottle');
-    statusBarCoins = new Statusbar('coin');
-    throwableObjects = []
-    bottle;
-
-    constructor(canvas, keyboard) {
-        this.ctx = canvas.getContext('2d')
+    constructor(canvas, keyboard, level) {
+        this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.level = level;
+
+        this.character = new Character();
+        this.throwableObjects = [];
+
+        this.statusBarEnergy = new Statusbar('energy');
+        this.statusBarBottles = new Statusbar('bottle');
+        this.statusBarCoins = new Statusbar('coin');
+        this.statusBarEndboss = new Statusbar('endboss');
+
         this.draw();
         this.setWorld();
         this.run();

@@ -26,6 +26,16 @@ class Statusbar extends DrawableObject {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png'
     ];
+
+    images_energy_endboss=[
+        'img/7_statusbars/2_statusbar_endboss/green/green0.png',
+        'img/7_statusbars/2_statusbar_endboss/green/green20.png',
+        'img/7_statusbars/2_statusbar_endboss/green/green40.png',
+        'img/7_statusbars/2_statusbar_endboss/green/green60.png',
+        'img/7_statusbars/2_statusbar_endboss/green/green80.png',
+        'img/7_statusbars/2_statusbar_endboss/green/green100.png'
+    ]
+
     percentage = 100;
     currentImages = [];
     type;
@@ -51,11 +61,11 @@ class Statusbar extends DrawableObject {
                 this.y = 100;
                 break;
             case 'endboss':
-                this.currentImages = this.images_energy;
+                this.currentImages = this.images_energy_endboss;
                 this.loadImages(this.currentImages);
                 this.setPercentage(100, 100); // Health: 0–100%
                 this.x = 500;
-                this.y = 0;
+                this.y = 25;
                 break;
             default:
                 this.currentImages = this.images_energy;

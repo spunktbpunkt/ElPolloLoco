@@ -114,7 +114,7 @@ class World {
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
         let endboss = this.level.endboss;
-        if (endboss && endboss.hadFirstContact) {
+        if (endboss && endboss[0].hadFirstContact) {
             this.addToMap(this.statusBarEndboss);
         }
 

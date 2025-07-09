@@ -82,11 +82,11 @@ class MovableObject extends DrawableObject {
         }
         let path = images[i]
         this.img = this.imageCache[path]
-        console.log(this.img)
+        //console.log(this.img)
         this.currentImage++;
 
 
-        if (this instanceof Character) console.log(this.currentImage)
+        // if (this instanceof Character) console.log(this.currentImage)
     }
 
     jump() {
@@ -107,7 +107,7 @@ class MovableObject extends DrawableObject {
         } else {
             this.lastHit = new Date().getTime();
         }
-        console.log("last hit " + this.lastHit);
+        // console.log("last hit " + this.lastHit);
 
     }
 

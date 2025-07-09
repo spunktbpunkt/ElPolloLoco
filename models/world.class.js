@@ -7,7 +7,7 @@ class World {
     camera_x = 0;
     statusBar = new Statusbar();
     throwableObjects = []
-
+    bottle;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d')
@@ -29,11 +29,13 @@ class World {
         }, 300);
     }
 
-    checkThrowObject(){
-        if(this.keyboard.D){
-            let bottle = new ThrowableObject(this.character.x+100, this.character.y+100)
+    checkThrowObject() {
+        // console.log("checkThrowObject")
+        if (this.keyboard.D) {
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
             bottle.world = this;
             this.throwableObjects.push(bottle)
+            console.log(this.throwableObjects[0].img)
             bottle.throw();
         }
     }
@@ -52,23 +54,46 @@ class World {
         });
     }
 
-    setWorld() {
-    this.character.world = this;
+checkBottleCollisions() {
+    this.throwableObjects.forEach(bottle => {
+        this.level.enemies.forEach(enemy => {
+            if (bottle.isColliding(enemy)) {
+                // console.log('Bottle hit enemy:', enemy);
 
-    this.level.enemies.forEach(enemy => {
-        enemy.world = this;
-        enemy.animate();
-    });
+                bottle.bottleSplash()
+                // Optional: Gegner entfernen, Flasche entfernen, Explosion auslösen etc.
+            }
+        });
 
-    this.level.endboss.forEach(endboss => {
-        endboss.world = this;
-        endboss.animate();
-    });
-
-    this.level.clouds.forEach(cloud => {
-        cloud.world = this;
+        this.level.endboss.forEach(endboss => {
+            if (bottle.isColliding(endboss)) {
+                // console.log('Bottle hit endboss:', endboss);
+                bottle.bottleSplash()
+                // Endboss schaden, Animation, etc.
+            }
+        });
     });
 }
+
+
+
+    setWorld() {
+        this.character.world = this;
+
+        this.level.enemies.forEach(enemy => {
+            enemy.world = this;
+            enemy.animate();
+        });
+
+        this.level.endboss.forEach(endboss => {
+            endboss.world = this;
+            endboss.animate();
+        });
+
+        this.level.clouds.forEach(cloud => {
+            cloud.world = this;
+        });
+    }
 
 
     // setWorld() {

@@ -24,6 +24,13 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ]
+
+    images_dead=[
+        'img/4_enemie_boss_chicken/5_dead/G24.png',
+        'img/4_enemie_boss_chicken/5_dead/G25.png',
+        'img/4_enemie_boss_chicken/5_dead/G26.png'
+    ]
+
     currentImage = 0;
     offset = {
         left: 10,
@@ -33,12 +40,15 @@ class Endboss extends MovableObject {
     }
     world;
     hadFirstContact = false;
+    randomAttackAnimationInterval;
+    randomAttackIntervalTwo;
 
     constructor() {
         super();
         this.loadImage(this.images_alert[0]);
         this.loadImages(this.images_alert)
         this.loadImages(this.images_attack)
+        this.loadImages(this.images_dead)
         // this.animate();
 
     }
@@ -67,12 +77,12 @@ class Endboss extends MovableObject {
     randomAttack() {
 
         // interval für animation
-        this.intervalId = setInterval(() => {
+        this.randomAttackAnimationInterval = setInterval(() => {
             this.playAnimation(this.images_attack)
         }, 150);
 
         //interval für bewegung
-        this.intervalId = setInterval(() => {
+        this.randomAttackMoveInterval = setInterval(() => {
             this.speed = 3 + Math.random() * 1;
             if (Math.random() > 0.7) {
                 this.moveRight();
@@ -80,8 +90,28 @@ class Endboss extends MovableObject {
                 this.moveLeft();
             }
         }, 500);
+    }
 
+    hit() {
+        this.energy -= 20;
+        console.log(this.energy)
+        if (this.energy < 0) this.energy = 0;
+        this.world.statusBarEndboss.setPercentage(this.energy);
 
+        if (this.energy === 0) {
+            this.die(); // z. B. eine Animationsmethode
+        }
+    }
+
+    die() {
+        this.endbossDead = true;
+        this.speed = 0;
+        clearInterval(this.randomAttackAnimationInterval);
+        clearInterval(this.randomAttackMoveInterval);
+        this.playAnimationOnce(this.images_dead)
+        console.log('endboss die')
+        // this.playDeadAnimation?.();
+        // ggf. draw() darauf reagieren lassen (youWin, etc.)
     }
 
 }

@@ -76,7 +76,6 @@ class Statusbar extends DrawableObject {
                 break;
         }
 
-        // if(type == 'endboss'){this.x = 500}else{this.x = 20}
         this.width = 200;
         this.height = 60;
     }
@@ -92,13 +91,13 @@ class Statusbar extends DrawableObject {
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 5;
-        } else if (this.percentage > 80) {
+        } else if (this.percentage >= 80) {
             return 4
-        } else if (this.percentage > 60) {
+        } else if (this.percentage >= 60) {
             return 3
-        } else if (this.percentage > 40) {
+        } else if (this.percentage >= 40) {
             return 2
-        } else if (this.percentage > 20) {
+        } else if (this.percentage >= 20) {
             return 1
         } else {
             return 0

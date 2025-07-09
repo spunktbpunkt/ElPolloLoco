@@ -30,7 +30,6 @@ class World {
     }
 
     checkThrowObject() {
-        // console.log("checkThrowObject")
         if (this.keyboard.D) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
             bottle.world = this;
@@ -54,26 +53,24 @@ class World {
         });
     }
 
-    checkBottleCollisions() {
-        this.throwableObjects.forEach(bottle => {
-            this.level.enemies.forEach(enemy => {
-                if (bottle.isColliding(enemy)) {
-                    // console.log('Bottle hit enemy:', enemy);
-
-                    bottle.bottleSplash()
-                    // Optional: Gegner entfernen, Flasche entfernen, Explosion auslösen etc.
-                }
-            });
-
-            this.level.endboss.forEach(endboss => {
-                if (bottle.isColliding(endboss)) {
-                    // console.log('Bottle hit endboss:', endboss);
-                    bottle.bottleSplash()
-                    // Endboss schaden, Animation, etc.
-                }
-            });
+checkBottleCollisions() {
+    this.throwableObjects.forEach(bottle => {
+        this.level.enemies.forEach(enemy => {
+            if (bottle.isColliding(enemy)) {
+                enemy.die();
+                bottle.bottleSplash();
+            }
         });
-    }
+
+        this.level.endboss.forEach(endboss => {
+            if (bottle.isColliding(endboss)) {
+                endboss.hit();              // ✅ Treffer registrieren
+                bottle.bottleSplash();      // Flaschenanimation
+            }
+        });
+    });
+}
+
 
 
 

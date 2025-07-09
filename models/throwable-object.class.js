@@ -4,6 +4,12 @@ class ThrowableObject extends MovableObject {
     // otherDirection = false;
     moveInterval;
     animationInterval;
+        offset = {
+        left: 5,
+        right: 10,
+        top: 5,
+        bottom: 5
+    }
     bottle_rotation = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -46,6 +52,7 @@ throw() {
     this.animationInterval = setInterval(() => {
         this.playAnimation(this.bottle_rotation);
         if (this.y > 335) {
+            console.log("splash on ground")
             this.bottleSplash(); // 🔄 Ruft jetzt alles auf
         }
     }, 75);

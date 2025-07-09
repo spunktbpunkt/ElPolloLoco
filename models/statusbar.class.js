@@ -1,6 +1,6 @@
 class Statusbar extends DrawableObject {
 
-    images = [
+    imagesEnergy = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',
@@ -10,14 +10,15 @@ class Statusbar extends DrawableObject {
     ]
     percentage = 100;
 
-    constructor() { //alles was hier steht wird beim erstellen des Objektes sofort ausgelöst
+    constructor(images, percentage) { //alles was hier steht wird beim erstellen des Objektes sofort ausgelöst
         super();
-        this.loadImages(this.images)
+        // this.loadImage(imagePath)
+        this.loadImages(images)
         this.x = 30;
         this.y = 0;
         this.width = 200;
         this.height = 60;
-        this.setPercentage(100);
+        this.setPercentage(percentage);
     }
 
     //setPercentage(50)

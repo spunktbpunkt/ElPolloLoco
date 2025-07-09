@@ -56,26 +56,26 @@ class World {
         });
     }
 
-checkBottleCollisions() {
-    this.throwableObjects.forEach(bottle => {
-        this.level.enemies.forEach(enemy => {
-            if (bottle.isColliding(enemy)) {
-                // console.log('Bottle hit enemy:', enemy);
+    checkBottleCollisions() {
+        this.throwableObjects.forEach(bottle => {
+            this.level.enemies.forEach(enemy => {
+                if (bottle.isColliding(enemy)) {
+                    // console.log('Bottle hit enemy:', enemy);
 
-                bottle.bottleSplash()
-                // Optional: Gegner entfernen, Flasche entfernen, Explosion auslösen etc.
-            }
-        });
+                    bottle.bottleSplash()
+                    // Optional: Gegner entfernen, Flasche entfernen, Explosion auslösen etc.
+                }
+            });
 
-        this.level.endboss.forEach(endboss => {
-            if (bottle.isColliding(endboss)) {
-                // console.log('Bottle hit endboss:', endboss);
-                bottle.bottleSplash()
-                // Endboss schaden, Animation, etc.
-            }
+            this.level.endboss.forEach(endboss => {
+                if (bottle.isColliding(endboss)) {
+                    // console.log('Bottle hit endboss:', endboss);
+                    bottle.bottleSplash()
+                    // Endboss schaden, Animation, etc.
+                }
+            });
         });
-    });
-}
+    }
 
 
 
@@ -108,17 +108,19 @@ checkBottleCollisions() {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects)
+        this.addObjectsToMap(this.level.clouds);
 
         this.ctx.translate(-this.camera_x, 0);
         // space for fixed objects
         this.addToMap(this.statusBarEnergy)
-        // space for fixed objects
+        this.addToMap(this.statusBarBottles);
+        this.addToMap(this.statusBarCoins);
+        
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character)
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.endboss);
-        this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0);

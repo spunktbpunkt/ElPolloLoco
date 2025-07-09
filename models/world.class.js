@@ -5,9 +5,9 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBarEnergy = new Statusbar('imagesEnergy',100);
-    // statusBarBottle = new Statusbar();
-    // statusBarCoin = new Statusbar();
+    statusBarEnergy = new Statusbar('energy');
+    statusBarBottles = new Statusbar('bottle');
+    statusBarCoins = new Statusbar('coin');
     throwableObjects = []
     bottle;
 

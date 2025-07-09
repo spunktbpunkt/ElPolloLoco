@@ -1,5 +1,5 @@
 class Character extends MovableObject {  // durch 'extends' alle Variablen und Funktionen von MovableObject verfügbar
-    y = 0; //130
+    y = 130; //130
     height = 300;
     width = 160;
     speed = 10;
@@ -95,7 +95,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
             } else if(this.isHurt()){
                 this.playAnimation(this.images_hurt)
             }else if (this.isAboveGround()) {
-                this.playAnimation(this.images_jumping)
+                this.playAnimation(this.images_jumping);
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.images_walking)

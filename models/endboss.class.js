@@ -14,31 +14,74 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G11.png',
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ]
+    images_attack = [
+        'img/4_enemie_boss_chicken/3_attack/G13.png',
+        'img/4_enemie_boss_chicken/3_attack/G14.png',
+        'img/4_enemie_boss_chicken/3_attack/G15.png',
+        'img/4_enemie_boss_chicken/3_attack/G16.png',
+        'img/4_enemie_boss_chicken/3_attack/G17.png',
+        'img/4_enemie_boss_chicken/3_attack/G18.png',
+        'img/4_enemie_boss_chicken/3_attack/G19.png',
+        'img/4_enemie_boss_chicken/3_attack/G20.png'
+    ]
     currentImage = 0;
     offset = {
-        left:10,
-        right:15,
-        top:50,
-        bottom:10
+        left: 10,
+        right: 15,
+        top: 50,
+        bottom: 10
     }
-    
+    world;
+    hadFirstContact = false;
 
     constructor() {
         super();
         this.loadImage(this.images_alert[0]);
         this.loadImages(this.images_alert)
-        this.animate();
-        // this.speed = 0.15 + Math.random() * 0.25;
+        this.loadImages(this.images_attack)
+        // this.animate();
+
     }
 
     animate() {
+        let i = 0;
+
         // this.moveLeft();
-        setInterval(() => {
-            let i = this.currentImage % this.images_alert.length;
-            let path = this.images_alert[i]
-            this.img = this.imageCache[path]
-            this.currentImage++;
-        }, 100);
+        this.intervalId = setInterval(() => {
+            if (this.world.character.x < this.x - 500 && !this.hadFirstContact) {
+                i = 0;
+                this.playAnimation(this.images_alert)
+            } else {
+                this.hadFirstContact = true;
+                if (i < 10) {
+                    this.playAnimation(this.images_alert)
+                } else {
+                    clearInterval(this.intervalId); // stoppt aktuellen interval
+                    this.randomAttack(); // startet attack
+                }
+                i++;
+            }
+        }, 150);
+    }
+
+    randomAttack() {
+
+        // interval für animation
+        this.intervalId = setInterval(() => {
+            this.playAnimation(this.images_attack)
+        }, 150);
+
+        //interval für bewegung
+        this.intervalId = setInterval(() => {
+            this.speed = 3 + Math.random() * 1;
+            if (Math.random() > 0.7) {
+                this.moveRight();
+            } else {
+                this.moveLeft();
+            }
+        }, 500);
+
+
     }
 
 }

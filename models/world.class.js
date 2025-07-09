@@ -32,7 +32,9 @@ class World {
     checkThrowObject(){
         if(this.keyboard.D){
             let bottle = new ThrowableObject(this.character.x+100, this.character.y+100)
+            bottle.world = this;
             this.throwableObjects.push(bottle)
+            bottle.throw();
         }
     }
 
@@ -51,8 +53,27 @@ class World {
     }
 
     setWorld() {
-        this.character.world = this;
-    }
+    this.character.world = this;
+
+    this.level.enemies.forEach(enemy => {
+        enemy.world = this;
+        enemy.animate();
+    });
+
+    this.level.endboss.forEach(endboss => {
+        endboss.world = this;
+        endboss.animate();
+    });
+
+    this.level.clouds.forEach(cloud => {
+        cloud.world = this;
+    });
+}
+
+
+    // setWorld() {
+    //     this.character.world = this;
+    // }
 
     draw() {
         //Zeichenflaeche leeren

@@ -1,6 +1,4 @@
 class MovableObject extends DrawableObject {
-
-
     speed = 0.5;
     otherDirection = false;
     speedY = 0; // Geschwindigkeit nach unten
@@ -15,6 +13,14 @@ class MovableObject extends DrawableObject {
                 this.speedY -= this.acceleration
             }
         }, 50);
+    }
+
+    removeGravity(){
+        this.speed = 0;
+        this.speedX = 0;
+        this.speedY = 0;
+        this.acceleration = 0;
+        this.x += 0
     }
 
     isAboveGround() {
@@ -36,14 +42,51 @@ class MovableObject extends DrawableObject {
     }
 
 
+    // playAnimation(images, loop = true, reset = false) {
+    //     if (reset) {
+    //         this.currentImage = 0;
+    //     }
 
+    //     if (this.currentImage < images.length) {
+    //         const path = images[this.currentImage];
+    //         this.img = this.imageCache[path];
+    //         this.currentImage++;
+    //     } else if (loop) {
+    //         this.currentImage = 0;
+    //         const path = images[this.currentImage];
+    //         this.img = this.imageCache[path];
+    //         this.currentImage++;
+    //     } else {
+    //         // bleib beim letzten Bild
+    //         const path = images[images.length - 1];
+    //         this.img = this.imageCache[path];
+    //     }
+    //     if (this instanceof Character) console.log(this.img)
+    // }
 
 
     playAnimation(images) {
+        // if (this instanceof Character) console.log(this.currentImage)
         let i = this.currentImage % images.length;
         let path = images[i]
         this.img = this.imageCache[path]
         this.currentImage++;
+    }
+
+    playAnimationOnce(images) {
+        let i ;
+        if (this.currentImage >= images.length) {
+            i = images.length-1;
+        } else {
+            i = this.currentImage;// % images.length;
+        }
+        let path = images[i]
+        this.img = this.imageCache[path]
+        console.log(this.img)
+        this.currentImage++;
+
+
+        if (this instanceof Character) console.log(this.currentImage)
     }
 
     jump() {

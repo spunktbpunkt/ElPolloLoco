@@ -1,90 +1,57 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let backgroundMusic = new Audio('audio/mariachi.wav');
 
 function init() {
-    document.getElementById("intro").classList.add("hidden");
-    document.getElementById("canvas").classList.remove("hidden");
-    initLevel();
-    setupCanvasAndWorld();
-    playBackgroundMusic();
-    setupClickableArea();
-}
-
-function setupCanvasAndWorld() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
-    console.log('my character is', world.character);
+
+    console.log('my character is', world.character)
+
 }
 
-function playBackgroundMusic() {
-    backgroundMusic.loop = true;
-    backgroundMusic.volume = 0.5;
-    backgroundMusic.play();
-}
-
-function setupClickableArea() {
-    const area = getClickableArea();
-    canvas.addEventListener('click', (e) => handleClick(e, area));
-    drawClickableArea(area);
-}
-
-function getClickableArea() {
-    return {
-        width: 120,
-        height: 100,
-        x: 720 - 120,
-        y: 480 - 100
-    };
-}
-
-function handleClick(e, area) {
-    const pos = getMousePos(e);
-    if (isInsideArea(pos, area)) {
-        alert('Klick unten rechts erkannt!');
-        // Optional: world.character.doSomething();
+window.addEventListener("keydown", (event) => {
+    if (event.keyCode == 39) {
+        keyboard.RIGHT = true;
     }
-}
-
-function getMousePos(e) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-    };
-}
-
-function isInsideArea(pos, area) {
-    return (
-        pos.x >= area.x &&
-        pos.x <= area.x + area.width &&
-        pos.y >= area.y &&
-        pos.y <= area.y + area.height
-    );
-}
-
-function drawClickableArea(area) {
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'rgba(0,255,0,0.3)';
-    ctx.fillRect(area.x, area.y, area.width, area.height);
-}
-
-function chickenMove() {
-    world.enemies[0].moveRight(world.enemies[0], 2);
-}
-
-// Tasteneingaben
-window.addEventListener("keydown", (e) => handleKey(e, true));
-window.addEventListener("keyup", (e) => handleKey(e, false));
-
-function handleKey(e, isDown) {
-    switch (e.keyCode) {
-        case 39: keyboard.RIGHT = isDown; break;
-        case 37: keyboard.LEFT = isDown; break;
-        case 38: keyboard.UP = isDown; break;
-        case 40: keyboard.DOWN = isDown; break;
-        case 32: keyboard.SPACE = isDown; break;
-        case 68: keyboard.D = isDown; break;
+    if (event.keyCode == 37) {
+        keyboard.LEFT = true;
     }
-}
+    if (event.keyCode == 38) {
+        keyboard.UP = true;
+    }
+    if (event.keyCode == 40) {
+        keyboard.DOWN = true;
+    }
+
+    if (event.keyCode == 32) {
+        keyboard.SPACE = true;
+    }
+    if(event.keyCode == 68){
+        keyboard.D = true;
+    }
+});
+
+
+window.addEventListener("keyup", (event) => {
+    if (event.keyCode == 39) {
+        keyboard.RIGHT = false;
+
+    }
+    if (event.keyCode == 37) {
+        keyboard.LEFT = false;
+    }
+    if (event.keyCode == 38) {
+        keyboard.UP = false;
+    }
+    if (event.keyCode == 40) {
+        keyboard.DOWN = false;
+    }
+
+    if (event.keyCode == 32) {
+        keyboard.SPACE = false;
+    }
+if(event.keyCode == 68){
+        keyboard.D = false;
+    }
+});

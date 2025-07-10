@@ -40,39 +40,64 @@ class World {
     }
 
     checkCollisions() {
+        this.characterCollisionEnemy()
+        this.characterCollisionEndboss()
+        this.characterCollisionCoin()
+    }
+
+    characterCollisionCoin() {
+        this.level.coins.forEach(coin => {
+            if (this.character.isColliding(coin)) {
+                
+                this.coin.collectingCoin();
+                // this.character.hit();
+                // this.statusBarEnergy.setPercentage(this.character.energy)
+            };
+        });
+    }
+
+    characterCollisionEnemy() {
         this.level.enemies.forEach(enemy => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBarEnergy.setPercentage(this.character.energy)
             };
         });
+    }
+
+    characterCollisionEndboss() {
         this.level.endboss.forEach(endboss => {
             if (this.character.isColliding(endboss)) {
-                // console.log("Collision Endboss")
+                this.character.hit();
+                this.statusBarEnergy.setPercentage(this.character.energy)
             };
         });
     }
 
-checkBottleCollisions() {
-    this.throwableObjects.forEach(bottle => {
+    checkBottleCollisions() {
+        this.throwableObjects.forEach(bottle => {
+            this.bottleCollisionEnemy(bottle);
+            this.bottleCollisionEndboss(bottle);
+        });
+    }
+
+    bottleCollisionEnemy(bottle) {
         this.level.enemies.forEach(enemy => {
             if (bottle.isColliding(enemy)) {
                 enemy.die();
                 bottle.bottleSplash();
             }
         });
+    }
 
+    bottleCollisionEndboss(bottle) {
         this.level.endboss.forEach(endboss => {
             if (bottle.isColliding(endboss)) {
                 endboss.hit();              // ✅ Treffer registrieren
                 bottle.bottleSplash();      // Flaschenanimation
             }
         });
-    });
-}
-
-
-
+    }
 
     setWorld() {
         this.character.world = this;
@@ -91,11 +116,6 @@ checkBottleCollisions() {
             cloud.world = this;
         });
     }
-
-
-    // setWorld() {
-    //     this.character.world = this;
-    // }
 
     draw() {
         //Zeichenflaeche leeren
@@ -118,6 +138,8 @@ checkBottleCollisions() {
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character)
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.throwableObjects);

@@ -42,7 +42,6 @@ function createLevel() {
         ],
         [ 
             ...createElements('bottles',5,100,100)
-
         ]
     );
 }

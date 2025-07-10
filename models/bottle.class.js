@@ -7,7 +7,7 @@ class Bottles extends MovableObject{
         top: 15,
         bottom: 10,
         left: 20,
-        right: 20
+        right: 35
     }
 
         constructor() {

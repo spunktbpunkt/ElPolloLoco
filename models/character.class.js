@@ -58,6 +58,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         top: 115,
         bottom: 10
     }
+    falling = false
 
     constructor() { //alles was hier steht wird beim erstellen des Objektes sofort ausgelöst
         super();

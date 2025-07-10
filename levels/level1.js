@@ -41,7 +41,7 @@ function createLevel() {
             ...createElements('coins', 5,150,50)
         ],
         [ 
-            ...createElements('bottles',5,100,100)
+            ...createElements('bottles',5,200,75)
         ]
     );
 }

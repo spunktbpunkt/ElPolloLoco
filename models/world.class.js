@@ -29,17 +29,22 @@ class World {
             this.checkThrowObject();
             // keyboard input
 
-        }, 300);
+        }, 100);
     }
 
     checkThrowObject() {
-        if (this.keyboard.D && this.checkCoolDown()) {
+        if (this.keyboard.D && this.checkCoolDown() && this.character.bottlesAmount > 0) {
             this.lastThrowTime = this.now;
 
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
             bottle.world = this;
             this.throwableObjects.push(bottle)
             bottle.throw();
+            this.character.bottlesAmount--;
+            this.statusBarBottles.setPercentage(this.character.bottlesAmount, 5);
+            if (this.character.bottlesAmount === 0) {
+                this.level.bottles.push(...createElements('bottles', 5, 200, 100));
+            }
         }
     }
 
@@ -52,13 +57,44 @@ class World {
     }
 
     characterCollisionEnemy() {
-        this.level.enemies.forEach(enemy => {
+        for (let i = this.level.enemies.length - 1; i >= 0; i--) {
+            let enemy = this.level.enemies[i];
+            this.character.definingOffsetFrame();
+            enemy.definingOffsetFrame();
+
+            if (enemy.isDead === undefined) enemy.isDead = false;
+
             if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusBarEnergy.setPercentage(this.character.energy)
-            };
-        });
+                if (this.character.falling && this.character.y < enemy.y && !enemy.isDead) {
+                    // Gegner töten
+                    enemy.loadImages(enemy.images_dead);
+                    enemy.img = enemy.imageCache[enemy.images_dead[0]];
+                    enemy.isDead = true;
+                    console.log(enemy.img);
+
+
+                    // Entferne Gegner (außer Boss) nach 0,5 Sek.
+                    if (!enemy.isBoss) {
+                        setTimeout(() => {
+                            this.level.enemies.splice(i, 1);
+                        }, 500);
+                    }
+                } else if (!enemy.isDead) {
+                    // Schaden bekommen
+                    this.character.hit();
+                    this.statusBarEnergy.setPercentage(this.character.energy, 100);
+                }
+            }
+        }
     }
+    // characterCollisionEnemy() {
+    // this.level.enemies.forEach(enemy => {
+    //     if (this.character.isColliding(enemy)) {
+    //         this.character.hit();
+    //         this.statusBarEnergy.setPercentage(this.character.energy)
+    //     };
+    // });
+    // }
 
     characterCollisionBottle() {
         for (let i = this.level.bottles.length - 1; i >= 0; i--) {

@@ -18,6 +18,7 @@ class Chicken extends MovableObject {
         bottom: 5
     }
     moveInterval;
+    isDead = false; // Standardwert
 
     constructor() {
         super();
@@ -30,6 +31,7 @@ class Chicken extends MovableObject {
     }
 
     animate() {
+
         setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
@@ -39,10 +41,17 @@ class Chicken extends MovableObject {
             let path = this.images_walking[i]
             this.img = this.imageCache[path]
             this.currentImage++;
+            if (this.isDead) {
+                this.die();
+            }
         }, 100);
+        
+        
     }
-
+    
     die() {
+        console.log(this.isDead)
+
         this.enemyDead = true;
         this.speed = 0;
         clearInterval(this.moveInterval);

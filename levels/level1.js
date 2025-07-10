@@ -38,7 +38,7 @@ function createLevel() {
         ]
         ,
         [
-            ...createElements('coins', 7,150,50)
+            ...createElements('coins', 5,150,50)
         ],
         [ 
             ...createElements('bottles',5,100,100)
@@ -80,6 +80,7 @@ function createElements(type, count,startX,minDistance, options = {}) {
                 default:
                     throw new Error(`Unbekannter Elementtyp: ${type}`);
             }
+            if((this instanceof Coins)){element.x = randomX};
             element.x = randomX;
             elements.push(element);
         }

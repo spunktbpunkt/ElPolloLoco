@@ -43,13 +43,39 @@ class World {
         this.characterCollisionEnemy()
         this.characterCollisionEndboss()
         this.characterCollisionCoin()
+
+        // Coin-Kollision
+        for (let i = this.level.coins.length - 1; i >= 0; i--) {
+            let coin = this.level.coins[i];
+            this.character.definingOffsetFrame();
+            coin.definingOffsetFrame();
+
+            if (this.character.isColliding(coin)) {
+                this.character.coinsAmount++;
+                this.statusBarCoins.setPercentage(this.character.coinsAmount, 5);
+                this.level.coins.splice(i, 1);
+            }
+        }
+
+        // Bottle-Kollision
+        for (let i = this.level.bottles.length - 1; i >= 0; i--) {
+            let bottle = this.level.bottles[i];
+            this.character.definingOffsetFrame();
+            bottle.definingOffsetFrame();
+
+            if (this.character.isColliding(bottle)) {
+                this.character.bottlesAmount++;
+                this.statusBarBottles.setPercentage(this.character.bottlesAmount, 5);
+                this.level.bottles.splice(i, 1);
+            }
+        }
     }
 
     characterCollisionCoin() {
         this.level.coins.forEach(coin => {
             if (this.character.isColliding(coin)) {
-                
-                this.coin.collectingCoin();
+
+                console.log('coin')
                 // this.character.hit();
                 // this.statusBarEnergy.setPercentage(this.character.energy)
             };
@@ -83,6 +109,8 @@ class World {
 
     bottleCollisionEnemy(bottle) {
         this.level.enemies.forEach(enemy => {
+            enemy.definingOffsetFrame();
+            bottle.definingOffsetFrame();
             if (bottle.isColliding(enemy)) {
                 enemy.die();
                 bottle.bottleSplash();
@@ -92,6 +120,8 @@ class World {
 
     bottleCollisionEndboss(bottle) {
         this.level.endboss.forEach(endboss => {
+            endboss.definingOffsetFrame();
+            bottle.definingOffsetFrame();
             if (bottle.isColliding(endboss)) {
                 endboss.hit();              // ✅ Treffer registrieren
                 bottle.bottleSplash();      // Flaschenanimation

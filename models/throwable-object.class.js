@@ -46,11 +46,15 @@ throw() {
     let direction = this.world.character.otherDirection ? (this.x -= 100, -1) : 1;
 
     this.moveInterval = setInterval(() => {
+        if(isPaused) return
         this.x += 4 * direction;
         this.world.checkBottleCollisions();
+        
+        console.log(this.x)
     }, 10);
 
     this.animationInterval = setInterval(() => {
+        if(isPaused) return
         this.playAnimation(this.bottle_rotation);
         if (this.y > 335) {
             console.log("splash on ground")
@@ -71,6 +75,7 @@ bottleSplash() {
     // this.x += 0; → nicht nötig
 
     this.intervalId = setInterval(() => {
+        if(isPaused) return
         if (i < 6) {
             this.playAnimation(this.bottle_splash);
         } else {

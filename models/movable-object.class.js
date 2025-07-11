@@ -31,6 +31,7 @@ class MovableObject extends DrawableObject {
         if (this.gravityInterval) return;
 
         this.gravityInterval = setInterval(() => {
+            if (isPaused) return;
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
@@ -121,8 +122,6 @@ class MovableObject extends DrawableObject {
     }
 
     jump() {
-        if (isPaused) return;
-        // console.log(isPaused + " " + 'jump')
         this.speedY = 40;
     }
 

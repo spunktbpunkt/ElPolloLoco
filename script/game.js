@@ -14,9 +14,11 @@ function init() {
     gameStarted = true;
     showGame();
     setupCanvasAndWorld();
+    playBackgroundMusic();
+
 }
 
-function setupCanvasAndWorld(){
+function setupCanvasAndWorld() {
     canvas = document.getElementById("canvas");
     const level = createLevel(); // jetzt als Funktion aufgerufen
     world = new World(canvas, keyboard, level);
@@ -28,7 +30,110 @@ function showGame() {
     document.getElementById("canvasDiv").classList.remove("hidden");
 }
 
+function playBackgroundMusic() {
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = backgroundMusicVolume;
+    backgroundMusic.play();
+}
 
+function pauseGame() {
+    if (!gameStarted) return;
+
+    let iconImg = document.getElementById("extraIcon");
+    if (isPaused) {
+        isPaused = false
+        world.draw();
+        iconImg.src = "img/icon/pause-icon.svg"
+        togglePlayback(true);
+    } else {
+        isPaused = true
+        iconImg.src = "img/icon/play-icon.svg"
+        togglePlayback(false);
+    };
+}
+
+function youWin() {
+    document.getElementById("outro").classList.remove("hidden");
+    document.getElementById("youWinImg").classList.remove("hidden");
+    document.getElementById("youLoseImg").classList.add("hidden");
+    document.getElementById("outroBtnDiv").classList.remove("hidden");
+    isPaused = false;
+}
+
+function youLose() {
+    document.getElementById("outro").classList.remove("hidden");
+    document.getElementById("youWinImg").classList.add("hidden");
+    document.getElementById("youLoseImg").classList.remove("hidden");
+    document.getElementById("outroBtnDiv").classList.remove("hidden");
+    isPaused = false;
+}
+
+function togglePlayback(element) {
+    if (element) {
+        backgroundMusic.play();
+    }
+    else {
+        backgroundMusic.pause();
+    }
+}
+
+function startPage() {
+    gameStarted = !gameStarted
+    backgroundMusic.pause();
+    document.getElementById("intro").classList.toggle("hidden");
+    document.getElementById("outro").classList.add("hidden");
+    document.getElementById("canvasDiv").classList.remove("hidden");
+    document.getElementById("extraIcon").src = "img/icon/info-icon.svg"
+    
+}
+
+function toggleMusic() {
+    musicMuted = !musicMuted;
+    backgroundMusic.volume = musicMuted ? 0 : backgroundMusicVolume;
+}
+
+function toggleSound() {
+    soundMuted = !soundMuted;
+    world.character.walking_sound.volume = soundMuted ? 0 : soundVolume;
+    muteAllSounds(soundMuted);
+}
+
+function muteAllSounds(isMuted) {
+    if (world.character) {
+        world.character.sounds.forEach(sound => {
+            sound.volume = isMuted ? 0 : soundVolume; // oder individuelle Lautstärke
+        });
+    }
+}
+
+function changeMusic(name) {
+    const musicIcon = document.getElementById(name)
+    if (musicIcon.src.includes('no')) {
+        musicIcon.src = "img/icon/music-icon.svg"
+    } else {
+        musicIcon.src = "img/icon/no-music-icon.svg"
+    }
+    toggleMusic();
+}
+
+function changeSound(name) {
+    const soundIcon = document.getElementById(name)
+    if (soundIcon.src.includes('no')) {
+        soundIcon.src = "img/icon/sound-icon.svg"
+    } else {
+        soundIcon.src = "img/icon/no-sound-icon.svg"
+    }
+    toggleSound();
+}
+
+function changeScreen(name) {
+    const screenIcon = document.getElementById(name)
+    if (screenIcon.src.includes('full')) {
+        screenIcon.src = "img/icon/minimizescreen-icon.svg"
+    } else {
+        screenIcon.src = "img/icon/fullscreen-icon.svg"
+    }
+}
 
 
 window.addEventListener("keydown", (event) => {

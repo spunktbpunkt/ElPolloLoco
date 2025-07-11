@@ -234,6 +234,7 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
 
 
+        if (isPaused) { return };
         // erneutes aufrufen von draw()
         let self = this;
         requestAnimationFrame(function () {

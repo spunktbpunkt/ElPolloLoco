@@ -23,8 +23,8 @@
 
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_hat.svg">
 
-    <title>Mexican Jump n Run</title>
-    <style>
+    <title>Document</title>
+  <style>
     body {
       margin: 0;
       display: flex;
@@ -120,57 +120,41 @@
       display: none;
     }
   </style>
-    
 </head>
 
 <body>
+  <div id="mainContent">
 
-    <div></div>
-
-    <div id="intro" class="image-container" style="height: 480px; width: 720px; background-color: red;">
-        <img src="img/9_intro_outro_screens/start/startscreen_2.svg" alt="Hintergrundbild">
-        <div
-            style="display: flex;flex-direction: row;height: 40px;width: fit-content; gap: 15px; position: absolute; top: 0; right: 0; padding: 10px;">
-            <img onclick="changeMusic(this.id)" id="musicIcon" src="img/icon/music-icon.svg" alt="" class="icon">
-            <img onclick="changeSound(this.id)" id="soundIcon" src="img/icon/sound-icon.svg" alt="" class="icon">
-            <img onclick="changeScreen(this.id)" id="screenIcon" src="img/icon/fullscreen-icon.svg" alt="" class="icon">
-            <img id="extraIcon" src="img/icon/info-icon.svg" alt="" style="cursor: pointer;">
-        </div>
-        <div
-            style="width: calc(100% - 2 * 10px); display: flex;position: absolute;bottom:0; justify-content: center;margin: 10px;">
-            <button onclick="init()"
-                style="background-color: yellow;color: brown; font-family: Zabars; font-size: 32px; padding: 5px 20px; border: 5px solid brown;border-radius: 1rem;cursor: pointer;">START</button>
-        </div>
+    <div id="intro">
+      <img src="img/9_intro_outro_screens/start/startscreen_2.svg" alt="" />
+      <button onclick="init()" id="startBtn">START</button>
     </div>
 
-    <div id="outro" class="hidden">
-        <img id="youWinImg" src="img/You won, you lost/You Win A.png" alt="Hintergrundbild">
-        <img id="youLoseImg" src="img/You won, you lost/Game over A.png" alt="Hintergrundbild">
-        <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" class="homeIcon button">
-        <!-- <img onclick="showgame()" src="img/icon/home-icon.svg" alt="" class="homeIcon button"> -->
-        <div
-            style="display: flex;flex-direction: row;height: 40px;width: fit-content; gap: 15px; position: absolute; top: 0; right: 0; padding: 10px;">
-            <img onclick="changeMusic(this.id)" id="musicIcon2" src="img/icon/music-icon.svg" alt="" class="icon">
-            <img onclick="changeSound(this.id)" id="soundIcon2" src="img/icon/sound-icon.svg" alt="" class="icon">
-            <img onclick="changeScreen(this.id)" id="screenIcon2" src="img/icon/fullscreen-icon.svg" alt=""
-                class="icon">
-            <img id="infoIcon" src="img/icon/info-icon.svg" alt="" style="cursor: pointer;">
-        </div>
+    <div id="outro" class="outro hidden">
+      <img id="youLoseImg" src="img/You won, you lost/Game over A.png" alt=""
+        style="height: auto;width: 60%;;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"
+        class="hidden" />
+      <img id="youWinImg" src="img/You won, you lost/You Win A.png" alt=""
+        style="height: auto;width: 80%; position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"
+        class="hidden" />
+      <div id="outroBtnDiv" class="outroBtnDiv hidden">
+        <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" style="height: 80px;cursor: pointer;" />
+        <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt="" style="height: 80px;cursor: pointer;" />
+      </div>
     </div>
 
-    <!-- <h1>El Pollo Loco</h1> -->
     <div id="canvasDiv" class="hidden">
-        <canvas id="canvas" width="720" height="480">
-            <!-- <p>hello</p> -->
-        </canvas>
-
-        <!-- <div id="canvasIcons">
-      <img onclick="changeMusic(this.id)" id="musicIcon3" src="img/icon/music-icon.svg" alt="" class="icon">
-      <img onclick="changeSound(this.id)" id="soundIcon3" src="img/icon/sound-icon.svg" alt="" class="icon">
-      <img onclick="changeScreen(this.id)" id="screenIcon3" src="img/icon/fullscreen-icon.svg" alt="" class="icon">
-      <img id="infoIcon" src="img/icon/info-icon.svg" alt="" style="cursor: pointer;">
-    </div> -->
+      <canvas id="canvas" width="720" height="480"></canvas>
     </div>
+
+    <div id="iconBar">
+      <img onclick="changeMusic(this.id)" id="musicIcon" src="img/icon/music-icon.svg" alt="Music" />
+      <img onclick="changeSound(this.id)" id="soundIcon" src="img/icon/sound-icon.svg" alt="Sound" />
+      <img onclick="changeScreen(this.id)" id="screenIcon" src="img/icon/fullscreen-icon.svg" alt="Fullscreen" />
+      <img onclick="pauseGame()" id="extraIcon" src="img/icon/info-icon.svg" alt="Info" />
+    </div>
+
+  </div>
 </body>
 
 </html>

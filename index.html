@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>My Game</title>
-
     <!-- Klassen zuerst laden -->
     <script src="models/drawable-object.class.js"></script>
     <script src="models/statusbar.class.js"></script>
@@ -21,28 +20,60 @@
     <script src="levels/level1.js"></script>
     <script src="models/throwable-object.class.js"></script>
 
-    <!-- <script src="models/drawable-object.class.js"></script>
-    <script src="models/movable-object.class.js"></script>
-    <script src="models/character.class.js"></script>
-    <script src="models/level.class.js"></script>
-    <script src="models/world.class.js"></script>
-    <script src="models/bottle.class.js"></script>
-    <script src="models/coin.class.js"></script>
-    <script src="models/chicken.class.js"></script>
-    <script src="models/cloud.class.js"></script>
-    <script src="models/statusbar.class.js"></script>
-    <script src="models/background-object.class.js"></script>
-    <script src="models/keyboard.class.js"></script>
-    <script src="models/endboss.class.js"></script>
-    <script src="models/throwable-object.class.js"></script> -->
 
 
-    <!-- Jetzt: Level-Erstellung nach Klassen -->
-
-    <!-- Zuletzt: das eigentliche Spiel starten -->
-    <script src="script/game.js"></script>
+    <title>Mexican Jump n Run</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_hat.svg">
 </head>
-<body onload="init()">
-    <canvas id="canvas" width="720" height="480" style="background-color: black;"></canvas>
+
+<body>
+
+    <div></div>
+
+    <div id="intro" class="image-container" style="height: 480px; width: 720px; background-color: red;">
+        <img src="img/9_intro_outro_screens/start/startscreen_2.svg" alt="Hintergrundbild">
+        <div
+            style="display: flex;flex-direction: row;height: 40px;width: fit-content; gap: 15px; position: absolute; top: 0; right: 0; padding: 10px;">
+            <img onclick="changeMusic(this.id)" id="musicIcon" src="img/icon/music-icon.svg" alt="" class="icon">
+            <img onclick="changeSound(this.id)" id="soundIcon" src="img/icon/sound-icon.svg" alt="" class="icon">
+            <img onclick="changeScreen(this.id)" id="screenIcon" src="img/icon/fullscreen-icon.svg" alt="" class="icon">
+            <img id="infoIcon" src="img/icon/info-icon.svg" alt="" style="cursor: pointer;">
+        </div>
+        <div
+            style="width: calc(100% - 2 * 10px); display: flex;position: absolute;bottom:0; justify-content: center;margin: 10px;">
+            <button onclick="init()"
+                style="background-color: yellow;color: brown; font-family: Zabars; font-size: 32px; padding: 5px 20px; border: 5px solid brown;border-radius: 1rem;cursor: pointer;">START</button>
+        </div>
+    </div>
+
+    <div id="outro" class="hidden">
+        <img id="youWinImg" src="img/You won, you lost/You Win A.png" alt="Hintergrundbild">
+        <img id="youLoseImg" src="img/You won, you lost/Game over A.png" alt="Hintergrundbild">
+        <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" class="homeIcon button">
+        <!-- <img onclick="showgame()" src="img/icon/home-icon.svg" alt="" class="homeIcon button"> -->
+        <div
+            style="display: flex;flex-direction: row;height: 40px;width: fit-content; gap: 15px; position: absolute; top: 0; right: 0; padding: 10px;">
+            <img onclick="changeMusic(this.id)" id="musicIcon2" src="img/icon/music-icon.svg" alt="" class="icon">
+            <img onclick="changeSound(this.id)" id="soundIcon2" src="img/icon/sound-icon.svg" alt="" class="icon">
+            <img onclick="changeScreen(this.id)" id="screenIcon2" src="img/icon/fullscreen-icon.svg" alt=""
+                class="icon">
+            <img id="infoIcon" src="img/icon/info-icon.svg" alt="" style="cursor: pointer;">
+        </div>
+    </div>
+
+    <!-- <h1>El Pollo Loco</h1> -->
+    <div id="canvasDiv" class="hidden">
+        <canvas id="canvas" width="720" height="480">
+            <!-- <p>hello</p> -->
+        </canvas>
+
+        <!-- <div id="canvasIcons">
+      <img onclick="changeMusic(this.id)" id="musicIcon3" src="img/icon/music-icon.svg" alt="" class="icon">
+      <img onclick="changeSound(this.id)" id="soundIcon3" src="img/icon/sound-icon.svg" alt="" class="icon">
+      <img onclick="changeScreen(this.id)" id="screenIcon3" src="img/icon/fullscreen-icon.svg" alt="" class="icon">
+      <img id="infoIcon" src="img/icon/info-icon.svg" alt="" style="cursor: pointer;">
+    </div> -->
+    </div>
 </body>
+
 </html>

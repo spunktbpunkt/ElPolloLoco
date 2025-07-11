@@ -42,7 +42,8 @@ class World {
             bottle.throw();
             this.character.bottlesAmount--;
             this.statusBarBottles.setPercentage(this.character.bottlesAmount, 5);
-            if (this.character.bottlesAmount === 0) {
+            if (this.character.bottlesAmount === 0 && this.level.bottles.length == 0) {
+                console.log('adding new bottles')
                 this.level.bottles.push(...createElements('bottles', 5, 200, 100));
             }
         }
@@ -127,7 +128,7 @@ class World {
 
     characterCollisionEndboss() {
         this.level.endboss.forEach(endboss => {
-            if (this.character.isColliding(endboss)) {
+            if (this.character.isColliding(endboss) && !endboss.endbossDead) {
                 this.character.hit();
                 this.statusBarEnergy.setPercentage(this.character.energy)
             };

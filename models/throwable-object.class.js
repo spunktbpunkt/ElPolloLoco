@@ -40,6 +40,7 @@ class ThrowableObject extends MovableObject {
 
 
 throw() {
+            if(isPaused){return}
     this.applyGravity();
 
     let direction = this.world.character.otherDirection ? (this.x -= 100, -1) : 1;
@@ -60,6 +61,7 @@ throw() {
 
 
 bottleSplash() {
+    if(isPaused){return}
     let i = 0;
 
     // 🧹 Aufräumen → besser hier!

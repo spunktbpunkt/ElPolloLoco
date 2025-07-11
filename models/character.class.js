@@ -83,11 +83,13 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
     }
 
     animate() {
+        if (isPaused) return;
         this.moving()
         this.animation();
     }
-
+    
     moving() {
+        if (isPaused) return;
         this.movingInterval = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.otherDirection = false;
@@ -102,9 +104,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
+        console.log(this.y)
     }
 
     animation() {
+        if (isPaused) return;
         this.currentImageOnce = 0; 
 
         this.animationInterval = setInterval(() => {
@@ -131,6 +135,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }, 50);
     }
     jumpAnimation() {
+        if (isPaused) return;
         clearInterval(this.animationInterval)
         this.jumpInterval = setInterval(() => {
             if (!this.falling) {
@@ -144,6 +149,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
 
 
     fallAnimation() {
+        if (isPaused) return;
         clearInterval(this.animationInterval)
         this.fallInterval = setInterval(() => {
             if (this.falling) {

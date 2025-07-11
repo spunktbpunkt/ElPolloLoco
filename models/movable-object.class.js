@@ -26,7 +26,8 @@ class MovableObject extends DrawableObject {
     // }
 
     applyGravity() {
-        // if (isPaused) return;
+        if (isPaused) return;
+        console.log(isPaused)
         if (this.gravityInterval) return;
 
         this.gravityInterval = setInterval(() => {
@@ -43,6 +44,7 @@ class MovableObject extends DrawableObject {
     }
 
     removeGravity() {
+        if (isPaused) { return }
         this.speed = 0;
         this.speedX = 0;
         this.speedY = 0;
@@ -51,6 +53,7 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
+        if (isPaused) { return }
         if (this instanceof ThrowableObject) {
             return true
         } else {
@@ -61,10 +64,12 @@ class MovableObject extends DrawableObject {
 
 
     moveRight() {
+        if (isPaused) { return }
         this.x += this.speed;
     }
 
     moveLeft() {
+        if (isPaused) { return }
         this.x -= this.speed;
     }
 
@@ -93,6 +98,7 @@ class MovableObject extends DrawableObject {
 
 
     playAnimation(images) {
+        if (isPaused) return;
         let i = this.currentImage % images.length;
         let path = images[i]
         this.img = this.imageCache[path]
@@ -100,25 +106,28 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimationOnce(images) {
+        if (isPaused) return;
         let i;
         if (this.currentImageOnce >= images.length) {
             i = images.length - 1;
             this.currentImageOnce == 0
-            if(!(this instanceof Character))clearInterval(this.animationInterval)
+            if (!(this instanceof Character)) clearInterval(this.animationInterval)
         } else {
             i = this.currentImageOnce;// % images.length;
         }
         let path = images[i]
         this.img = this.imageCache[path]
-        console.log(this.img)
         this.currentImageOnce++;
     }
 
     jump() {
+        if (isPaused) return;
+        // console.log(isPaused + " " + 'jump')
         this.speedY = 40;
     }
 
     isColliding(mo) {
+        if (isPaused) { return }
         return this.outerLines.right > mo.outerLines.left &&
             this.outerLines.left < mo.outerLines.right &&
             this.outerLines.bottom > mo.outerLines.top &&
@@ -129,6 +138,7 @@ class MovableObject extends DrawableObject {
 
 
     hit() {
+        if (isPaused) return;
         this.energy -= 10;
         if (this.energy < 0) {
             this.energy = 0
@@ -139,12 +149,21 @@ class MovableObject extends DrawableObject {
     }
 
     isHurt() { //vergleicht lasthit mit aktueller zeit, true so lange differenz kleiner als 1 sekunde ist
+        if (isPaused) return;
         let timePassed = new Date().getTime() - this.lastHit; // Differenz in ms
         timePassed = timePassed / 1000; // Differenz in Sekunden
         return timePassed < 1;
 
     }
     isDead() { // wenn energy 0 dann kommt true zurück
+        if (isPaused) return;
         return this.energy == 0;
+    }
+
+    walkingSound() {
+        if (isPaused) return;
+        if (!this.muted) {
+            this.walking_sound.play();
+        }
     }
 }

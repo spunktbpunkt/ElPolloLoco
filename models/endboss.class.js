@@ -25,7 +25,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ]
 
-    images_dead=[
+    images_dead = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png'
@@ -55,6 +55,7 @@ class Endboss extends MovableObject {
     }
 
     animate() {
+        if (isPaused) { return }
         let i = 0;
 
         // this.moveLeft();
@@ -76,7 +77,7 @@ class Endboss extends MovableObject {
     }
 
     randomAttack() {
-
+        if (isPaused) return;
         // interval für animation
         this.randomAttackAnimationInterval = setInterval(() => {
             this.playAnimation(this.images_attack)
@@ -94,6 +95,7 @@ class Endboss extends MovableObject {
     }
 
     hit() {
+        if (isPaused) return;
         this.energy -= 20;
         console.log(this.energy)
         if (this.energy < 0) this.energy = 0;
@@ -105,12 +107,13 @@ class Endboss extends MovableObject {
     }
 
     die() {
+        if (isPaused) return;
         this.endbossDead = true;
         this.speed = 0;
         this.dieInterval = setInterval(() => {
             this.playAnimationOnce(this.images_dead)
         }, 100);
-        
+
         clearInterval(this.randomAttackAnimationInterval);
         clearInterval(this.randomAttackMoveInterval);
         console.log('endboss die')

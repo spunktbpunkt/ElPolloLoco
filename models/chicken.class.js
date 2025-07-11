@@ -31,7 +31,7 @@ class Chicken extends MovableObject {
     }
 
     animate() {
-
+        if (isPaused) { return }
         setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
@@ -45,13 +45,12 @@ class Chicken extends MovableObject {
                 this.die();
             }
         }, 100);
-        
-        
-    }
-    
-    die() {
-        console.log(this.isDead)
 
+
+    }
+
+    die() {
+        if (isPaused) return;
         this.enemyDead = true;
         this.speed = 0;
         clearInterval(this.moveInterval);

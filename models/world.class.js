@@ -256,7 +256,7 @@ class World {
         }
 
         mo.drawing(this.ctx)
-        mo.drawingFrame(this.ctx)
+        // mo.drawingFrame(this.ctx)
 
 
         if (mo.otherDirection) {

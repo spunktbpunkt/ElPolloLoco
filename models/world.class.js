@@ -1,5 +1,8 @@
 class World {
     coolDown = 250;
+    gameEnd = false;
+    isPaused = false;
+
     constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -194,6 +197,14 @@ class World {
     }
 
     draw() {
+        if (this.gameEnd && this.characterDead) {
+            youLose();
+            return;
+        };
+        if (this.gameEnd && this.endbossDead) {
+            youWin();
+            return;
+        };
         //Zeichenflaeche leeren
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 

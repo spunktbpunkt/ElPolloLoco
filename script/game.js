@@ -1,11 +1,20 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let backgroundMusic = new Audio('audio/mariachi.wav');
+let backgroundMusicVolume = 1;
+let soundVolume = 1;
+let musicMuted = false;
+let soundMuted = false;
+let isPaused = false;
+let gameStarted = false;
 
 function init() {
+    document.getElementById("extraIcon").src = "img/icon/pause-icon.svg";
+    gameStarted = true;
     canvas = document.getElementById("canvas");
 
-    const level= createLevel(); // jetzt als Funktion aufgerufen
+    const level = createLevel(); // jetzt als Funktion aufgerufen
     world = new World(canvas, keyboard, level);
 
     console.log('World initialized:', world);

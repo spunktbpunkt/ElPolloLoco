@@ -21,10 +21,106 @@
     <script src="models/throwable-object.class.js"></script>
     <script src="script/game.js"></script>
 
-
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_hat.svg">
 
     <title>Mexican Jump n Run</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_hat.svg">
+    <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('img/wueste2.jpg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      /* background-color: red; */
+      height: 100vh;
+    }
+
+    #mainContent {
+      height: 480px;
+      width: 720px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* background-color: blue; */
+      position: relative;
+      /* Wichtig für absolute Positionierung der Icons */
+    }
+
+    #intro {
+      /* display: flex; */
+      /* flex-direction: column; */
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      /* position: relative; */
+    }
+
+    #intro img {
+      flex-grow: 1;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    #intro button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #iconBar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 10px;
+    }
+
+    #iconBar img {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+    #startBtn {
+      background-color: yellow;
+      color: brown;
+      font-family: Zabars;
+      font-size: 32px;
+      padding: 5px 20px;
+      border: 5px solid brown;
+      border-radius: 1rem;
+    }
+
+    .outro {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      height: 480px;
+      width: 720px;
+    }
+
+    .outroBtnDiv {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      bottom: 7px;
+      right: 50%;
+      transform: translateX(50%);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+    
 </head>
 
 <body>
@@ -38,7 +134,7 @@
             <img onclick="changeMusic(this.id)" id="musicIcon" src="img/icon/music-icon.svg" alt="" class="icon">
             <img onclick="changeSound(this.id)" id="soundIcon" src="img/icon/sound-icon.svg" alt="" class="icon">
             <img onclick="changeScreen(this.id)" id="screenIcon" src="img/icon/fullscreen-icon.svg" alt="" class="icon">
-            <img id="infoIcon" src="img/icon/info-icon.svg" alt="" style="cursor: pointer;">
+            <img id="extraIcon" src="img/icon/info-icon.svg" alt="" style="cursor: pointer;">
         </div>
         <div
             style="width: calc(100% - 2 * 10px); display: flex;position: absolute;bottom:0; justify-content: center;margin: 10px;">

@@ -12,13 +12,24 @@ let gameStarted = false;
 function init() {
     document.getElementById("extraIcon").src = "img/icon/pause-icon.svg";
     gameStarted = true;
-    canvas = document.getElementById("canvas");
+    showGame();
+    setupCanvasAndWorld();
+}
 
+function setupCanvasAndWorld(){
+    canvas = document.getElementById("canvas");
     const level = createLevel(); // jetzt als Funktion aufgerufen
     world = new World(canvas, keyboard, level);
-
-    console.log('World initialized:', world);
 }
+
+function showGame() {
+    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("outro").classList.remove("outro");
+    document.getElementById("canvasDiv").classList.remove("hidden");
+}
+
+
+
 
 window.addEventListener("keydown", (event) => {
     if (event.keyCode === 39) keyboard.RIGHT = true;

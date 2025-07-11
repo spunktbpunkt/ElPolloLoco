@@ -42,6 +42,7 @@ class Endboss extends MovableObject {
     hadFirstContact = false;
     randomAttackAnimationInterval;
     randomAttackIntervalTwo;
+    dieInterval;
 
     constructor() {
         super();
@@ -106,9 +107,12 @@ class Endboss extends MovableObject {
     die() {
         this.endbossDead = true;
         this.speed = 0;
+        this.dieInterval = setInterval(() => {
+            this.playAnimationOnce(this.images_dead)
+        }, 100);
+        
         clearInterval(this.randomAttackAnimationInterval);
         clearInterval(this.randomAttackMoveInterval);
-        this.playAnimationOnce(this.images_dead)
         console.log('endboss die')
         // this.playDeadAnimation?.();
         // ggf. draw() darauf reagieren lassen (youWin, etc.)

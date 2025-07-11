@@ -15,7 +15,7 @@ class MovableObject extends DrawableObject {
         left: 0,
         right: 0
     }
-
+    playAnimationOnceInterval;
     // applyGravity() {
     //     setInterval(() => {
     //         if (this.isAboveGround() || this.speedY > 0) {
@@ -93,7 +93,6 @@ class MovableObject extends DrawableObject {
 
 
     playAnimation(images) {
-        // if (this instanceof Character) console.log(this.currentImage)
         let i = this.currentImage % images.length;
         let path = images[i]
         this.img = this.imageCache[path]
@@ -102,18 +101,17 @@ class MovableObject extends DrawableObject {
 
     playAnimationOnce(images) {
         let i;
-        if (this.currentImage >= images.length) {
+        if (this.currentImageOnce >= images.length) {
             i = images.length - 1;
+            this.currentImageOnce == 0
+            if(!(this instanceof Character))clearInterval(this.animationInterval)
         } else {
-            i = this.currentImage;// % images.length;
+            i = this.currentImageOnce;// % images.length;
         }
         let path = images[i]
         this.img = this.imageCache[path]
-        //console.log(this.img)
-        this.currentImage++;
-
-
-        // if (this instanceof Character) console.log(this.currentImage)
+        console.log(this.img)
+        this.currentImageOnce++;
     }
 
     jump() {
@@ -121,21 +119,13 @@ class MovableObject extends DrawableObject {
     }
 
     isColliding(mo) {
-        // if(isPaused) return;
-        // if(this instanceof ThrowableObject){console.log(this.outerLines.right)}
-        // console.log(mo.outerLines.right)
         return this.outerLines.right > mo.outerLines.left &&
             this.outerLines.left < mo.outerLines.right &&
             this.outerLines.bottom > mo.outerLines.top &&
             this.outerLines.top < mo.outerLines.bottom;
     }
 
-    // isColliding(mo) {
-    //     return this.x + this.width > mo.x &&
-    //         this.y + this.height > mo.y &&
-    //         this.x < mo.x &&
-    //         this.y < mo.y + mo.height
-    // }
+
 
 
     hit() {
@@ -145,7 +135,6 @@ class MovableObject extends DrawableObject {
         } else {
             this.lastHit = new Date().getTime();
         }
-        // console.log("last hit " + this.lastHit);
 
     }
 

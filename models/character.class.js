@@ -11,17 +11,6 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         'img/2_character_pepe/2_walk/W-25.png',
         'img/2_character_pepe/2_walk/W-26.png'
     ]
-    images_jumping = [
-        'img/2_character_pepe/3_jump/J-31.png',
-        'img/2_character_pepe/3_jump/J-32.png',
-        'img/2_character_pepe/3_jump/J-33.png',
-        'img/2_character_pepe/3_jump/J-34.png',
-        'img/2_character_pepe/3_jump/J-35.png',
-        'img/2_character_pepe/3_jump/J-36.png',
-        'img/2_character_pepe/3_jump/J-37.png',
-        'img/2_character_pepe/3_jump/J-38.png',
-        'img/2_character_pepe/3_jump/J-39.png',
-    ]
 
     images_dead = [
         'img/2_character_pepe/5_dead/D-51.png',
@@ -50,7 +39,22 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         'img/2_character_pepe/1_idle/idle/I-9.png',
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ]
-    
+
+    images_jumping = [
+        'img/2_character_pepe/3_jump/J-31.png',
+        'img/2_character_pepe/3_jump/J-32.png',
+        'img/2_character_pepe/3_jump/J-33.png',
+        'img/2_character_pepe/3_jump/J-34.png'
+    ];
+
+    images_falling = [
+        'img/2_character_pepe/3_jump/J-35.png',
+        'img/2_character_pepe/3_jump/J-36.png',
+        'img/2_character_pepe/3_jump/J-37.png',
+        'img/2_character_pepe/3_jump/J-38.png',
+        'img/2_character_pepe/3_jump/J-39.png'
+    ];
+
     world;
     offset = {
         left: 25,
@@ -59,13 +63,19 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         bottom: 10
     }
     falling = false
+    jumping = false;
+    jumpInterval;
+    fallInterval;
+    movingInterval;
+    animationInterval;
 
-    constructor() { //alles was hier steht wird beim erstellen des Objektes sofort ausgelöst
+    constructor() {
         super();
         this.loadImage('img/2_character_pepe/2_walk/W-21.png')
         this.loadImages(this.images_walking)
         this.loadImages(this.images_idle)
         this.loadImages(this.images_jumping)
+        this.loadImages(this.images_falling)
         this.loadImages(this.images_hurt)
         this.loadImages(this.images_dead)
         this.applyGravity()
@@ -73,8 +83,12 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
     }
 
     animate() {
-        // interval für bewegung
-        setInterval(() => {
+        this.moving()
+        this.animation();
+    }
+
+    moving() {
+        this.movingInterval = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.otherDirection = false;
                 this.moveRight();
@@ -88,22 +102,58 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
+    }
 
-        //interval für Grafik
-        setInterval(() => {
-            if(this.isDead()){
-                this.playAnimation(this.images_dead)
-            } else if(this.isHurt()){
-                this.playAnimation(this.images_hurt)
-            }else if (this.isAboveGround()) {
-                this.playAnimation(this.images_jumping);
+    animation() {
+        this.currentImageOnce = 0; 
+
+        this.animationInterval = setInterval(() => {
+            if (this.isDead()) {
+                this.playAnimationOnce(this.images_dead);
+                clearInterval(this.movingInterval);
+            } else if (this.isHurt()) {
+                this.playAnimation(this.images_hurt);
+            } else if (this.isAboveGround()) {
+                if (this.falling) {
+                    this.currentImageOnce = 0;
+                    this.fallAnimation();
+                } else {
+                    this.currentImageOnce = 0;
+                    this.jumpAnimation();
+                }
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.images_walking)
+                    this.playAnimation(this.images_walking);
+                } else {
+                    this.playAnimation(this.images_idle);
                 }
             }
-
         }, 50);
+    }
+    jumpAnimation() {
+        clearInterval(this.animationInterval)
+        this.jumpInterval = setInterval(() => {
+            if (!this.falling) {
+                this.playAnimationOnce(this.images_jumping)
+            } else {
+                clearInterval(this.jumpInterval)
+                this.animation()
+            }
+        }, 50);
+    }
+
+
+    fallAnimation() {
+        clearInterval(this.animationInterval)
+        this.fallInterval = setInterval(() => {
+            if (this.falling) {
+                this.playAnimationOnce(this.images_falling)
+            } else {
+                clearInterval(this.fallInterval)
+                this.animation()
+            }
+        }, 50);
+
     }
 
 }

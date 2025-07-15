@@ -110,8 +110,10 @@ function changeMusic(name) {
     const musicIcon = document.getElementById(name)
     if (musicIcon.src.includes('no')) {
         musicIcon.src = "img/icon/music-icon.svg"
+        localStorage.setItem('music','true')
     } else {
         musicIcon.src = "img/icon/no-music-icon.svg"
+        localStorage.setItem('music','false')
     }
     toggleMusic();
 }
@@ -120,8 +122,10 @@ function changeSound(name) {
     const soundIcon = document.getElementById(name)
     if (soundIcon.src.includes('no')) {
         soundIcon.src = "img/icon/sound-icon.svg"
+        localStorage.setItem('sound','true')
     } else {
         soundIcon.src = "img/icon/no-sound-icon.svg"
+        localStorage.setItem('sound','false')
     }
     toggleSound();
 }

@@ -80,6 +80,12 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         this.loadImages(this.images_dead)
         this.applyGravity()
         this.animate();
+        this.walking_sound = new Audio('audio/footstep2.mp3');
+        this.hurt_sound = new Audio('audio/ouchie.mp3');
+        this.die_sound = new Audio('audio/die-sound.mp3');
+        this.jump_sound = new Audio('audio/jump-sound.mp3');
+
+        // this.sounds = [this.walking_sound];
     }
 
     animate() {
@@ -87,19 +93,22 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         this.moving()
         this.animation();
     }
-    
+
     moving() {
         if (isPaused) return;
         this.movingInterval = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.otherDirection = false;
+                this.playSound(this.walking_sound);
                 this.moveRight();
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.otherDirection = true;
+                this.playSound(this.walking_sound);
                 this.moveLeft();
             }
             if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround()) {
+                this.playSound(this.jump_sound);
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
@@ -109,11 +118,12 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
 
     animation() {
         if (isPaused) return;
-        this.currentImageOnce = 0; 
+        this.currentImageOnce = 0;
 
         this.animationInterval = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimationOnce(this.images_dead);
+                this.playSound(this.die_sound);
                 clearInterval(this.movingInterval);
             } else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);

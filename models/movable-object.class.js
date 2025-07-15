@@ -165,4 +165,12 @@ class MovableObject extends DrawableObject {
             this.walking_sound.play();
         }
     }
+
+
+    playSound(element){
+        if (isPaused) return;
+        if (!this.muted) {
+            element.play();
+        }
+    }
 }

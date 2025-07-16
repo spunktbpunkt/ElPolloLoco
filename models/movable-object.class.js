@@ -138,13 +138,37 @@ class MovableObject extends DrawableObject {
 
     hit() {
         if (isPaused) return;
-        this.energy -= 10;
-        if (this.energy < 0) {
-            this.energy = 0
-        } else {
-            this.lastHit = new Date().getTime();
+        // console.log(this.lastHit)
+        // console.log("differenz: " + ((new Date().getTime() - this.lastHit)/1000))
+        // console.log(new Date().getTime())
+        if (!this.sinceLastHit()) {
+            this.energy -= 10;
+            if (this.energy < 0) {
+                this.energy = 0
+            } else {
+                this.lastHit = new Date().getTime();
+            }
         }
+        console.log(this.energy)
+    }
+    // hit() {
+    //     if (isPaused) return;
+    //     // console.log(this.lastHit)
+    //     // console.log("differenz: " + ((new Date().getTime() - this.lastHit)/1000))
+    //     // console.log(new Date().getTime())
+    //     this.energy -= 10;
+    //     if (this.energy < 0) {
+    //         this.energy = 0
+    //     } else {
+    //         this.lastHit = new Date().getTime();
+    //     }
 
+    // }
+
+    sinceLastHit() {
+        let timePassed = new Date().getTime() - this.lastHit;
+        timePassed = timePassed / 1000; // Differenz in Sekunden
+        return timePassed < 1;
     }
 
     isHurt() { //vergleicht lasthit mit aktueller zeit, true so lange differenz kleiner als 1 sekunde ist
@@ -152,7 +176,7 @@ class MovableObject extends DrawableObject {
         let timePassed = new Date().getTime() - this.lastHit; // Differenz in ms
         timePassed = timePassed / 1000; // Differenz in Sekunden
         // console.log(timePassed)
-        return timePassed < 5;
+        return timePassed < 1;
 
     }
 

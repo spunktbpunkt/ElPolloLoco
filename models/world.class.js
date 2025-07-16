@@ -84,7 +84,9 @@ class World {
                         }, 500);
                     }
                 } else if (!enemy.isDead) {
+                // } else if (!enemy.isDead && !this.character.sinceLastHit()) {
                     // Schaden bekommen
+                    // console.log(this.character.sinceLastHit())
                     this.character.hit();
                     this.statusBarEnergy.setPercentage(this.character.energy, 100);
                 }

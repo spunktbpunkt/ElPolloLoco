@@ -160,7 +160,7 @@ class MovableObject extends DrawableObject {
     }
 
     walkingSound() {
-        if (isPaused) return;
+        if (isPaused || soundMuted) return;
         if (!this.muted) {
             this.walking_sound.play();
         }
@@ -168,7 +168,7 @@ class MovableObject extends DrawableObject {
 
 
     playSound(element, intervalId = null) {
-        if (isPaused) return;
+        if (isPaused || soundMuted) return;
         if (!this.muted) {
             element.addEventListener('ended', () => {
                 clearInterval(intervalId);

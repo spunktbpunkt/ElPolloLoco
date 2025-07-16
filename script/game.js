@@ -23,8 +23,10 @@ function initNew() {
 
     if (localStorageSound == 'true') {
         document.getElementById('soundIcon').src = "img/icon/sound-icon.svg"
+        soundMuted = false
     }else{
         document.getElementById('soundIcon').src = "img/icon/no-sound-icon.svg"
+        soundMuted = true
     }
 }
 function getLocalStorage() {
@@ -41,6 +43,8 @@ function init() {
     if (localStorageMusic == 'true') {
         playBackgroundMusic()
     }
+    // soundMuted = !localStorageSound;
+    // toggleSoundDuringGame()
 
 }
 
@@ -122,27 +126,13 @@ function toggleMusic() {
         backgroundMusicVolume;
         if(gameStarted)playBackgroundMusic();
     }
-    musicMuted == true ? console.log('stumm') : console.log('laut')
     console.log(backgroundMusic.volume)
 }
 
 function toggleSound() {
     soundMuted = !soundMuted;
-    if(world.character.walking_sound.volume = soundMuted ){
-        0
-    }else{
-        soundVolume;
-    } 
-    muteAllSounds(soundMuted);
 }
 
-function muteAllSounds(isMuted) {
-    if (world.character) {
-        world.character.sounds.forEach(sound => {
-            sound.volume = isMuted ? 0 : soundVolume; // oder individuelle Lautstärke
-        });
-    }
-}
 
 function changeMusic(name) {
     const musicIcon = document.getElementById(name)

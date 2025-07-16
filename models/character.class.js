@@ -112,7 +112,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
-        console.log(this.y)
+        // console.log(this.y)
     }
 
     animation() {

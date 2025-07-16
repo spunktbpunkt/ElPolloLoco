@@ -151,9 +151,11 @@ class MovableObject extends DrawableObject {
         if (isPaused) return;
         let timePassed = new Date().getTime() - this.lastHit; // Differenz in ms
         timePassed = timePassed / 1000; // Differenz in Sekunden
-        return timePassed < 1;
+        // console.log(timePassed)
+        return timePassed < 5;
 
     }
+
     isDead() { // wenn energy 0 dann kommt true zurück
         if (isPaused) return;
         return this.energy == 0;

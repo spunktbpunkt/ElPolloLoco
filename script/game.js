@@ -8,13 +8,39 @@ let musicMuted = false;
 let soundMuted = false;
 let isPaused = false;
 let gameStarted = false;
+let localStorageMusic
+let localStorageSound
+
+function initNew() {
+    getLocalStorage();
+    if (localStorageMusic == 'true') {
+        document.getElementById('musicIcon').src = "img/icon/music-icon.svg"
+        musicMuted = false
+    }else{
+        document.getElementById('musicIcon').src = "img/icon/no-music-icon.svg"
+        musicMuted = true
+    }
+
+    if (localStorageSound == 'true') {
+        document.getElementById('soundIcon').src = "img/icon/sound-icon.svg"
+    }else{
+        document.getElementById('soundIcon').src = "img/icon/no-sound-icon.svg"
+    }
+}
+function getLocalStorage() {
+    localStorageMusic = localStorage.getItem('music')
+    localStorageSound = localStorage.getItem('sound')
+}
 
 function init() {
+    getLocalStorage();
     document.getElementById("extraIcon").src = "img/icon/pause-icon.svg";
     gameStarted = true;
     showGame();
     setupCanvasAndWorld();
-    playBackgroundMusic();
+    if (localStorageMusic == 'true') {
+        playBackgroundMusic()
+    }
 
 }
 
@@ -84,17 +110,29 @@ function startPage() {
     document.getElementById("outro").classList.add("hidden");
     document.getElementById("canvasDiv").classList.remove("hidden");
     document.getElementById("extraIcon").src = "img/icon/info-icon.svg"
-    
+
 }
 
 function toggleMusic() {
     musicMuted = !musicMuted;
-    backgroundMusic.volume = musicMuted ? 0 : backgroundMusicVolume;
+    if(backgroundMusic.volume = musicMuted){
+        0
+        backgroundMusic.pause()
+    }else{
+        backgroundMusicVolume;
+        if(gameStarted)playBackgroundMusic();
+    }
+    musicMuted == true ? console.log('stumm') : console.log('laut')
+    console.log(backgroundMusic.volume)
 }
 
 function toggleSound() {
     soundMuted = !soundMuted;
-    world.character.walking_sound.volume = soundMuted ? 0 : soundVolume;
+    if(world.character.walking_sound.volume = soundMuted ){
+        0
+    }else{
+        soundVolume;
+    } 
     muteAllSounds(soundMuted);
 }
 
@@ -110,10 +148,10 @@ function changeMusic(name) {
     const musicIcon = document.getElementById(name)
     if (musicIcon.src.includes('no')) {
         musicIcon.src = "img/icon/music-icon.svg"
-        localStorage.setItem('music','true')
+        localStorage.setItem('music', 'true')
     } else {
         musicIcon.src = "img/icon/no-music-icon.svg"
-        localStorage.setItem('music','false')
+        localStorage.setItem('music', 'false')
     }
     toggleMusic();
 }
@@ -122,10 +160,10 @@ function changeSound(name) {
     const soundIcon = document.getElementById(name)
     if (soundIcon.src.includes('no')) {
         soundIcon.src = "img/icon/sound-icon.svg"
-        localStorage.setItem('sound','true')
+        localStorage.setItem('sound', 'true')
     } else {
         soundIcon.src = "img/icon/no-sound-icon.svg"
-        localStorage.setItem('sound','false')
+        localStorage.setItem('sound', 'false')
     }
     toggleSound();
 }

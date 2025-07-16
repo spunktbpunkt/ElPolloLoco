@@ -123,8 +123,8 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         this.animationInterval = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimationOnce(this.images_dead);
-                this.playSound(this.die_sound);
                 clearInterval(this.movingInterval);
+                this.playSound(this.die_sound,this.animationInterval);
             } else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);
             } else if (this.isAboveGround()) {

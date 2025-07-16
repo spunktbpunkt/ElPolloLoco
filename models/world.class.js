@@ -133,7 +133,9 @@ class World {
 
     characterCollisionEndboss() {
         this.level.endboss.forEach(endboss => {
-            if (this.character.isColliding(endboss) && !endboss.endbossDead) {
+            this.character.definingOffsetFrame();
+            endboss.definingOffsetFrame();
+            if (this.character.isColliding(endboss) && !endboss.isDead) {
                 this.character.hit();
                 this.statusBarEnergy.setPercentage(this.character.energy)
             };
@@ -159,8 +161,6 @@ class World {
     }
 
     bottleCollisionEndboss(bottle) {
-
-
         if (this.checkCoolDown()) {
             this.lastThrowTime = this.now;
 
@@ -174,6 +174,8 @@ class World {
             });
         }
     }
+
+    
 
     checkCoolDown() {
         this.now = Date.now();

@@ -43,6 +43,7 @@ class Endboss extends MovableObject {
     randomAttackAnimationInterval;
     randomAttackIntervalTwo;
     dieInterval;
+    isDead = false; // Standardwert
 
     constructor() {
         super();

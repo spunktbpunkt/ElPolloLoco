@@ -115,6 +115,7 @@ function startPage() {
     document.getElementById("intro").classList.toggle("hidden");
     document.getElementById("outro").classList.add("hidden");
     document.getElementById("canvasDiv").classList.remove("hidden");
+    document.getElementById("gameplayBtnDiv").classList.add("visibilityNone");
     document.getElementById("extraIcon").src = "img/icon/info-icon.svg"
 
 }

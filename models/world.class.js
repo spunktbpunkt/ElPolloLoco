@@ -2,6 +2,8 @@ class World {
     coolDown = 250;
     gameEnd = false;
     isPaused = false;
+    characterDead = false;
+    endbossDead = false;
 
     constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
@@ -74,7 +76,7 @@ class World {
                     enemy.loadImages(enemy.images_dead);
                     enemy.img = enemy.imageCache[enemy.images_dead[0]];
                     enemy.isDead = true;
-                    console.log(enemy.img);
+                    // console.log(enemy.img);
 
 
                     // Entferne Gegner (außer Boss) nach 0,5 Sek.
@@ -84,7 +86,7 @@ class World {
                         }, 500);
                     }
                 } else if (!enemy.isDead) {
-                // } else if (!enemy.isDead && !this.character.sinceLastHit()) {
+                    // } else if (!enemy.isDead && !this.character.sinceLastHit()) {
                     // Schaden bekommen
                     // console.log(this.character.sinceLastHit())
                     this.character.hit();
@@ -175,7 +177,7 @@ class World {
         }
     }
 
-    
+
 
     checkCoolDown() {
         this.now = Date.now();

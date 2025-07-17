@@ -109,7 +109,9 @@ class Endboss extends MovableObject {
 
     die() {
         if (isPaused) return;
-        this.endbossDead = true;
+        this.world.endbossDead = true;
+        this.world.gameEnd = true;
+        this.isDead = true;
         this.speed = 0;
         this.dieInterval = setInterval(() => {
             this.playAnimationOnce(this.images_dead)
@@ -117,9 +119,6 @@ class Endboss extends MovableObject {
 
         clearInterval(this.randomAttackAnimationInterval);
         clearInterval(this.randomAttackMoveInterval);
-        console.log('endboss die')
-        // this.playDeadAnimation?.();
-        // ggf. draw() darauf reagieren lassen (youWin, etc.)
     }
 
 }

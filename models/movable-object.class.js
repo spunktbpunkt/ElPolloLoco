@@ -145,6 +145,7 @@ class MovableObject extends DrawableObject {
             this.energy -= 10;
             if (this.energy < 0) {
                 this.energy = 0
+                this.world.gameEnd = true;
             } else {
                 this.lastHit = new Date().getTime();
             }
@@ -180,9 +181,18 @@ class MovableObject extends DrawableObject {
 
     }
 
-    isDead() { // wenn energy 0 dann kommt true zurück
+    isDead() {
         if (isPaused) return;
-        return this.energy == 0;
+        let myValue = this.energy == 0;
+        if (this instanceof Character && myValue) {
+            this.world.gameEnd = true;
+            this.world.characterDead = true;
+        }
+        if (this instanceof Endboss && myValue) {
+            this.world.gameEnd = true;
+            this.world.endbossDead = true;
+        }
+        return myValue;
     }
 
     walkingSound() {

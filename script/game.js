@@ -43,6 +43,7 @@ function init() {
     if (localStorageMusic == 'true') {
         playBackgroundMusic()
     }
+    setupTouchControls();
     // soundMuted = !localStorageSound;
     // toggleSoundDuringGame()
 
@@ -58,6 +59,7 @@ function showGame() {
     document.getElementById("intro").classList.add("hidden");
     document.getElementById("outro").classList.remove("outro");
     document.getElementById("canvasDiv").classList.remove("hidden");
+    document.getElementById("gameplayBtnDiv").classList.remove("visibilityNone");
 }
 
 function playBackgroundMusic() {
@@ -165,6 +167,33 @@ function changeScreen(name) {
     } else {
         screenIcon.src = "img/icon/fullscreen-icon.svg"
     }
+}
+
+function setupTouchControls() {
+    const buttonImgs = document.querySelectorAll('#gameplayBtnDiv img');
+
+    buttonImgs.forEach(img => {
+        const key = img.dataset.key;
+
+        if (!key) return;
+
+        img.addEventListener('mousedown', () => {
+            keyboard[key] = true;
+        });
+
+        img.addEventListener('mouseup', () => {
+            keyboard[key] = false;
+        });
+
+        img.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard[key] = true;
+        });
+
+        img.addEventListener('touchend', () => {
+            keyboard[key] = false;
+        });
+    });
 }
 
 

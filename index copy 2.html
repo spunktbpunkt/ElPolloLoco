@@ -2,28 +2,28 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <!-- Klassen zuerst laden -->
-  <script src="models/drawable-object.class.js"></script>
-  <script src="models/statusbar.class.js"></script>
-  <script src="models/movable-object.class.js"></script>
-  <script src="models/world.class.js"></script>
-  <script src="models/cloud.class.js"></script>
-  <script src="models/background-object.class.js"></script>
-  <script src="models/character.class.js"></script>
-  <script src="models/chicken.class.js"></script>
-  <script src="models/coin.class.js"></script>
-  <script src="models/bottle.class.js"></script>
-  <script src="models/keyboard.class.js"></script>
-  <script src="models/level.class.js"></script>
-  <script src="models/endboss.class.js"></script>
-  <script src="levels/level1.js"></script>
-  <script src="models/throwable-object.class.js"></script>
-  <script src="script/game.js"></script>
+    <meta charset="UTF-8">
+    <!-- Klassen zuerst laden -->
+    <script src="models/drawable-object.class.js"></script>
+    <script src="models/statusbar.class.js"></script>
+    <script src="models/movable-object.class.js"></script>
+    <script src="models/world.class.js"></script>
+    <script src="models/cloud.class.js"></script>
+    <script src="models/background-object.class.js"></script>
+    <script src="models/character.class.js"></script>
+    <script src="models/chicken.class.js"></script>
+    <script src="models/coin.class.js"></script>
+    <script src="models/bottle.class.js"></script>
+    <script src="models/keyboard.class.js"></script>
+    <script src="models/level.class.js"></script>
+    <script src="models/endboss.class.js"></script>
+    <script src="levels/level1.js"></script>
+    <script src="models/throwable-object.class.js"></script>
+    <script src="script/game.js"></script>
 
-  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_hat.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_hat.svg">
 
-  <title>Document</title>
+    <title>Document</title>
   <style>
     body {
       margin: 0;
@@ -116,31 +116,6 @@
       transform: translateX(50%);
     }
 
-    .gameplayBtn {
-      height: 100%;
-    }
-
-    .gameplayBtnDiv {
-      position: absolute;
-      /* top: 10px; */
-      bottom: 0px;
-      right: 0px;
-      display: flex;
-      gap: 10px;
-      width: 720px;
-      height: 50px;
-      justify-content: space-around;
-      padding-bottom: 10px;
-    }
-    .gameplayBtnAside{
-      display: flex;
-      gap: 16px;
-      cursor: pointer;
-    }
-
-    .visibilityNone{
-      visibility: hidden;
-    }
     .hidden {
       display: none;
     }
@@ -148,7 +123,6 @@
 </head>
 
 <!-- <body> -->
-
 <body onload="initNew()">
   <div id="mainContent">
 
@@ -166,8 +140,7 @@
         class="hidden" />
       <div id="outroBtnDiv" class="outroBtnDiv hidden">
         <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" style="height: 80px;cursor: pointer;" />
-        <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt=""
-          style="height: 80px;cursor: pointer;" />
+        <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt="" style="height: 80px;cursor: pointer;" />
       </div>
     </div>
 
@@ -180,17 +153,6 @@
       <img onclick="changeSound(this.id)" id="soundIcon" src="img/icon/sound-icon.svg" alt="Sound" />
       <img onclick="changeScreen(this.id)" id="screenIcon" src="img/icon/fullscreen-icon.svg" alt="Fullscreen" />
       <img onclick="pauseGame()" id="extraIcon" src="img/icon/info-icon.svg" alt="Info" />
-    </div>
-
-    <div id="gameplayBtnDiv" class="gameplayBtnDiv visibilityNone" style="width: 720px; height: 50px; display: flex;">
-      <div id="leftBtns" class="gameplayBtnAside">
-        <img id="btnLeft" src="img/icon/arrowLeft.svg" alt="" data-key="LEFT" class="gameplayBtn">
-        <img id="btnRight" src="img/icon/arrowRight.svg" alt="" data-key="RIGHT" class="gameplayBtn">
-      </div>
-      <div id="rightBtns" class="gameplayBtnAside">
-        <img id="btnUp" src="img/icon/arrowUp.svg" alt="" data-key="UP" class="gameplayBtn">
-        <img id="btnThrow" src="img/icon/bottleThrow.svg" alt="" data-key="D" class="gameplayBtn">
-      </div>
     </div>
 
   </div>

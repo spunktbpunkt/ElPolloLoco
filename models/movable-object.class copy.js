@@ -16,7 +16,14 @@ class MovableObject extends DrawableObject {
         right: 0
     }
     playAnimationOnceInterval;
-
+    // applyGravity() {
+    //     setInterval(() => {
+    //         if (this.isAboveGround() || this.speedY > 0) {
+    //             this.y -= this.speedY;
+    //             this.speedY -= this.acceleration
+    //         }
+    //     }, 50);
+    // }
 
     applyGravity() {
         if (isPaused) return;
@@ -109,7 +116,9 @@ class MovableObject extends DrawableObject {
 
     hit() {
         if (isPaused) return;
-
+        // console.log(this.lastHit)
+        // console.log("differenz: " + ((new Date().getTime() - this.lastHit)/1000))
+        // console.log(new Date().getTime())
         if (!this.sinceLastHit()) {
             this.energy -= 10;
             if (this.energy < 0) {
@@ -121,7 +130,19 @@ class MovableObject extends DrawableObject {
         }
         console.log(this.energy)
     }
+    // hit() {
+    //     if (isPaused) return;
+    //     // console.log(this.lastHit)
+    //     // console.log("differenz: " + ((new Date().getTime() - this.lastHit)/1000))
+    //     // console.log(new Date().getTime())
+    //     this.energy -= 10;
+    //     if (this.energy < 0) {
+    //         this.energy = 0
+    //     } else {
+    //         this.lastHit = new Date().getTime();
+    //     }
 
+    // }
 
     sinceLastHit() {
         let timePassed = new Date().getTime() - this.lastHit;

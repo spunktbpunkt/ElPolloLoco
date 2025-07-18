@@ -61,7 +61,6 @@ class World {
             this.characterCollisionEndboss()
             this.characterCollisionCoin()
             this.characterCollisionBottle()
-            // this.characterCollisionBottle()
         }
     }
 
@@ -79,7 +78,6 @@ class World {
                     enemy.loadImages(enemy.images_dead);
                     enemy.img = enemy.imageCache[enemy.images_dead[0]];
                     enemy.isDead = true;
-                    // console.log(enemy.img);
 
 
                     // Entferne Gegner (außer Boss) nach 0,5 Sek.
@@ -89,23 +87,13 @@ class World {
                         }, 500);
                     }
                 } else if (!enemy.isDead) {
-                    // } else if (!enemy.isDead && !this.character.sinceLastHit()) {
                     // Schaden bekommen
-                    // console.log(this.character.sinceLastHit())
                     this.character.hit();
                     this.statusBarEnergy.setPercentage(this.character.energy, 100);
                 }
             }
         }
     }
-    // characterCollisionEnemy() {
-    // this.level.enemies.forEach(enemy => {
-    //     if (this.character.isColliding(enemy)) {
-    //         this.character.hit();
-    //         this.statusBarEnergy.setPercentage(this.character.energy)
-    //     };
-    // });
-    // }
 
     characterCollisionBottle() {
         for (let i = this.level.bottles.length - 1; i >= 0; i--) {
@@ -173,8 +161,8 @@ class World {
                 endboss.definingOffsetFrame();
                 bottle.definingOffsetFrame();
                 if (bottle.isColliding(endboss)) {
-                    endboss.hit();              // ✅ Treffer registrieren
-                    bottle.bottleSplash();      // Flaschenanimation
+                    endboss.hit(); 
+                    bottle.bottleSplash();
                 }
             });
         }
@@ -242,58 +230,6 @@ class World {
     }
 
 
-    // draw() {
-    //     // console.log(gameStarted)
-    //     // if(!gameStarted) return;
-    //     if (this.gameEnd && this.characterDead) {
-    //         console.log('you lose')
-    //         youLose();
-    //         return;
-    //     };
-    //     if (this.gameEnd && this.endbossDead) {
-    //         console.log('you win')
-    //         setTimeout(() => {
-    //             youWin();
-    //             return;
-    //         }, 5000);
-    //     };
-    //     //Zeichenflaeche leeren
-    //     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-
-    //     this.ctx.translate(this.camera_x, 0);
-    //     this.addObjectsToMap(this.level.backgroundObjects)
-    //     this.addObjectsToMap(this.level.clouds);
-
-    //     this.ctx.translate(-this.camera_x, 0);
-    //     // space for fixed objects
-    //     this.addToMap(this.statusBarEnergy)
-    //     this.addToMap(this.statusBarBottles);
-    //     this.addToMap(this.statusBarCoins);
-    //     let endboss = this.level.endboss;
-    //     if (endboss && endboss[0].hadFirstContact) {
-    //         this.addToMap(this.statusBarEndboss);
-    //     }
-
-    //     this.ctx.translate(this.camera_x, 0);
-
-    //     this.addToMap(this.character)
-    //     this.addObjectsToMap(this.level.coins);
-    //     this.addObjectsToMap(this.level.bottles);
-    //     this.addObjectsToMap(this.level.enemies);
-    //     this.addObjectsToMap(this.level.endboss);
-    //     this.addObjectsToMap(this.throwableObjects);
-
-    //     this.ctx.translate(-this.camera_x, 0);
-
-
-    //     if (isPaused) { return };
-    //     // erneutes aufrufen von draw()
-    //     let self = this;
-    //     requestAnimationFrame(function () {
-    //         self.draw();
-    //     });
-    // }
-
 
 
     addObjectsToMap(array) {
@@ -308,8 +244,6 @@ class World {
         }
 
         mo.drawing(this.ctx)
-        // mo.drawingFrame(this.ctx)
-
 
         if (mo.otherDirection) {
             this.flipImageBack(mo)

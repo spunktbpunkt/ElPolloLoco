@@ -128,7 +128,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
                 // ⏳ Warte z. B. 2 Sekunden, bevor youLose() aufgerufen wird
                 setTimeout(() => {
                     youLose();
-                }, 2000);
+                }, 1000);
             }
 
             else if (this.isHurt()) {
@@ -179,7 +179,4 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
 
     }
 
-    die() {
-
-    }
 }

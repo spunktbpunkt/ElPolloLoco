@@ -37,17 +37,15 @@ function getLocalStorage() {
 function init() {
     getLocalStorage();
 
+    // 🧼 Reset game state
     gameStarted = true;
     isPaused = false;
-    world = null;
+    world = null; // Vorherige Welt verwerfen, falls vorhanden
 
+    // 👇 Hier neuen world-Zustand vorbereiten
     document.getElementById("extraIcon").src = "img/icon/pause-icon.svg";
     showGame();
     setupCanvasAndWorld();
-
-    // 🎯 Wichtig: Reset vom display-Stil für das Outro
-    const outro = document.getElementById("outro");
-    outro.style.display = ''; // ← zurücksetzen auf Standard
 
     if (localStorageMusic == 'true') {
         playBackgroundMusic();
@@ -56,6 +54,27 @@ function init() {
     setupTouchControls();
 }
 
+
+// function init() {
+//     getLocalStorage();
+//     document.getElementById("extraIcon").src = "img/icon/pause-icon.svg";
+//     gameStarted = true;
+//     showGame();
+//     setupCanvasAndWorld();
+//     if (localStorageMusic == 'true') {
+//         playBackgroundMusic()
+//     }
+//     setupTouchControls();
+//     // soundMuted = !localStorageSound;
+//     // toggleSoundDuringGame()
+
+// }
+
+// function setupCanvasAndWorld() {
+//     canvas = document.getElementById("canvas");
+//     const level = createLevel(); // jetzt als Funktion aufgerufen
+//     world = new World(canvas, keyboard, level);
+// }
 
 function setupCanvasAndWorld() {
     canvas = document.getElementById("canvas");
@@ -98,13 +117,12 @@ function pauseGame() {
 }
 
 function youWin() {
-    console.log('you win gameEnd is ' + world.gameEnd)
     // Wenn das Spiel bereits beendet wurde, nicht erneut ausführen
     if (world && world.gameEnd) return;
 
     if (world) {
         world.gameEnd = true;
-        world.endbossDead = true;   // Hier da  s Flag setzen
+        world.endbossDead = true;   // Hier das Flag setzen
         isPaused = false;
     }
 
@@ -114,7 +132,7 @@ function youWin() {
     const btnDiv = document.getElementById("outroBtnDiv");
 
     outro.classList.remove("hidden");
-    // outro.classList.remove("outro"); // Optional
+    outro.classList.remove("outro"); // Optional
     winImg.classList.remove("hidden");
     loseImg.classList.add("hidden");
     btnDiv.classList.remove("hidden");
@@ -124,10 +142,7 @@ function youWin() {
 
 
 function youLose() {
-    // Verhindere Mehrfachausführung
-        console.log('you lose gameEnd is ' + world.gameEnd)
-
-
+    // Wenn das Spiel bereits beendet wurde, nicht erneut ausführen
     if (world && world.gameEnd) return;
 
     if (world) {
@@ -135,22 +150,36 @@ function youLose() {
         world.characterDead = true;
         isPaused = false;
     }
-
+    
     const outro = document.getElementById("outro");
     const winImg = document.getElementById("youWinImg");
     const loseImg = document.getElementById("youLoseImg");
     const btnDiv = document.getElementById("outroBtnDiv");
 
-    outro.classList.remove("hidden");      // Zeige Outro an
-    winImg.classList.add("hidden");        // Verstecke Win-Bild
-    loseImg.classList.remove("hidden");    // Zeige Lose-Bild
-    btnDiv.classList.remove("hidden");     // Zeige Buttons
+    outro.classList.remove("hidden");
+    outro.classList.remove("outro"); // Falls vorhanden – optional
+    winImg.classList.add("hidden");
+    loseImg.classList.remove("hidden");
+    btnDiv.classList.remove("hidden");
 
-    backgroundMusic.pause();               // Stoppe Musik
+    backgroundMusic.pause();
 }
 
+// function youWin() {
+//     document.getElementById("outro").classList.remove("hidden");
+//     document.getElementById("youWinImg").classList.remove("hidden");
+//     document.getElementById("youLoseImg").classList.add("hidden");
+//     document.getElementById("outroBtnDiv").classList.remove("hidden");
+//     isPaused = false;
+// }
 
-
+// function youLose() {
+//     document.getElementById("outro").classList.remove("hidden");
+//     document.getElementById("youWinImg").classList.add("hidden");
+//     document.getElementById("youLoseImg").classList.remove("hidden");
+//     document.getElementById("outroBtnDiv").classList.remove("hidden");
+//     isPaused = false;
+// }
 
 function togglePlayback(element) {
     if (element) {
@@ -161,65 +190,30 @@ function togglePlayback(element) {
     }
 }
 
-function startPage() {
-  console.log('🏁 startPage() gestartet');
-  gameStarted = false;
-  world = null;
-  backgroundMusic.pause();
-
-  document.getElementById('intro').classList.remove('hidden');
-  document.getElementById('canvasDiv').classList.add('hidden');
-  document.getElementById('gameplayBtnDiv').classList.add('visibilityNone');
-  document.getElementById('extraIcon').src = 'img/icon/info-icon.svg';
-
-  const outro = document.getElementById('outro');
-  const winImg = document.getElementById('youWinImg');
-  const loseImg = document.getElementById('youLoseImg');
-  const btnDiv = document.getElementById('outroBtnDiv');
-
-  outro.classList.add('hidden');
-  winImg.classList.add('hidden');
-  loseImg.classList.add('hidden');
-  btnDiv.classList.add('hidden');
-
-  // **Forciertes Style-Ausblenden**
-  outro.style.display = 'none';
-  console.log(
-    'DEBUG: outro-klassen:',
-    outro.className,
-    'style.display:',
-    outro.style.display
-  );
-}
-
-
-
-
 // function startPage() {
-//     gameStarted = false;
-//     world = null;
+//     gameStarted = !gameStarted
 //     backgroundMusic.pause();
-
-//     // Sichtbarkeit / Klassen zurücksetzen
-//     document.getElementById("intro").classList.remove("hidden");
+//     document.getElementById("intro").classList.toggle("hidden");
 //     document.getElementById("canvasDiv").classList.add("hidden");
 //     document.getElementById("gameplayBtnDiv").classList.add("visibilityNone");
-
-//     // 🎯 Hier sicherstellen, dass alles für outro zurückgesetzt wird:
-//     const outro = document.getElementById("outro");
-//     const winImg = document.getElementById("youWinImg");
-//     const loseImg = document.getElementById("youLoseImg");
-//     const btnDiv = document.getElementById("outroBtnDiv");
-
-//     outro.classList.add("hidden");
-//     // outro.classList.add("outro"); // falls nötig fürs CSS
-//     winImg.classList.add("hidden");
-//     loseImg.classList.add("hidden");
-//     btnDiv.classList.add("hidden");
-
-//     document.getElementById("extraIcon").src = "img/icon/info-icon.svg";
+//     document.getElementById("extraIcon").src = "img/icon/info-icon.svg"
+//     document.getElementById("outro").classList.add("outro");
+//     document.getElementById("outro").classList.add("hidden");
 // }
 
+function startPage() {
+    gameStarted = false;
+    world = null; // <== wichtig: Welt zurücksetzen
+    backgroundMusic.pause();
+
+    // Klassen setzen
+    document.getElementById("intro").classList.remove("hidden");
+    document.getElementById("canvasDiv").classList.add("hidden");
+    document.getElementById("gameplayBtnDiv").classList.add("visibilityNone");
+    document.getElementById("extraIcon").src = "img/icon/info-icon.svg";
+    document.getElementById("outro").classList.add("outro");
+    document.getElementById("outro").classList.add("hidden");
+}
 
 
 function toggleMusic() {

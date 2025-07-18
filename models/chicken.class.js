@@ -56,7 +56,7 @@ class Chicken extends MovableObject {
         this.speed = 0;
         clearInterval(this.moveInterval);
         this.playAnimationOnce(this.images_dead)
-        console.log('chicken die')
+        // console.log('chicken die')
         // this.chickenSound();
         this.playSound(this.chicken_sound);
         setTimeout(() => {

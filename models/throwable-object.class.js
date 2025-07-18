@@ -50,7 +50,7 @@ throw() {
         this.x += 4 * direction;
         this.world.checkBottleCollisions();
         
-        console.log(this.x)
+        // console.log(this.x)
     }, 10);
 
     this.animationInterval = setInterval(() => {

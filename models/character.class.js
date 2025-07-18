@@ -123,8 +123,15 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
             if (this.isDead()) {
                 this.playAnimationOnce(this.images_dead);
                 clearInterval(this.movingInterval);
-                this.playSound(this.die_sound,this.animationInterval);
-            } else if (this.isHurt()) {
+                this.playSound(this.die_sound, this.animationInterval);
+
+                // ⏳ Warte z. B. 2 Sekunden, bevor youLose() aufgerufen wird
+                setTimeout(() => {
+                    youLose();
+                }, 2000);
+            }
+
+            else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);
             } else if (this.isAboveGround()) {
                 if (this.falling) {
@@ -143,6 +150,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
             }
         }, 50);
     }
+
     jumpAnimation() {
         if (isPaused) return;
         clearInterval(this.animationInterval)
@@ -171,4 +179,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
 
     }
 
+    die() {
+
+    }
 }

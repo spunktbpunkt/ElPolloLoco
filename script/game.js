@@ -16,7 +16,7 @@ function initNew() {
     if (localStorageMusic == 'true') {
         document.getElementById('musicIcon').src = "img/icon/music-icon.svg"
         musicMuted = false
-    }else{
+    } else {
         document.getElementById('musicIcon').src = "img/icon/no-music-icon.svg"
         musicMuted = true
     }
@@ -24,7 +24,7 @@ function initNew() {
     if (localStorageSound == 'true') {
         document.getElementById('soundIcon').src = "img/icon/sound-icon.svg"
         soundMuted = false
-    }else{
+    } else {
         document.getElementById('soundIcon').src = "img/icon/no-sound-icon.svg"
         soundMuted = true
     }
@@ -36,23 +36,55 @@ function getLocalStorage() {
 
 function init() {
     getLocalStorage();
-    document.getElementById("extraIcon").src = "img/icon/pause-icon.svg";
+
+    // 🧼 Reset game state
     gameStarted = true;
+    isPaused = false;
+    world = null; // Vorherige Welt verwerfen, falls vorhanden
+
+    // 👇 Hier neuen world-Zustand vorbereiten
+    document.getElementById("extraIcon").src = "img/icon/pause-icon.svg";
     showGame();
     setupCanvasAndWorld();
-    if (localStorageMusic == 'true') {
-        playBackgroundMusic()
-    }
-    setupTouchControls();
-    // soundMuted = !localStorageSound;
-    // toggleSoundDuringGame()
 
+    if (localStorageMusic == 'true') {
+        playBackgroundMusic();
+    }
+
+    setupTouchControls();
 }
+
+
+// function init() {
+//     getLocalStorage();
+//     document.getElementById("extraIcon").src = "img/icon/pause-icon.svg";
+//     gameStarted = true;
+//     showGame();
+//     setupCanvasAndWorld();
+//     if (localStorageMusic == 'true') {
+//         playBackgroundMusic()
+//     }
+//     setupTouchControls();
+//     // soundMuted = !localStorageSound;
+//     // toggleSoundDuringGame()
+
+// }
+
+// function setupCanvasAndWorld() {
+//     canvas = document.getElementById("canvas");
+//     const level = createLevel(); // jetzt als Funktion aufgerufen
+//     world = new World(canvas, keyboard, level);
+// }
 
 function setupCanvasAndWorld() {
     canvas = document.getElementById("canvas");
-    const level = createLevel(); // jetzt als Funktion aufgerufen
+    const level = createLevel();
     world = new World(canvas, keyboard, level);
+
+    // 💡 explizit initialisieren
+    world.gameEnd = false;
+    world.characterDead = false;
+    world.endbossDead = false;
 }
 
 function showGame() {
@@ -85,20 +117,69 @@ function pauseGame() {
 }
 
 function youWin() {
-    document.getElementById("outro").classList.remove("hidden");
-    document.getElementById("youWinImg").classList.remove("hidden");
-    document.getElementById("youLoseImg").classList.add("hidden");
-    document.getElementById("outroBtnDiv").classList.remove("hidden");
-    isPaused = false;
+    // Wenn das Spiel bereits beendet wurde, nicht erneut ausführen
+    if (world && world.gameEnd) return;
+
+    if (world) {
+        world.gameEnd = true;
+        world.endbossDead = true;   // Hier das Flag setzen
+        isPaused = false;
+    }
+
+    const outro = document.getElementById("outro");
+    const winImg = document.getElementById("youWinImg");
+    const loseImg = document.getElementById("youLoseImg");
+    const btnDiv = document.getElementById("outroBtnDiv");
+
+    outro.classList.remove("hidden");
+    outro.classList.remove("outro"); // Optional
+    winImg.classList.remove("hidden");
+    loseImg.classList.add("hidden");
+    btnDiv.classList.remove("hidden");
+
+    backgroundMusic.pause();
 }
 
+
 function youLose() {
-    document.getElementById("outro").classList.remove("hidden");
-    document.getElementById("youWinImg").classList.add("hidden");
-    document.getElementById("youLoseImg").classList.remove("hidden");
-    document.getElementById("outroBtnDiv").classList.remove("hidden");
-    isPaused = false;
+    // Wenn das Spiel bereits beendet wurde, nicht erneut ausführen
+    if (world && world.gameEnd) return;
+
+    if (world) {
+        world.gameEnd = true;
+        world.characterDead = true;
+        isPaused = false;
+    }
+    
+    const outro = document.getElementById("outro");
+    const winImg = document.getElementById("youWinImg");
+    const loseImg = document.getElementById("youLoseImg");
+    const btnDiv = document.getElementById("outroBtnDiv");
+
+    outro.classList.remove("hidden");
+    outro.classList.remove("outro"); // Falls vorhanden – optional
+    winImg.classList.add("hidden");
+    loseImg.classList.remove("hidden");
+    btnDiv.classList.remove("hidden");
+
+    backgroundMusic.pause();
 }
+
+// function youWin() {
+//     document.getElementById("outro").classList.remove("hidden");
+//     document.getElementById("youWinImg").classList.remove("hidden");
+//     document.getElementById("youLoseImg").classList.add("hidden");
+//     document.getElementById("outroBtnDiv").classList.remove("hidden");
+//     isPaused = false;
+// }
+
+// function youLose() {
+//     document.getElementById("outro").classList.remove("hidden");
+//     document.getElementById("youWinImg").classList.add("hidden");
+//     document.getElementById("youLoseImg").classList.remove("hidden");
+//     document.getElementById("outroBtnDiv").classList.remove("hidden");
+//     isPaused = false;
+// }
 
 function togglePlayback(element) {
     if (element) {
@@ -109,25 +190,40 @@ function togglePlayback(element) {
     }
 }
 
-function startPage() {
-    gameStarted = !gameStarted
-    backgroundMusic.pause();
-    document.getElementById("intro").classList.toggle("hidden");
-    document.getElementById("outro").classList.add("hidden");
-    document.getElementById("canvasDiv").classList.remove("hidden");
-    document.getElementById("gameplayBtnDiv").classList.add("visibilityNone");
-    document.getElementById("extraIcon").src = "img/icon/info-icon.svg"
+// function startPage() {
+//     gameStarted = !gameStarted
+//     backgroundMusic.pause();
+//     document.getElementById("intro").classList.toggle("hidden");
+//     document.getElementById("canvasDiv").classList.add("hidden");
+//     document.getElementById("gameplayBtnDiv").classList.add("visibilityNone");
+//     document.getElementById("extraIcon").src = "img/icon/info-icon.svg"
+//     document.getElementById("outro").classList.add("outro");
+//     document.getElementById("outro").classList.add("hidden");
+// }
 
+function startPage() {
+    gameStarted = false;
+    world = null; // <== wichtig: Welt zurücksetzen
+    backgroundMusic.pause();
+
+    // Klassen setzen
+    document.getElementById("intro").classList.remove("hidden");
+    document.getElementById("canvasDiv").classList.add("hidden");
+    document.getElementById("gameplayBtnDiv").classList.add("visibilityNone");
+    document.getElementById("extraIcon").src = "img/icon/info-icon.svg";
+    document.getElementById("outro").classList.add("outro");
+    document.getElementById("outro").classList.add("hidden");
 }
+
 
 function toggleMusic() {
     musicMuted = !musicMuted;
-    if(backgroundMusic.volume = musicMuted){
+    if (backgroundMusic.volume = musicMuted) {
         0
         backgroundMusic.pause()
-    }else{
+    } else {
         backgroundMusicVolume;
-        if(gameStarted)playBackgroundMusic();
+        if (gameStarted) playBackgroundMusic();
     }
     console.log(backgroundMusic.volume)
 }

@@ -98,7 +98,7 @@ class Endboss extends MovableObject {
     hit() {
         if (isPaused) return;
         this.energy -= 20;
-        console.log(this.energy)
+        // console.log(this.energy)
         if (this.energy < 0) this.energy = 0;
         this.world.statusBarEndboss.setPercentage(this.energy);
 
@@ -108,17 +108,42 @@ class Endboss extends MovableObject {
     }
 
     die() {
-        if (isPaused) return;
-        this.world.endbossDead = true;
-        this.world.gameEnd = true;
+        if (isPaused || this.isDead) return;
+
         this.isDead = true;
         this.speed = 0;
+
+        let frameIndex = 0;
+
         this.dieInterval = setInterval(() => {
-            this.playAnimationOnce(this.images_dead)
-        }, 100);
+            if (frameIndex < this.images_dead.length) {
+                this.img = this.imageCache[this.images_dead[frameIndex]];
+                frameIndex++;
+            } else {
+                clearInterval(this.dieInterval);
+                youWin();  // Jetzt darf gameEnd gesetzt werden
+            }
+        }, 150);
 
         clearInterval(this.randomAttackAnimationInterval);
         clearInterval(this.randomAttackMoveInterval);
     }
+
+
+
+    // die() {
+    //     if (isPaused) return;
+    //     this.world.endbossDead = true;
+    //     // this.world.gameEnd = true;
+    //     this.isDead = true;
+    //     this.speed = 0;
+    //     this.dieInterval = setInterval(() => {
+    //         this.playAnimationOnce(this.images_dead)
+    //     }, 100);
+
+    //     // youWin();
+    //     clearInterval(this.randomAttackAnimationInterval);
+    //     clearInterval(this.randomAttackMoveInterval);
+    // }
 
 }

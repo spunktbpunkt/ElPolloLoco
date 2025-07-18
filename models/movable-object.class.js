@@ -27,7 +27,7 @@ class MovableObject extends DrawableObject {
 
     applyGravity() {
         if (isPaused) return;
-        console.log(isPaused)
+        // console.log(isPaused)
         if (this.gravityInterval) return;
 
         this.gravityInterval = setInterval(() => {
@@ -145,7 +145,7 @@ class MovableObject extends DrawableObject {
             this.energy -= 10;
             if (this.energy < 0) {
                 this.energy = 0
-                this.world.gameEnd = true;
+                // this.world.gameEnd = true;
             } else {
                 this.lastHit = new Date().getTime();
             }
@@ -185,11 +185,11 @@ class MovableObject extends DrawableObject {
         if (isPaused) return;
         let myValue = this.energy == 0;
         if (this instanceof Character && myValue) {
-            this.world.gameEnd = true;
+            // this.world.gameEnd = true;
             this.world.characterDead = true;
         }
         if (this instanceof Endboss && myValue) {
-            this.world.gameEnd = true;
+            // this.world.gameEnd = true;
             this.world.endbossDead = true;
         }
         return myValue;

@@ -4,6 +4,7 @@ class World {
     isPaused = false;
     characterDead = false;
     endbossDead = false;
+    animationFrameId = null;
 
     constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
@@ -55,11 +56,13 @@ class World {
     }
 
     checkCollisions() {
-        this.characterCollisionEnemy()
-        this.characterCollisionEndboss()
-        this.characterCollisionCoin()
-        this.characterCollisionBottle()
-        // this.characterCollisionBottle()
+        if (!this.gameEnd) {
+            this.characterCollisionEnemy()
+            this.characterCollisionEndboss()
+            this.characterCollisionCoin()
+            this.characterCollisionBottle()
+            // this.characterCollisionBottle()
+        }
     }
 
     characterCollisionEnemy() {
@@ -203,50 +206,93 @@ class World {
     }
 
     draw() {
-        if (this.gameEnd && this.characterDead) {
-            youLose();
+        if (this.gameEnd) {
+            if (this.animationFrameId) {
+                cancelAnimationFrame(this.animationFrameId);
+            }
             return;
-        };
-        if (this.gameEnd && this.endbossDead) {
-            youWin();
-            return;
-        };
-        //Zeichenflaeche leeren
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        }
 
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgroundObjects)
+        this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-
         this.ctx.translate(-this.camera_x, 0);
-        // space for fixed objects
-        this.addToMap(this.statusBarEnergy)
+
+        this.addToMap(this.statusBarEnergy);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
-        let endboss = this.level.endboss;
-        if (endboss && endboss[0].hadFirstContact) {
+
+        if (this.level.endboss[0]?.hadFirstContact) {
             this.addToMap(this.statusBarEndboss);
         }
 
         this.ctx.translate(this.camera_x, 0);
-
-        this.addToMap(this.character)
+        this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.throwableObjects);
-
         this.ctx.translate(-this.camera_x, 0);
 
+        if (isPaused) return;
 
-        if (isPaused) { return };
-        // erneutes aufrufen von draw()
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
+        this.animationFrameId = requestAnimationFrame(() => this.draw());
     }
+
+
+    // draw() {
+    //     // console.log(gameStarted)
+    //     // if(!gameStarted) return;
+    //     if (this.gameEnd && this.characterDead) {
+    //         console.log('you lose')
+    //         youLose();
+    //         return;
+    //     };
+    //     if (this.gameEnd && this.endbossDead) {
+    //         console.log('you win')
+    //         setTimeout(() => {
+    //             youWin();
+    //             return;
+    //         }, 5000);
+    //     };
+    //     //Zeichenflaeche leeren
+    //     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+    //     this.ctx.translate(this.camera_x, 0);
+    //     this.addObjectsToMap(this.level.backgroundObjects)
+    //     this.addObjectsToMap(this.level.clouds);
+
+    //     this.ctx.translate(-this.camera_x, 0);
+    //     // space for fixed objects
+    //     this.addToMap(this.statusBarEnergy)
+    //     this.addToMap(this.statusBarBottles);
+    //     this.addToMap(this.statusBarCoins);
+    //     let endboss = this.level.endboss;
+    //     if (endboss && endboss[0].hadFirstContact) {
+    //         this.addToMap(this.statusBarEndboss);
+    //     }
+
+    //     this.ctx.translate(this.camera_x, 0);
+
+    //     this.addToMap(this.character)
+    //     this.addObjectsToMap(this.level.coins);
+    //     this.addObjectsToMap(this.level.bottles);
+    //     this.addObjectsToMap(this.level.enemies);
+    //     this.addObjectsToMap(this.level.endboss);
+    //     this.addObjectsToMap(this.throwableObjects);
+
+    //     this.ctx.translate(-this.camera_x, 0);
+
+
+    //     if (isPaused) { return };
+    //     // erneutes aufrufen von draw()
+    //     let self = this;
+    //     requestAnimationFrame(function () {
+    //         self.draw();
+    //     });
+    // }
 
 
 

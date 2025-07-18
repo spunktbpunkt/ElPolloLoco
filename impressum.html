@@ -1,219 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
-  <meta charset="UTF-8">
-  <!-- Klassen zuerst laden -->
-  <script src="models/drawable-object.class.js"></script>
-  <script src="models/statusbar.class.js"></script>
-  <script src="models/movable-object.class.js"></script>
-  <script src="models/world.class.js"></script>
-  <script src="models/cloud.class.js"></script>
-  <script src="models/background-object.class.js"></script>
-  <script src="models/character.class.js"></script>
-  <script src="models/chicken.class.js"></script>
-  <script src="models/coin.class.js"></script>
-  <script src="models/bottle.class.js"></script>
-  <script src="models/keyboard.class.js"></script>
-  <script src="models/level.class.js"></script>
-  <script src="models/endboss.class.js"></script>
-  <script src="levels/level1.js"></script>
-  <script src="models/throwable-object.class.js"></script>
-  <script src="script/game.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-  <link rel="icon" type="image/png" sizes="32x32" href="img/icon/favicon_hat.svg">
+    <link rel="stylesheet" href="/kochwelt/style/recipe.css">
 
-  <title>Document</title>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: url('img/wueste2.jpg');
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      /* background-color: red; */
-      height: 100vh;
-    }
-
-    #mainContent {
-      height: 480px;
-      width: 720px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      /* background-color: blue; */
-      position: relative;
-      /* Wichtig für absolute Positionierung der Icons */
-    }
-
-    #intro {
-      /* display: flex; */
-      /* flex-direction: column; */
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      /* position: relative; */
-    }
-
-    #intro img {
-      flex-grow: 1;
-      width: 100%;
-      object-fit: cover;
-    }
-
-    #intro button {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px 20px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    #iconBar {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 10px;
-    }
-
-    #iconBar img {
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-    }
-
-    #startBtn {
-      background-color: yellow;
-      color: brown;
-      font-family: Zabars;
-      font-size: 32px;
-      padding: 5px 20px;
-      border: 5px solid brown;
-      border-radius: 1rem;
-    }
-
-    .outro {
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      height: 480px;
-      width: 720px;
-    }
-
-    .outroBtnDiv {
-      position: absolute;
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-      bottom: 7px;
-      right: 50%;
-      transform: translateX(50%);
-      z-index: 1;
-    }
-
-    .gameplayBtn {
-      height: 100%;
-    }
-
-    .gameplayBtnDiv {
-      position: absolute;
-      /* top: 10px; */
-      bottom: 0px;
-      right: 0px;
-      display: flex;
-      gap: 10px;
-      width: 720px;
-      height: 50px;
-      justify-content: space-around;
-      padding-bottom: 10px;
-    }
-
-    .gameplayBtnAside {
-      display: flex;
-      gap: 16px;
-      cursor: pointer;
-    }
-
-    .visibilityNone {
-      visibility: hidden;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-  </style>
 </head>
 
-<!-- <body> -->
+<body>
 
-<body onload="initNew()">
-  <div id="mainContent">
+    <div id="overall">
 
-    <div id="intro">
-      <img src="img/9_intro_outro_screens/start/startscreen_2.svg" alt="" />
-      <button onclick="init()" id="startBtn">START</button>
-    </div>
+        <header style="box-shadow: rgb(200, 200, 200) 0px 0px 16px 0px;">
+            <div id="kochwelt_header" class="kochwelt_header maxwidth">
+                <a href="/kochwelt/index.html">
+                    <img class="headerlogo" src="/kochwelt/img/logo.png" alt=""></a>
+                <div class="displayflex headercategories1" id="header_categories1">
+                    <div id="header_categories2" class="header_categories2">
+                        <a class="headcat" id="headcat1" href="/kochwelt/index.html">Start</a>
+                        <a class="headcat" id="headcat2" href="/kochwelt/recipe/recipe-of-the-day.html">Rezept des Tages</a>
+                        <a class="headcat" id="headcat3" href="/kochwelt/contact.html">Kontakt</a>
+                        <a class="headcat linkchosen" id="headcat4" href="/kochwelt/impressum.html">Impressum</a>
+                        <a class="headcat" id="headcat5" href="/kochwelt/datenschutz.html">Datenschutz</a>
+                    </div>
+                </div>
+    
+                <div class="hamburgermain">
+                    <input class="inputhamburger" type="checkbox" onclick="hamburgerMenu()">
+                    <span id="line1" class="spanline1"></span>
+                    <span id="line2" class="spanline2"></span>
+                    <span id="line3" class="spanline3"></span>
+                    </input>
+                </div>
+    
+                <div id="hamburgertext" class="hamburgertext displaynone">
+                    <a class="headcat headcatburger" id="headcat1" href="/kochwelt/index.html">Start</a>
+                    <a class="headcat headcatburger" id="headcat2" href="/kochwelt/recipe/recipe-of-the-day.html">Rezept des Tages</a>
+                    <a class="headcat headcatburger" id="headcat3" href="/kochwelt/contact.html">Kontakt</a>
+                    <a class="headcat headcatburger" id="headcat4" href="/kochwelt/impressum.html">Impressum</a>
+                    <a class="headcat headcatburger" id="headcat4" href="/kochwelt/datenschutz.html">Datenschutz</a>
+                </div>
+            </div>
+        </header>
 
-    <div id="outro" class="outro hidden">
-      <img id="youLoseImg" src="img/You won, you lost/Game over A.png" alt=""
-        style="height: auto;width: 60%;;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"
-        class="hidden" />
-      <img id="youWinImg" src="img/You won, you lost/You Win A.png" alt=""
-        style="height: auto;width: 80%; position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"
-        class="hidden" />
-      <div id="outroBtnDiv" class="outroBtnDiv hidden">
-        <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" style="height: 80px;cursor: pointer;" />
-        <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt=""
-          style="height: 80px;cursor: pointer;" />
-      </div>
-    </div>
+        <div id="middle" class="middle">
+            <div id="main-content">
 
-    <div id="canvasDiv" class="hidden">
-      <canvas id="canvas" width="720" height="480"></canvas>
-    </div>
-
-    <div id="iconBar">
-      <img onclick="changeMusic(this.id)" id="musicIcon" src="img/icon/music-icon.svg" alt="Music" />
-      <img onclick="changeSound(this.id)" id="soundIcon" src="img/icon/sound-icon.svg" alt="Sound" />
-      <img onclick="changeScreen(this.id)" id="screenIcon" src="img/icon/fullscreen-icon.svg" alt="Fullscreen" />
-      <img onclick="pauseGame()" id="extraIcon" src="img/icon/info-icon.svg" alt="Info" />
-    </div>
-
-    <div id="gameplayBtnDiv" class="gameplayBtnDiv visibilityNone" style="width: 720px; height: 50px; display: flex;">
-      <div id="leftBtns" class="gameplayBtnAside">
-        <img id="btnLeft" src="img/icon/arrowLeft.svg" alt="" data-key="LEFT" class="gameplayBtn">
-        <img id="btnRight" src="img/icon/arrowRight.svg" alt="" data-key="RIGHT" class="gameplayBtn">
-      </div>
-      <div id="rightBtns" class="gameplayBtnAside">
-        <img id="btnUp" src="img/icon/arrowUp.svg" alt="" data-key="UP" class="gameplayBtn">
-        <img id="btnThrow" src="img/icon/bottleThrow.svg" alt="" data-key="D" class="gameplayBtn">
-      </div>
-    </div>
-
-    <div id="impressumDiv">
-                      <div id="impressumgenerator">
+                <div id="impressumgenerator">
                     <div>
                         <div id="impressum1" class="impressum">
                             <h1>Impressum</h1>
                             <p>Angaben gemäß § 5 DDG</p>
-                            <p>Steven Bracke<br>
+                            <p>Steven Bracke <br>Marcel Vacek<br>Lena Inwinkl<br>
                                 Am Worthhang 4<br>
                                 58511 Lüdenscheid <br>
                             </p>
                             <p> </p>
                             <h1>Vertreten durch: </h1><br>
-                            Steven Bracke<br>
+                            Steven Bracke<br>Marcel Vacek<br>Lena Inwinkl
                             <p></p>
                             <p></p>
                             <h1>Kontakt:</h1> <br>
                             Telefon: 02351-12918<br>
-                            E-Mail: <a href="mailto:sb@online.de">sb@online.de</a>
+                            E-Mail: <a href="mailto:info@kochwelt.de">info@kochwelt.de</a>
                         </div>
 
                         <div id="impressum2" class="impressum">
@@ -290,8 +142,48 @@
 
                     </div>
                 </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+        <footer style="background-color: rgb(60, 60, 60);">
+            <div id="kochwelt_footer" class="kochwelt_footer maxwidth">
+                <a href="/kochwelt/index.html" style="display: flex;">
+                    <img id="footerlogo" class="footerlogo" src="/kochwelt/img/logo.png" alt=""></a>
+                <div class="displayflex headercategories1" id="header_categories1">
+                    <div id="header_categories2" class="header_categories2">
+                        <a href="https://www.facebook.de"><img class="social-media-img"
+                                src="/kochwelt/img/icons/facebook_white.png" alt=""></a>
+                        <a href="https://www.instagram.de"><img class="social-media-img"
+                                src="/kochwelt/img/icons/instagram_white.png" alt=""></a>
+                        <a href="https://www.twitter.de"><img class="social-media-img"
+                                src="/kochwelt/img/icons/twitter_white.png" alt=""></a>
+                    </div>
+                </div>
+
+                <div id="hamburgertext" class="hamburgertext displaynone">
+                    <a class="headcat headcatburger" id="headcat1" href="/kochwelt/index.html">Start</a>
+                    <a class="headcat headcatburger" id="headcat2" href="/kochwelt/recipe/recipe-of-the-day.html">Rezept
+                        des
+                        Tages</a>
+                    <a class="headcat headcatburger" id="headcat3" href="/kochwelt/contact.html">Kontakt</a>
+                    <a class="headcat headcatburger" id="headcat4" href="/kochwelt/impressum.html">Impressum</a>
+                    <a class="headcat headcatburger" id="headcat4" href="/kochwelt/datenschutz.html">Datenschutz</a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- <iframe src="/kochwelt/footer.html" frameborder="0" style="width: 100%; height: 100px; background-color: blue;"></iframe> -->
     </div>
-  </div>
+
 </body>
+
+<script src="/kochwelt/script/recipe.js"></script>
 
 </html>

@@ -35,6 +35,8 @@ class ThrowableObject extends MovableObject {
         this.loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png')
         this.loadImages(this.bottle_rotation)
         this.loadImages(this.bottle_splash)
+        this.throw_sound = new Audio('audio/throw.mp3');
+        this.breaking_sound = new Audio('audio/breaking-glass.mp3');
         // this.throw()
     }
 
@@ -42,7 +44,7 @@ class ThrowableObject extends MovableObject {
 throw() {
             if(isPaused){return}
     this.applyGravity();
-
+    this.playSound(this.throw_sound)
     let direction = this.world.character.otherDirection ? (this.x -= 100, -1) : 1;
 
     this.moveInterval = setInterval(() => {
@@ -57,7 +59,6 @@ throw() {
         if(isPaused) return
         this.playAnimation(this.bottle_rotation);
         if (this.y > 335) {
-            console.log("splash on ground")
             this.bottleSplash(); // 🔄 Ruft jetzt alles auf
         }
     }, 75);
@@ -70,6 +71,7 @@ bottleSplash() {
 
     // 🧹 Aufräumen → besser hier!
     this.removeGravity();
+    this.playSound(this.breaking_sound)
     clearInterval(this.moveInterval);
     clearInterval(this.animationInterval);
     // this.x += 0; → nicht nötig

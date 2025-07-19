@@ -41,7 +41,10 @@ function init() {
     isPaused = false;
     world = null;
 
-    document.getElementById("extraIcon").src = "img/icon/pause-icon.svg";
+    // document.getElementById("pauseIcon").src = "img/icon/pause-icon.svg";
+    document.getElementById('pauseIcon').classList.remove('hidden')
+    document.getElementById('impressumIcon').classList.add('hidden')
+
     showGame();
     setupCanvasAndWorld();
 
@@ -54,6 +57,7 @@ function init() {
     }
 
     setupTouchControls();
+
 }
 
 
@@ -84,16 +88,18 @@ function playBackgroundMusic() {
 function pauseGame() {
     if (!gameStarted) return;
 
-    let iconImg = document.getElementById("extraIcon");
+    let iconImg = document.getElementById("pauseIcon");
     if (isPaused) {
         isPaused = false
         world.draw();
         iconImg.src = "img/icon/pause-icon.svg"
+        document.getElementById('pauseDiv').classList.add('hidden')
         togglePlayback(true);
     } else {
         isPaused = true
         iconImg.src = "img/icon/play-icon.svg"
         togglePlayback(false);
+        document.getElementById('pauseDiv').classList.remove('hidden')
     };
 }
 
@@ -120,12 +126,14 @@ function youWin() {
     btnDiv.classList.remove("hidden");
 
     backgroundMusic.pause();
+    let applause = new Audio('audio/applause.mp3')
+    applause.play()
 }
 
 
 function youLose() {
     // Verhindere Mehrfachausführung
-        console.log('you lose gameEnd is ' + world.gameEnd)
+    console.log('you lose gameEnd is ' + world.gameEnd)
 
 
     if (world && world.gameEnd) return;
@@ -162,67 +170,62 @@ function togglePlayback(element) {
 }
 
 function startPage() {
-  console.log('🏁 startPage() gestartet');
-  gameStarted = false;
-  world = null;
-  backgroundMusic.pause();
+    console.log('🏁 startPage() gestartet');
+    gameStarted = false;
+    world = null;
+    backgroundMusic.pause();
 
-  document.getElementById('intro').classList.remove('hidden');
-  document.getElementById('canvasDiv').classList.add('hidden');
-  document.getElementById('gameplayBtnDiv').classList.add('visibilityNone');
-  document.getElementById('extraIcon').src = 'img/icon/info-icon.svg';
+    document.getElementById('intro').classList.remove('hidden');
+    document.getElementById('canvasDiv').classList.add('hidden');
+    document.getElementById('gameplayBtnDiv').classList.add('visibilityNone');
+    document.getElementById('pauseIcon').classList.add('hidden')
+    document.getElementById('impressumIcon').classList.remove('hidden')
+    document.getElementById('pauseDiv').classList.add('hidden')
 
-  const outro = document.getElementById('outro');
-  const winImg = document.getElementById('youWinImg');
-  const loseImg = document.getElementById('youLoseImg');
-  const btnDiv = document.getElementById('outroBtnDiv');
+    //   document.getElementById('pauseIcon').src = 'img/icon/info-icon.svg';
 
-  outro.classList.add('hidden');
-  winImg.classList.add('hidden');
-  loseImg.classList.add('hidden');
-  btnDiv.classList.add('hidden');
+    const outro = document.getElementById('outro');
+    const winImg = document.getElementById('youWinImg');
+    const loseImg = document.getElementById('youLoseImg');
+    const btnDiv = document.getElementById('outroBtnDiv');
 
-  // **Forciertes Style-Ausblenden**
-  outro.style.display = 'none';
-  console.log(
-    'DEBUG: outro-klassen:',
-    outro.className,
-    'style.display:',
-    outro.style.display
-  );
+    outro.classList.add('hidden');
+    winImg.classList.add('hidden');
+    loseImg.classList.add('hidden');
+    btnDiv.classList.add('hidden');
+
+    // **Forciertes Style-Ausblenden**
+    outro.style.display = 'none';
+    console.log(
+        'DEBUG: outro-klassen:',
+        outro.className,
+        'style.display:',
+        outro.style.display
+    );
 }
 
-function impressum(){
+function impressum() {
     document.getElementById("impressumDiv").classList.toggle('hidden')
 }
 
 
-// function startPage() {
-//     gameStarted = false;
-//     world = null;
-//     backgroundMusic.pause();
+function enterFullscreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if(element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
+    element.msRequestFullscreen();
+  } else if(element.webkitRequestFullscreen) {  // iOS Safari
+    element.webkitRequestFullscreen();
+  }
+}
 
-//     // Sichtbarkeit / Klassen zurücksetzen
-//     document.getElementById("intro").classList.remove("hidden");
-//     document.getElementById("canvasDiv").classList.add("hidden");
-//     document.getElementById("gameplayBtnDiv").classList.add("visibilityNone");
-
-//     // 🎯 Hier sicherstellen, dass alles für outro zurückgesetzt wird:
-//     const outro = document.getElementById("outro");
-//     const winImg = document.getElementById("youWinImg");
-//     const loseImg = document.getElementById("youLoseImg");
-//     const btnDiv = document.getElementById("outroBtnDiv");
-
-//     outro.classList.add("hidden");
-//     // outro.classList.add("outro"); // falls nötig fürs CSS
-//     winImg.classList.add("hidden");
-//     loseImg.classList.add("hidden");
-//     btnDiv.classList.add("hidden");
-
-//     document.getElementById("extraIcon").src = "img/icon/info-icon.svg";
-// }
-
-
+function exitFullscreen() {
+  if(document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if(document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
+}
 
 function toggleMusic() {
     musicMuted = !musicMuted;
@@ -269,8 +272,10 @@ function changeScreen(name) {
     const screenIcon = document.getElementById(name)
     if (screenIcon.src.includes('full')) {
         screenIcon.src = "img/icon/minimizescreen-icon.svg"
+        enterFullscreen(document.getElementById("fullscreen"))
     } else {
         screenIcon.src = "img/icon/fullscreen-icon.svg"
+        exitFullscreen()
     }
 }
 

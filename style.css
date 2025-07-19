@@ -4,100 +4,231 @@
     }
 
     body {
-        height: 100vh;
+        margin: 0;
         display: flex;
-        align-items: center;
         justify-content: center;
-        flex-direction: column;
-        margin: 0;
-        background-image: linear-gradient(#0AA3C9, #994409);
-        font-family: zabars, Arial, Helvetica, sans-serif;
-        /* background:red; */
+        align-items: center;
+        /* background-image: url('img/wueste2.jpg'); */
+        /* background-repeat: no-repeat; */
+        /* background-position: center; */
+        /* background-size: cover; */
+        height: 100vh;
     }
 
-    .background-img {
-        background-image: url('img/wueste.png');
-        background-position: center;
+    .fullscreen {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('img/wueste2.jpg');
         background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        /* background-color: red; */
+        height: 100vh;
+        width: 100%;
     }
 
-    canvas {
-        background-color: black;
-        
-        display: block;
-    }
-
-    h1 {
-        font-size: 64px;
-        letter-spacing: 5px;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-    }
-
-    p {
-        background: blue;
-        margin: 0;
-    }
-
-    .image-container {
+    #mainContent {
+        height: 480px;
+        width: 720px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* background-color: blue; */
         position: relative;
-        display: inline-block;
+        /* Wichtig für absolute Positionierung der Icons */
     }
 
-    .image-container img {
-        display: block;
-        max-width: 100%;
-        height: auto;
-    }
 
-    .button {
+    #impressumDiv {
+        height: 80vh;
+        width: 100%;
         position: absolute;
-        width: 100px;
-        /* feste Breite für stabile Zentrierung */
-        text-align: center;
-        padding: 10px 0;
-        background-color: #007bff;
+        z-index: 1;
+        background-color: rgb(29, 0, 192);
         color: white;
-        border: none;
-        border-radius: 5px;
+        border-radius: 20px;
+        overflow: hidden;
+        /* Wichtig: verhindert das Überstehen */
+        padding: 15px 25px 15px 15px;
+        /* top, right, bottom, left */
+    }
+
+    /* Innerer Container für den Scroll */
+    #impressumContent {
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 10px;
+        /* Abstand zwischen Text und Scrollbalken */
+        margin-right: -10px;
+        /* Verschiebt den Scrollbalken nach links */
+    }
+
+    /* Close-Icon Styling */
+    #impressumDiv>img {
+        position: absolute;
+        top: 15px;
+        right: 30px;
+        width: 30px;
+        height: 30px;
         cursor: pointer;
-        font-size: 16px;
-        transform-origin: center center;
+        z-index: 2;
     }
 
-    .button:hover {
-        animation: wiggle 0.4s ease-in-out;
+    /* Custom Scrollbar Styling für den inneren Container */
+    #impressumContent::-webkit-scrollbar {
+        width: 12px;
     }
 
-    .hidden{
-        display: none;
+    #impressumContent::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
     }
 
-    @keyframes wiggle {
-        0% {transform: translateX(-50%) rotate(0deg);}
-
-        25% {transform: translateX(-50%) rotate(3deg);}
-
-        50% {transform: translateX(-50%) rotate(-3deg);}
-
-        75% {transform: translateX(-50%) rotate(3deg);}
-
-        100% {transform: translateX(-50%) rotate(0deg);}
+    #impressumContent::-webkit-scrollbar-thumb {
+        background: rgb(255, 206, 0);
+        /* Gelb */
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-clip: content-box;
     }
 
-    .start-button {
-        top: 10px;
+    #impressumContent::-webkit-scrollbar-thumb:hover {
+        background: #FFA500;
+        /* Orange beim Hover */
+        background-clip: content-box;
+    }
+
+    #impressumContent::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    /* Firefox Scrollbar */
+    #impressumContent {
+        scrollbar-width: thin;
+        scrollbar-color: #FFD700 transparent;
+    }
+
+    /* Zusätzliches Styling für bessere Lesbarkeit */
+    .impressum {
+        margin-top: 20px;
+    }
+
+    .impressum:first-child {
+        margin-top: 40px;
+        /* Platz für das Close-Icon */
+    }
+
+    #intro {
+        /* display: flex; */
+        /* flex-direction: column; */
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        /* position: relative; */
+    }
+
+    #intro img {
+        flex-grow: 1;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    #intro button {
+        position: absolute;
+        bottom: 20px;
         left: 50%;
         transform: translateX(-50%);
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
     }
 
-    .settings-button {
-        bottom: 10px;
+    #iconBar {
+        position: absolute;
+        top: 10px;
         right: 10px;
+        display: flex;
+        gap: 10px;
     }
 
-    .audio-button {
-        bottom: 10px;
-        left: 10px;
+    #iconBar img {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+    }
+
+    #startBtn {
+        background-color: yellow;
+        color: brown;
+        font-family: Zabars;
+        font-size: 32px;
+        padding: 5px 20px;
+        border: 5px solid brown;
+        border-radius: 1rem;
+    }
+
+    .outro {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        height: 480px;
+        width: 720px;
+    }
+
+    .outroBtnDiv {
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        bottom: 7px;
+        right: 50%;
+        transform: translateX(50%);
+        z-index: 1;
+    }
+
+    .pauseDiv {
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        bottom: 7px;
+        right: 50%;
+        transform: translateX(50%);
+        z-index: 1;
+    }
+
+    .gameplayBtn {
+        height: 100%;
+    }
+
+    .gameplayBtnDiv {
+        position: absolute;
+        /* top: 10px; */
+        bottom: 0px;
+        right: 0px;
+        display: flex;
+        gap: 10px;
+        width: 720px;
+        height: 50px;
+        justify-content: space-around;
+        padding-bottom: 10px;
+    }
+
+    .gameplayBtnAside {
+        display: flex;
+        gap: 16px;
+        cursor: pointer;
+    }
+
+    .visibilityNone {
+        visibility: hidden;
+    }
+
+    .hidden {
+        display: none !important;
     }
 
     /* Smartphone */
@@ -106,9 +237,9 @@
             width: 100%;
         }
 
-        h1 {
+        /* h1 {
             display: none;
-        }
+        } */
     }
 
     /* Smartphone */
@@ -117,7 +248,7 @@
             height: 100vh;
         }
 
-        h1 {
+        /* h1 {
             display: none;
-        }
+        } */
     }

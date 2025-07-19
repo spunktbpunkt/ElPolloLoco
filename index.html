@@ -22,212 +22,19 @@
   <script src="script/game.js"></script>
 
   <link rel="icon" type="image/png" sizes="32x32" href="img/icon/favicon_hat.svg">
+  <link rel="stylesheet" href="style.css">
 
-  <title>Document</title>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: url('img/wueste2.jpg');
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      /* background-color: red; */
-      height: 100vh;
-    }
+  <title>El Pollo Loco</title>
 
-    #mainContent {
-      height: 480px;
-      width: 720px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      /* background-color: blue; */
-      position: relative;
-      /* Wichtig für absolute Positionierung der Icons */
-    }
-
-
-    #impressumDiv {
-  height: 80vh;
-  width: 100%;
-  position: absolute;
-  z-index: 1;
-  background-color: rgb(29, 0, 192);
-  color: white;
-  border-radius: 20px;
-  overflow: hidden; /* Wichtig: verhindert das Überstehen */
-  padding: 15px 25px 15px 15px; /* top, right, bottom, left */
-}
-
-/* Innerer Container für den Scroll */
-#impressumContent {
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 10px; /* Abstand zwischen Text und Scrollbalken */
-  margin-right: -10px; /* Verschiebt den Scrollbalken nach links */
-}
-
-/* Close-Icon Styling */
-#impressumDiv > img {
-  position: absolute;
-  top: 15px;
-  right: 30px;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  z-index: 2;
-}
-
-/* Custom Scrollbar Styling für den inneren Container */
-#impressumContent::-webkit-scrollbar {
-  width: 12px;
-}
-
-#impressumContent::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 10px;
-}
-
-#impressumContent::-webkit-scrollbar-thumb {
-  background: rgb(255, 206, 0); /* Gelb */
-  border-radius: 10px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-#impressumContent::-webkit-scrollbar-thumb:hover {
-  background: #FFA500; /* Orange beim Hover */
-  background-clip: content-box;
-}
-
-#impressumContent::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-/* Firefox Scrollbar */
-#impressumContent {
-  scrollbar-width: thin;
-  scrollbar-color: #FFD700 transparent;
-}
-
-/* Zusätzliches Styling für bessere Lesbarkeit */
-.impressum {
-  margin-top: 20px;
-}
-
-.impressum:first-child {
-  margin-top: 40px; /* Platz für das Close-Icon */
-}
-
-    #intro {
-      /* display: flex; */
-      /* flex-direction: column; */
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      /* position: relative; */
-    }
-
-    #intro img {
-      flex-grow: 1;
-      width: 100%;
-      object-fit: cover;
-    }
-
-    #intro button {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px 20px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    #iconBar {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 10px;
-    }
-
-    #iconBar img {
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-    }
-
-    #startBtn {
-      background-color: yellow;
-      color: brown;
-      font-family: Zabars;
-      font-size: 32px;
-      padding: 5px 20px;
-      border: 5px solid brown;
-      border-radius: 1rem;
-    }
-
-    .outro {
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      height: 480px;
-      width: 720px;
-    }
-
-    .outroBtnDiv {
-      position: absolute;
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-      bottom: 7px;
-      right: 50%;
-      transform: translateX(50%);
-      z-index: 1;
-    }
-
-    .gameplayBtn {
-      height: 100%;
-    }
-
-    .gameplayBtnDiv {
-      position: absolute;
-      /* top: 10px; */
-      bottom: 0px;
-      right: 0px;
-      display: flex;
-      gap: 10px;
-      width: 720px;
-      height: 50px;
-      justify-content: space-around;
-      padding-bottom: 10px;
-    }
-
-    .gameplayBtnAside {
-      display: flex;
-      gap: 16px;
-      cursor: pointer;
-    }
-
-    .visibilityNone {
-      visibility: hidden;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-  </style>
 </head>
 
 <!-- <body> -->
 
 <body onload="initNew()">
+    <div id="fullscreen" class="fullscreen">
+
   <div id="mainContent">
+
 
     <div id="intro">
       <img src="img/9_intro_outro_screens/start/startscreen_2.svg" alt="" />
@@ -248,17 +55,18 @@
       </div>
     </div>
 
-    <div id="canvasDiv" class="hidden">
-      <canvas id="canvas" width="720" height="480"></canvas>
-    </div>
+    
+      <div id="canvasDiv" class="hidden">
+        <canvas id="canvas" width="720" height="480"></canvas>
+      </div>
 
-    <div id="iconBar">
-      <img onclick="changeMusic(this.id)" id="musicIcon" src="img/icon/music-icon.svg" alt="Music" />
-      <img onclick="changeSound(this.id)" id="soundIcon" src="img/icon/sound-icon.svg" alt="Sound" />
-      <img onclick="changeScreen(this.id)" id="screenIcon" src="img/icon/fullscreen-icon.svg" alt="Fullscreen" />
-      <img onclick="pauseGame()" id="extraIcon" src="img/icon/info-icon.svg" alt="Info" />
-      <!-- <img onclick="impressum()" id="extraIcon" src="img/icon/info-icon.svg" alt="Info" /> -->
-    </div>
+      <div id="iconBar">
+        <img onclick="changeMusic(this.id)" id="musicIcon" src="img/icon/music-icon.svg" alt="Music" />
+        <img onclick="changeSound(this.id)" id="soundIcon" src="img/icon/sound-icon.svg" alt="Sound" />
+        <img onclick="changeScreen(this.id)" id="screenIcon" src="img/icon/fullscreen-icon.svg" alt="Fullscreen" />
+        <img onclick="pauseGame()" id="pauseIcon" src="img/icon/pause-icon.svg" alt="Pause" class="hidden" />
+        <img onclick="impressum()" id="impressumIcon" src="img/icon/info-icon.svg" alt="Info" />
+      </div>
 
     <div id="gameplayBtnDiv" class="gameplayBtnDiv visibilityNone" style="width: 720px; height: 50px; display: flex;">
       <div id="leftBtns" class="gameplayBtnAside">
@@ -271,7 +79,12 @@
       </div>
     </div>
 
-    <div id="impressumDiv">
+    <div id="pauseDiv" class="pauseDiv hidden">
+      <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" style="height: 80px;cursor: pointer;" />
+      <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt="" style="height: 80px;cursor: pointer;" />
+    </div>
+
+    <div id="impressumDiv" class="hidden">
       <img src="img/icon/close-icon.svg" alt="Close" onclick="impressum()">
       <div id="impressumContent">
 
@@ -366,6 +179,8 @@
 
       </div>
     </div>
+
+  </div>
   </div>
 </body>
 

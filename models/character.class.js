@@ -133,6 +133,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
 
             else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);
+                this.playSound(this.hurt_sound)
             } else if (this.isAboveGround()) {
                 if (this.falling) {
                     this.currentImageOnce = 0;

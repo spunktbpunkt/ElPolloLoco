@@ -51,6 +51,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.images_alert)
         this.loadImages(this.images_attack)
         this.loadImages(this.images_dead)
+        this.chicken_sound = new Audio('audio/chicken-noise.mp3');
         // this.animate();
 
     }
@@ -100,6 +101,7 @@ class Endboss extends MovableObject {
         this.energy -= 20;
         // console.log(this.energy)
         if (this.energy < 0) this.energy = 0;
+        this.playSound(this.chicken_sound)
         this.world.statusBarEndboss.setPercentage(this.energy);
 
         if (this.energy === 0) {

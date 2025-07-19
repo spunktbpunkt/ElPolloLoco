@@ -5,6 +5,7 @@ class World {
     characterDead = false;
     endbossDead = false;
     animationFrameId = null;
+    previousKeyboardD = null;
 
     constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
@@ -22,6 +23,7 @@ class World {
 
         this.lastThrowTime = 0;
         this.now = 0;
+        this.coin_sound= new Audio('audio/coin.mp3');
         this.draw();
         this.setWorld();
         this.run();
@@ -53,6 +55,12 @@ class World {
                 this.level.bottles.push(...createElements('bottles', 5, 200, 100));
             }
         }
+        if (this.keyboard.D && this.character.bottlesAmount == 0 && !this.previousKeyboardD) {
+            let errorSound = new Audio('audio/error.wav');
+            errorSound.volume = 0.1;
+            errorSound.play();
+        }
+        this.previousKeyboardD = this.keyboard.D;
     }
 
     checkCollisions() {
@@ -116,6 +124,8 @@ class World {
 
             if (this.character.isColliding(coin)) {
                 this.character.coinsAmount++;
+                // this.playSound(this.coin_sound)
+                this.character.playSound(this.coin_sound)
                 this.statusBarCoins.setPercentage(this.character.coinsAmount, 5);
                 this.level.coins.splice(i, 1);
             }
@@ -161,7 +171,7 @@ class World {
                 endboss.definingOffsetFrame();
                 bottle.definingOffsetFrame();
                 if (bottle.isColliding(endboss)) {
-                    endboss.hit(); 
+                    endboss.hit();
                     bottle.bottleSplash();
                 }
             });

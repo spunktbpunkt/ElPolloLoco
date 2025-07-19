@@ -5,12 +5,16 @@
 
     @font-face {
         font-family: lato;
-        src: url('fonts/Lato-Black.ttf') format('truetype');
-    }
-    @font-face {
-        font-family: lato-thin;
+        /* src: url('fonts/Lato-Black.ttf') format('truetype'); */
         src: url('fonts/Lato-Thin.ttf') format('truetype');
+        /* src: url('fonts/Lato-Bold.ttf') format('truetype'); */
     }
+    /* @font-face {
+        font-family: lato-thin;
+    } */
+    /* @font-face {
+        font-family: lato-bold;
+    } */
 
     body {
         margin: 0;
@@ -63,7 +67,8 @@
         padding: 15px 25px 15px 15px;
         /* top, right, bottom, left */
         font-family:lato-thin, sans-serif;
-        font-weight: 1000;
+        font-weight: 100;
+        font-size: 16px;
     }
 
     /* Innerer Container für den Scroll */
@@ -77,9 +82,9 @@
         /* Verschiebt den Scrollbalken nach links */
     }
 
-    #impressum>h1 {
-        font-family: lato, sans-serif;
-
+    #impressum h1 {
+        font-family: lato-bold, sans-serif;
+        font-weight:bolder;
     }
     /* Close-Icon Styling */
     #impressumDiv>img {

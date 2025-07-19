@@ -59,7 +59,8 @@
         width: 100%;
         position: absolute;
         z-index: 1;
-        background-color: rgb(29, 0, 192);
+        /* background-color: rgb(29, 0, 192); */
+        background-color: rgba(60, 60, 60, 0.9);
         color: white;
         border-radius: 20px;
         overflow: hidden;

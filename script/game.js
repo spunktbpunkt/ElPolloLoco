@@ -192,7 +192,9 @@ function startPage() {
   );
 }
 
-
+function impressum(){
+    document.getElementById("impressumDiv").classList.toggle('hidden')
+}
 
 
 // function startPage() {

@@ -49,6 +49,80 @@
       /* Wichtig für absolute Positionierung der Icons */
     }
 
+
+    #impressumDiv {
+  height: 80vh;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  background-color: rgb(29, 0, 192);
+  color: white;
+  border-radius: 20px;
+  overflow: hidden; /* Wichtig: verhindert das Überstehen */
+  padding: 15px 25px 15px 15px; /* top, right, bottom, left */
+}
+
+/* Innerer Container für den Scroll */
+#impressumContent {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px; /* Abstand zwischen Text und Scrollbalken */
+  margin-right: -10px; /* Verschiebt den Scrollbalken nach links */
+}
+
+/* Close-Icon Styling */
+#impressumDiv > img {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Custom Scrollbar Styling für den inneren Container */
+#impressumContent::-webkit-scrollbar {
+  width: 12px;
+}
+
+#impressumContent::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+#impressumContent::-webkit-scrollbar-thumb {
+  background: rgb(255, 206, 0); /* Gelb */
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+#impressumContent::-webkit-scrollbar-thumb:hover {
+  background: #FFA500; /* Orange beim Hover */
+  background-clip: content-box;
+}
+
+#impressumContent::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox Scrollbar */
+#impressumContent {
+  scrollbar-width: thin;
+  scrollbar-color: #FFD700 transparent;
+}
+
+/* Zusätzliches Styling für bessere Lesbarkeit */
+.impressum {
+  margin-top: 20px;
+}
+
+.impressum:first-child {
+  margin-top: 40px; /* Platz für das Close-Icon */
+}
+
     #intro {
       /* display: flex; */
       /* flex-direction: column; */
@@ -183,6 +257,7 @@
       <img onclick="changeSound(this.id)" id="soundIcon" src="img/icon/sound-icon.svg" alt="Sound" />
       <img onclick="changeScreen(this.id)" id="screenIcon" src="img/icon/fullscreen-icon.svg" alt="Fullscreen" />
       <img onclick="pauseGame()" id="extraIcon" src="img/icon/info-icon.svg" alt="Info" />
+      <!-- <img onclick="impressum()" id="extraIcon" src="img/icon/info-icon.svg" alt="Info" /> -->
     </div>
 
     <div id="gameplayBtnDiv" class="gameplayBtnDiv visibilityNone" style="width: 720px; height: 50px; display: flex;">
@@ -197,99 +272,99 @@
     </div>
 
     <div id="impressumDiv">
-                      <div id="impressumgenerator">
-                    <div>
-                        <div id="impressum1" class="impressum">
-                            <h1>Impressum</h1>
-                            <p>Angaben gemäß § 5 DDG</p>
-                            <p>Steven Bracke<br>
-                                Am Worthhang 4<br>
-                                58511 Lüdenscheid <br>
-                            </p>
-                            <p> </p>
-                            <h1>Vertreten durch: </h1><br>
-                            Steven Bracke<br>
-                            <p></p>
-                            <p></p>
-                            <h1>Kontakt:</h1> <br>
-                            Telefon: 02351-12918<br>
-                            E-Mail: <a href="mailto:sb@online.de">sb@online.de</a>
-                        </div>
+      <img src="img/icon/close-icon.svg" alt="Close" onclick="impressum()">
+      <div id="impressumContent">
 
-                        <div id="impressum2" class="impressum">
-                            <p></p>
-                            <p></p>
-                            <h1>Haftungsausschluss: </h1><br><br><strong>Haftung für Inhalte</strong><br><br>
-                            Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit,
-                            Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als
-                            Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen Seiten nach den
-                            allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter
-                            jedoch nicht
-                            verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach
-                            Umständen
-                            zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung
-                            oder
-                            Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon
-                            unberührt. Eine
-                            diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten
-                            Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir
-                            diese
-                            Inhalte umgehend entfernen.<br><br><strong>Haftung für Links</strong><br><br>
-                            Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen
-                            Einfluss
-                            haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die
-                            Inhalte
-                            der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten
-                            verantwortlich. Die
-                            verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft.
-                            Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente
-                            inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer
-                            Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir
-                            derartige Links
-                            umgehend entfernen.<br><br><strong>Urheberrecht</strong><br><br>
-                            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem
-                            deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
-                            Verwertung
-                            außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des
-                            jeweiligen Autors
-                            bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht
-                            kommerziellen
-                            Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden,
-                            werden
-                            die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche
-                            gekennzeichnet.
-                            Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen
-                            entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige
-                            Inhalte
-                            umgehend entfernen.<br><br><strong>Datenschutz</strong><br><br>
-                            Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich.
-                            Soweit
-                            auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder
-                            eMail-Adressen)
-                            erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten
-                            werden ohne
-                            Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben. <br>
-                            Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per
-                            E-Mail)
-                            Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch
-                            Dritte ist
-                            nicht möglich. <br>
-                            Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten durch Dritte
-                            zur
-                            Übersendung von nicht ausdrücklich angeforderter Werbung und Informationsmaterialien wird
-                            hiermit
-                            ausdrücklich widersprochen. Die Betreiber der Seiten behalten sich ausdrücklich rechtliche
-                            Schritte
-                            im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.<br>
-                            <p></p><br>
-                            Impressum vom <a href="https://www.impressum-generator.de">Impressum Generator</a> der <a
-                                href="https://www.kanzlei-hasselbach.de/rechtsgebiete/familienrecht/">Kanzlei
-                                Hasselbach,
-                                Fachanwälte für Familienrecht</a>
-                        </div>
+        <div id="impressum1" class="impressum">
+          <h1>Impressum</h1>
+          <p>Angaben gemäß § 5 DDG</p>
+          <p>Steven Bracke<br>
+            Musterstraße 12<br>
+            12345 Musterstadt <br>
+          </p>
+          <p> </p>
+          <h1>Vertreten durch: </h1><br>
+          Steven Bracke<br>
+          <p></p>
+          <p></p>
+          <h1>Kontakt:</h1> <br>
+          Telefon: 02351-12918<br>
+          E-Mail: <a href="mailto:sb@online.de">sb@online.de</a>
+        </div>
 
-                    </div>
-                </div>
+        <div id="impressum2" class="impressum">
+          <p></p>
+          <p></p>
+          <h1>Haftungsausschluss: </h1><br><br><strong>Haftung für Inhalte</strong><br><br>
+          Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit,
+          Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als
+          Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen Seiten nach den
+          allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter
+          jedoch nicht
+          verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach
+          Umständen
+          zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung
+          oder
+          Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon
+          unberührt. Eine
+          diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten
+          Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir
+          diese
+          Inhalte umgehend entfernen.<br><br><strong>Haftung für Links</strong><br><br>
+          Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen
+          Einfluss
+          haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die
+          Inhalte
+          der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten
+          verantwortlich. Die
+          verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft.
+          Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente
+          inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer
+          Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir
+          derartige Links
+          umgehend entfernen.<br><br><strong>Urheberrecht</strong><br><br>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem
+          deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
+          Verwertung
+          außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des
+          jeweiligen Autors
+          bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht
+          kommerziellen
+          Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden,
+          werden
+          die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche
+          gekennzeichnet.
+          Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen
+          entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige
+          Inhalte
+          umgehend entfernen.<br><br><strong>Datenschutz</strong><br><br>
+          Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich.
+          Soweit
+          auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder
+          eMail-Adressen)
+          erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten
+          werden ohne
+          Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben. <br>
+          Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per
+          E-Mail)
+          Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch
+          Dritte ist
+          nicht möglich. <br>
+          Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten durch Dritte
+          zur
+          Übersendung von nicht ausdrücklich angeforderter Werbung und Informationsmaterialien wird
+          hiermit
+          ausdrücklich widersprochen. Die Betreiber der Seiten behalten sich ausdrücklich rechtliche
+          Schritte
+          im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.<br>
+          <p></p><br>
+          Impressum vom <a href="https://www.impressum-generator.de">Impressum Generator</a> der <a
+            href="https://www.kanzlei-hasselbach.de/rechtsgebiete/familienrecht/">Kanzlei
+            Hasselbach,
+            Fachanwälte für Familienrecht</a>
+        </div>
+
+      </div>
     </div>
   </div>
 </body>

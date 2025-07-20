@@ -80,7 +80,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         this.loadImages(this.images_dead)
         this.applyGravity()
         this.animate();
-        this.walking_sound = new Audio('audio/footstep2.mp3');
+        this.walking_sound = new Audio('audio/footstep.mp3');
         this.hurt_sound = new Audio('audio/ouchie.mp3');
         this.die_sound = new Audio('audio/die-sound.mp3');
         this.jump_sound = new Audio('audio/jump-sound.mp3');

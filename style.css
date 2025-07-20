@@ -9,6 +9,7 @@
         src: url('fonts/Lato-Thin.ttf') format('truetype');
         /* src: url('fonts/Lato-Bold.ttf') format('truetype'); */
     }
+
     /* @font-face {
         font-family: lato-thin;
     } */
@@ -67,7 +68,7 @@
         /* Wichtig: verhindert das Überstehen */
         padding: 15px 25px 15px 15px;
         /* top, right, bottom, left */
-        font-family:lato-thin, sans-serif;
+        font-family: lato-thin, sans-serif;
         font-weight: 100;
         font-size: 16px;
     }
@@ -85,8 +86,9 @@
 
     #impressum h1 {
         font-family: lato-bold, sans-serif;
-        font-weight:bolder;
+        font-weight: bolder;
     }
+
     /* Close-Icon Styling */
     #impressumDiv>img {
         position: absolute;
@@ -225,24 +227,9 @@
         height: 100%;
     }
 
-    .gameplayBtnDiv {
-        position: absolute;
-        /* top: 10px; */
-        bottom: 0px;
-        right: 0px;
-        display: flex;
-        gap: 10px;
-        width: 720px;
-        height: 50px;
-        justify-content: space-around;
-        padding-bottom: 10px;
-    }
 
-    .gameplayBtnAside {
-        display: flex;
-        gap: 16px;
-        cursor: pointer;
-    }
+
+
 
     .visibilityNone {
         visibility: hidden;
@@ -258,6 +245,10 @@
             width: 100%;
         }
 
+
+
+
+
         /* h1 {
             display: none;
         } */
@@ -272,4 +263,34 @@
         /* h1 {
             display: none;
         } */
+    }
+
+    @media (pointer: coarse) {
+        .gameplayBtnDiv {
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            display: flex;
+            gap: 10px;  
+            width: 720px;
+            height: 50px;
+            justify-content: space-around;
+            padding-bottom: 10px;
+        }
+
+        .gameplayBtnAside {
+            display: flex;
+            gap: 16px;
+            cursor: pointer;
+        }
+    }
+
+    @media (pointer: fine) {
+        .gameplayBtnDiv {
+            display: none;
+        }
+
+        .gameplayBtnAside {
+            display: none;
+        }
     }

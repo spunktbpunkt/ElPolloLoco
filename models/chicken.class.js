@@ -58,7 +58,7 @@ class Chicken extends MovableObject {
         this.playAnimationOnce(this.images_dead)
         // console.log('chicken die')
         // this.chickenSound();
-        this.playSound(this.chicken_sound);
+        this.playSound(this.chicken_sound,1);
         setTimeout(() => {
             const index = this.world.level.enemies.indexOf(this);
             if (index !== -1) {

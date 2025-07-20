@@ -98,16 +98,16 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         this.movingInterval = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.otherDirection = false;
-                this.playSound(this.walking_sound);
+                this.playSound(this.walking_sound,1);
                 this.moveRight();
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.otherDirection = true;
-                this.playSound(this.walking_sound);
+                this.playSound(this.walking_sound,1);
                 this.moveLeft();
             }
             if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround()) {
-                this.playSound(this.jump_sound);
+                this.playSound(this.jump_sound,1);
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
@@ -123,7 +123,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
             if (this.isDead()) {
                 this.playAnimationOnce(this.images_dead);
                 clearInterval(this.movingInterval);
-                this.playSound(this.die_sound, this.animationInterval);
+                this.playSound(this.die_sound, 1, this.animationInterval);
 
                 // ⏳ Warte z. B. 2 Sekunden, bevor youLose() aufgerufen wird
                 setTimeout(() => {
@@ -133,7 +133,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
 
             else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);
-                this.playSound(this.hurt_sound)
+                this.playSound(this.hurt_sound,1)
             } else if (this.isAboveGround()) {
                 if (this.falling) {
                     this.currentImageOnce = 0;

@@ -57,9 +57,7 @@ class World {
         }
         if (this.keyboard.D && this.character.bottlesAmount == 0 && !this.previousKeyboardD) {
             let errorSound = new Audio('audio/error.wav');
-            this.character.playSound(errorSound,0.5)
-            // errorSound.volume = 0.1;
-            // errorSound.play();
+            this.character.playSound(errorSound,1)
         }
         this.previousKeyboardD = this.keyboard.D;
     }
@@ -125,8 +123,7 @@ class World {
 
             if (this.character.isColliding(coin)) {
                 this.character.coinsAmount++;
-                // this.playSound(this.coin_sound)
-                this.character.playSound(this.coin_sound,0.5)
+                this.character.playSound(this.coin_sound,1)
                 this.statusBarCoins.setPercentage(this.character.coinsAmount, 5);
                 this.level.coins.splice(i, 1);
             }

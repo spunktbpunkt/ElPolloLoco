@@ -69,7 +69,7 @@
       </div>
 
       <div id="tutorialBar">
-        <img onclick="tutorial()" id="musicIcon" src="img/icon/question-icon.svg" alt="Music" />
+        <img onclick="tutorial(),pauseGame()" id="musicIcon" src="img/icon/question-icon.svg" alt="Music" />
       </div>
 
       <div id="gameplayBtnDiv" class="gameplayBtnDiv visibilityNone" style="width: 720px; height: 50px; display: flex;">
@@ -190,7 +190,7 @@
       </div>
     </div>
 
-    <div id="tutorial">
+    <div id="tutorial" class="hidden">
       <div id="tutorialDiv">
         <img id="tutorialClose" class="closeIimg" src="img/icon/close-icon.svg" alt="Close">
         <div id="tutorialContent" style="width: 100%;

@@ -101,7 +101,7 @@ class Endboss extends MovableObject {
         this.energy -= 20;
         // console.log(this.energy)
         if (this.energy < 0) this.energy = 0;
-        this.playSound(this.chicken_sound)
+        this.playSound(this.chicken_sound,1)
         this.world.statusBarEndboss.setPercentage(this.energy);
 
         if (this.energy === 0) {

@@ -104,7 +104,6 @@ function pauseGame() {
 }
 
 function youWin() {
-    console.log('you win gameEnd is ' + world.gameEnd)
     // Wenn das Spiel bereits beendet wurde, nicht erneut ausführen
     if (world && world.gameEnd) return;
 
@@ -112,6 +111,8 @@ function youWin() {
         world.gameEnd = true;
         world.endbossDead = true;   // Hier da  s Flag setzen
         isPaused = false;
+        // Stoppe das Schnarchen des Characters
+        stopAllAudio();
     }
 
     const outro = document.getElementById("outro");
@@ -133,15 +134,14 @@ function youWin() {
 
 function youLose() {
     // Verhindere Mehrfachausführung
-    console.log('you lose gameEnd is ' + world.gameEnd)
-
-
     if (world && world.gameEnd) return;
 
     if (world) {
         world.gameEnd = true;
         world.characterDead = true;
         isPaused = false;
+        // Stoppe das Schnarchen des Characters
+        stopAllAudio();
     }
 
     const outro = document.getElementById("outro");
@@ -157,7 +157,13 @@ function youLose() {
     backgroundMusic.pause();               // Stoppe Musik
 }
 
-
+function stopAllAudio() {
+    // Stoppe alle Audio-Elemente auf der Seite
+    document.querySelectorAll('audio').forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;
+    });
+}
 
 
 function togglePlayback(element) {

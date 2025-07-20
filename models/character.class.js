@@ -189,6 +189,14 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
                 }
             }
 
+            // Stoppe das Schnarchen wenn das Spiel beendet ist
+            if (this.world && this.world.gameEnd) {
+                if (this.snorring_sound) {
+                    this.snorring_sound.pause();
+                    this.snorring_sound.currentTime = 0;
+                }
+            }
+
             if (this.isDead()) {
                 this.playAnimationOnce(this.images_dead);
                 clearInterval(this.movingInterval);
@@ -201,7 +209,14 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
             }
             else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);
-                this.playSound(this.hurt_sound, 1)
+                this.playSound(this.hurt_sound, 1);
+                // Reset des Idle-Timers bei Schaden - Character "wacht auf"
+                this.lastKeyboardHit = new Date().getTime();
+                // Stoppe das Schnarchen bei Schaden
+                if (this.snorring_sound) {
+                    this.snorring_sound.pause();
+                    this.snorring_sound.currentTime = 0;
+                }
             } else if (this.isAboveGround()) {
                 if (this.falling) {
                     this.currentImageOnce = 0;

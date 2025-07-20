@@ -54,10 +54,19 @@
         /* Wichtig für absolute Positionierung der Icons */
     }
 
+    #impressum {
+        position: absolute;
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(100, 100, 100, 0.7);
+    }
 
     #impressumDiv {
         height: 80vh;
-        width: 100%;
+        width: 80%;
         position: absolute;
         z-index: 1;
         /* background-color: rgb(29, 0, 192); */
@@ -271,7 +280,7 @@
             bottom: 0px;
             right: 0px;
             display: flex;
-            gap: 10px;  
+            gap: 10px;
             width: 720px;
             height: 50px;
             justify-content: space-around;

@@ -204,27 +204,25 @@ function startPage() {
     );
 }
 
-function impressum() {
-    document.getElementById("impressumDiv").classList.toggle('hidden')
-}
+
 
 
 function enterFullscreen(element) {
-  if(element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if(element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
-    element.msRequestFullscreen();
-  } else if(element.webkitRequestFullscreen) {  // iOS Safari
-    element.webkitRequestFullscreen();
-  }
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
+        element.msRequestFullscreen();
+    } else if (element.webkitRequestFullscreen) {  // iOS Safari
+        element.webkitRequestFullscreen();
+    }
 }
 
 function exitFullscreen() {
-  if(document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if(document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  }
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
 }
 
 function toggleMusic() {
@@ -306,6 +304,24 @@ function setupTouchControls() {
     });
 }
 
+function impressum() {
+    document.getElementById("impressum").classList.toggle('hidden');
+}
+// warten bis seite geladen
+document.addEventListener('DOMContentLoaded', function () {
+
+    // event-handler für hintergrund
+    document.getElementById("impressum").addEventListener('click', function (event) {
+        if (event.target.id === 'impressum') {// nur schließen wenn auf hintergrund geklickt wurde
+            impressum();
+        }
+    });
+
+    document.getElementById("impressumClose").addEventListener('click', function (event) {
+        impressum();
+    });
+
+});
 
 window.addEventListener("keydown", (event) => {
     if (event.keyCode === 39) keyboard.RIGHT = true;

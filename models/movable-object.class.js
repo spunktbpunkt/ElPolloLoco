@@ -160,12 +160,13 @@ class MovableObject extends DrawableObject {
     }
 
 
-    playSound(element, intervalId = null) {
+    playSound(element,volume = 1, intervalId = null) {
         if (isPaused || soundMuted) return;
         if (!this.muted) {
             element.addEventListener('ended', () => {
                 clearInterval(intervalId);
             });
+            element.volume = volume;
             element.play();
         }
     }

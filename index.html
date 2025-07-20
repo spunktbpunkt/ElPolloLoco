@@ -21,6 +21,7 @@
   <script src="levels/level1.js"></script>
   <script src="models/throwable-object.class.js"></script>
   <script src="script/game.js"></script>
+  <script src="script/loading.js"></script>
 
   <link rel="icon" type="image/png" sizes="32x32" href="img/icon/favicon_hat.svg">
   <link rel="stylesheet" href="style.css">
@@ -39,7 +40,21 @@
 
       <div id="intro">
         <img src="img/9_intro_outro_screens/start/startscreen_2.svg" alt="" />
-        <button onclick="init()" id="startBtn">START</button>
+        <button onclick="initWithLoading()" id="startBtn">START</button>
+        <!-- <button onclick="init()" id="startBtn">START</button> -->
+      </div>
+
+      <div id="loadingScreen" class="loadingScreen">
+        <div class="loading-logo"></div>
+        <div class="loading-title">EL POLLO LOCO</div>
+        <div class="loading-text">Loading Assets...</div>
+        <div class="loading-container">
+          <div class="loading-bar" id="loadingBar"></div>
+        </div>
+        <div class="loading-percentage" id="loadingPercentage">0%</div>
+        <!-- <div class="loading-tips">
+          <p>💡 Tip: Use arrow keys to move and 'D' key to throw bottles!</p>
+        </div> -->
       </div>
 
       <div id="outro" class="outro hidden">
@@ -47,7 +62,7 @@
         <img id="youWinImg" src="img/You won, you lost/You Win A.png" alt="" class="hidden" />
         <div id="outroBtnDiv" class="outroBtnDiv hidden">
           <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" />
-          <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt=""/>
+          <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt="" />
         </div>
       </div>
 
@@ -189,23 +204,23 @@
       <div id="tutorialDiv">
         <img id="tutorialClose" class="closeIimg" src="img/icon/close-icon.svg" alt="Close">
         <div id="tutorialContent">
-          <div class ="tutorialContentMain">
+          <div class="tutorialContentMain">
             <div class="tutorialColumn">
-              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" class="tutorialImgGame flipImage" >
+              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" class="tutorialImgGame flipImage">
               <p>MOVE LEFT</p>
               <img src="img/icon/left-arrow.png" alt="" class="tutorialImgKeyboard">
               <img src="img/icon/arrowLeft.svg" alt="" class="tutorialImgMobileDeviceButton">
               <label>(mobile device)</label>
             </div>
             <div class="tutorialColumn">
-              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" class="tutorialImgGame" >
+              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" class="tutorialImgGame">
               <p>MOVE RIGHT</p>
               <img src="img/icon/right-arrow.png" alt="" class="tutorialImgKeyboard">
               <img src="img/icon/arrowRight.svg" alt="" class="tutorialImgMobileDeviceButton">
               <label>(mobile device)</label>
             </div>
             <div class="tutorialColumn">
-              <img src="img/2_character_pepe/3_jump/J-34.png" alt="" class="tutorialImgGame" >
+              <img src="img/2_character_pepe/3_jump/J-34.png" alt="" class="tutorialImgGame">
               <p>JUMP</p>
               <img src="img/icon/up-arrow.png" alt="" class="tutorialImgKeyboard">
               <img src="img/icon/arrowUp.svg" alt="" class="tutorialImgMobileDeviceButton">

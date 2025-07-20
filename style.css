@@ -49,8 +49,9 @@
     }
 
     #impressum a {
-        color:aqua
+        color: aqua
     }
+
     #impressumDiv {
         height: 80vh;
         width: 80%;
@@ -361,12 +362,189 @@
         display: none !important;
     }
 
-    /* Smartphone */
-    @media only screen and (max-width: 720px) {
-        canvas {
-            width: 100%;
+    /* Loading Screen Styles - in style.css einfügen */
+
+    .loadingScreen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #CD853F 100%);
+        display: none;
+        /* Initially hidden */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1001;
+        color: white;
+        font-family: 'zabars', Arial, sans-serif;
+    }
+
+    .loading-logo {
+        width: 150px;
+        height: 150px;
+        background: url('img/2_character_pepe/2_walk/W-21.png') center/contain no-repeat;
+        margin-bottom: 30px;
+        animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
         }
     }
+
+    .loading-title {
+        font-size: 36px;
+        margin-bottom: 30px;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        letter-spacing: 2px;
+        font-family: 'zabars', Arial, sans-serif;
+    }
+
+    .loading-text {
+        font-size: 16px;
+        margin-bottom: 15px;
+        text-align: center;
+        font-family: 'lato', Arial, sans-serif;
+    }
+
+    .loading-container {
+        width: 250px;
+        height: 15px;
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        margin-bottom: 15px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .loading-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+        width: 0%;
+        transition: width 0.3s ease;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        position: relative;
+    }
+
+    .loading-bar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    .loading-percentage {
+        font-size: 20px;
+        font-weight: bold;
+        color: #FFD700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        margin-bottom: 20px;
+        font-family: 'zabars', Arial, sans-serif;
+    }
+
+    .loading-tips {
+        position: absolute;
+        bottom: 40px;
+        text-align: center;
+        font-size: 14px;
+        opacity: 0.8;
+        max-width: 400px;
+        padding: 0 20px;
+        font-family: 'lato', Arial, sans-serif;
+    }
+
+    .loading-tips p {
+        margin: 0;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            opacity: 0.6;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    .fade-out {
+        animation: fadeOut 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeOut {
+        to {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+
+    /* Responsive Design für Loading Screen */
+    @media only screen and (max-width: 720px) {
+        .loading-title {
+            font-size: 28px;
+        }
+
+        .loading-logo {
+            width: 120px;
+            height: 120px;
+        }
+
+        .loading-container {
+            width: 200px;
+        }
+
+        .loading-tips {
+            font-size: 12px;
+            bottom: 30px;
+        }
+    }
+
+    @media only screen and (max-height: 480px) {
+        .loading-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .loading-logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .loading-tips {
+            bottom: 20px;
+            font-size: 11px;
+        }
+    }
+
 
     @media (orientation: portrait) and (pointer: coarse) {
         #turnScreen {

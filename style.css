@@ -5,27 +5,14 @@
 
     @font-face {
         font-family: lato;
-        /* src: url('fonts/Lato-Black.ttf') format('truetype'); */
         src: url('fonts/Lato-Thin.ttf') format('truetype');
-        /* src: url('fonts/Lato-Bold.ttf') format('truetype'); */
     }
-
-    /* @font-face {
-        font-family: lato-thin;
-    } */
-    /* @font-face {
-        font-family: lato-bold;
-    } */
 
     body {
         margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        /* background-image: url('img/wueste2.jpg'); */
-        /* background-repeat: no-repeat; */
-        /* background-position: center; */
-        /* background-size: cover; */
         height: 100vh;
     }
 
@@ -38,7 +25,6 @@
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
-        /* background-color: red; */
         height: 100vh;
         width: 100%;
     }
@@ -49,9 +35,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        /* background-color: blue; */
         position: relative;
-        /* Wichtig für absolute Positionierung der Icons */
     }
 
     #impressum {
@@ -64,19 +48,19 @@
         background-color: rgba(100, 100, 100, 0.7);
     }
 
+    #impressum a {
+        color:aqua
+    }
     #impressumDiv {
         height: 80vh;
         width: 80%;
         position: absolute;
         z-index: 1;
-        /* background-color: rgb(29, 0, 192); */
         background-color: rgba(60, 60, 60, 0.9);
         color: white;
         border-radius: 20px;
         overflow: hidden;
-        /* Wichtig: verhindert das Überstehen */
         padding: 15px 25px 15px 15px;
-        /* top, right, bottom, left */
         font-family: lato-thin, sans-serif;
         font-weight: 100;
         font-size: 16px;
@@ -99,14 +83,11 @@
         width: 80%;
         position: absolute;
         z-index: 1;
-        /* background-color: rgb(29, 0, 192); */
         background-color: rgba(60, 60, 60, 0.9);
         color: white;
         border-radius: 20px;
         overflow: hidden;
-        /* Wichtig: verhindert das Überstehen */
         padding: 15px 25px 15px 15px;
-        /* top, right, bottom, left */
         font-family: lato-thin, sans-serif;
         font-weight: 100;
         font-size: 16px;
@@ -121,28 +102,22 @@
         width: 80%;
         position: absolute;
         z-index: 1;
-        /* background-color: rgb(29, 0, 192); */
         background-color: rgba(60, 60, 60, 0.9);
         color: white;
         border-radius: 20px;
         overflow: hidden;
-        /* Wichtig: verhindert das Überstehen */
         padding: 15px 25px 15px 15px;
-        /* top, right, bottom, left */
         font-family: lato-thin, sans-serif;
         font-weight: 100;
         font-size: 16px;
     }
 
-    /* Innerer Container für den Scroll */
     #impressumContent {
         height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
         padding-right: 10px;
-        /* Abstand zwischen Text und Scrollbalken */
         margin-right: -10px;
-        /* Verschiebt den Scrollbalken nach links */
     }
 
     #impressum h1 {
@@ -150,7 +125,6 @@
         font-weight: bolder;
     }
 
-    /* Close-Icon Styling */
     .closeIimg {
         position: absolute;
         top: 15px;
@@ -161,7 +135,6 @@
         z-index: 2;
     }
 
-    /* Custom Scrollbar Styling für den inneren Container */
     #impressumContent::-webkit-scrollbar {
         width: 12px;
     }
@@ -189,29 +162,23 @@
         background: transparent;
     }
 
-    /* Firefox Scrollbar */
     #impressumContent {
         scrollbar-width: thin;
         scrollbar-color: #FFD700 transparent;
     }
 
-    /* Zusätzliches Styling für bessere Lesbarkeit */
     .impressum {
         margin-top: 20px;
     }
 
     .impressum:first-child {
         margin-top: 40px;
-        /* Platz für das Close-Icon */
     }
 
     #intro {
-        /* display: flex; */
-        /* flex-direction: column; */
         height: 100%;
         width: 100%;
         position: absolute;
-        /* position: relative; */
     }
 
     #intro img {
@@ -287,6 +254,29 @@
         z-index: 1;
     }
 
+    .outroBtnDiv img {
+        height: 80px;
+        cursor: pointer;
+    }
+
+    #youLoseImg {
+        height: auto;
+        width: 60%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #youWinImg {
+        height: auto;
+        width: 80%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
     .pauseDiv {
         position: absolute;
         display: flex;
@@ -298,13 +288,70 @@
         z-index: 1;
     }
 
+    .pauseDiv img {
+        height: 80px;
+        cursor: pointer;
+    }
+
     .gameplayBtn {
         height: 100%;
     }
 
+    #turnScreenContent {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        align-items: center;
+    }
 
+    .tutorialImgGame {
+        height: 250px;
+    }
 
+    .flipImage {
+        transform: scaleX(-1);
+    }
 
+    .tutorialImgKeyboard {
+        height: 60px;
+        width: 60px;
+    }
+
+    .tutorialImgMobileDeviceButton {
+        height: 40px;
+        width: 40px;
+    }
+
+    .tutorialBottle {
+        height: 150px;
+        padding-top: 96px
+    }
+
+    .tutorialContentMain {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: space-around;
+        height: 100%;
+        width: 100%;
+    }
+
+    #tutorialContent {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        align-items: center;
+    }
+
+    .tutorialColumn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
 
     .visibilityNone {
         visibility: hidden;
@@ -319,14 +366,6 @@
         canvas {
             width: 100%;
         }
-
-
-
-
-
-        /* h1 {
-            display: none;
-        } */
     }
 
     @media (orientation: portrait) and (pointer: coarse) {
@@ -346,10 +385,6 @@
         canvas {
             height: 100vh;
         }
-
-        /* h1 {
-            display: none;
-        } */
     }
 
     @media (pointer: coarse) {

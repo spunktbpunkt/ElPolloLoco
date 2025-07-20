@@ -43,16 +43,11 @@
       </div>
 
       <div id="outro" class="outro hidden">
-        <img id="youLoseImg" src="img/You won, you lost/Game over A.png" alt=""
-          style="height: auto;width: 60%;;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"
-          class="hidden" />
-        <img id="youWinImg" src="img/You won, you lost/You Win A.png" alt=""
-          style="height: auto;width: 80%; position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"
-          class="hidden" />
+        <img id="youLoseImg" src="img/You won, you lost/Game over A.png" alt="" class="hidden" />
+        <img id="youWinImg" src="img/You won, you lost/You Win A.png" alt="" class="hidden" />
         <div id="outroBtnDiv" class="outroBtnDiv hidden">
-          <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" style="height: 80px;cursor: pointer;" />
-          <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt=""
-            style="height: 80px;cursor: pointer;" />
+          <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" />
+          <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt=""/>
         </div>
       </div>
 
@@ -73,7 +68,7 @@
         <img onclick="tutorial(),pauseGame()" id="musicIcon" src="img/icon/question-icon.svg" alt="Music" />
       </div>
 
-      <div id="gameplayBtnDiv" class="gameplayBtnDiv visibilityNone" style="width: 720px; height: 50px; display: flex;">
+      <div id="gameplayBtnDiv" class="gameplayBtnDiv visibilityNone">
         <div id="leftBtns" class="gameplayBtnAside">
           <img id="btnLeft" src="img/icon/arrowLeft.svg" alt="" data-key="LEFT" class="gameplayBtn">
           <img id="btnRight" src="img/icon/arrowRight.svg" alt="" data-key="RIGHT" class="gameplayBtn">
@@ -85,9 +80,8 @@
       </div>
 
       <div id="pauseDiv" class="pauseDiv hidden">
-        <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" style="height: 80px;cursor: pointer;" />
-        <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt=""
-          style="height: 80px;cursor: pointer;" />
+        <img onclick="startPage()" src="img/icon/home-icon.svg" alt="" />
+        <img onclick="startPage(); init()" src="img/icon/restart-icon.svg" alt="" />
       </div>
 
 
@@ -194,36 +188,34 @@
     <div id="tutorial" class="hidden">
       <div id="tutorialDiv">
         <img id="tutorialClose" class="closeIimg" src="img/icon/close-icon.svg" alt="Close">
-        <div id="tutorialContent"
-          style="width: 100%;display: flex;justify-content: center;height: 100%;align-items: center;">
-          <div
-            style="display: flex; flex-direction: row; gap: 20px; justify-content: space-around;height: 100%;width: 100%;">
-            <div style="display: flex;flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
-              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" style="height: 250px;transform: scaleX(-1);">
+        <div id="tutorialContent">
+          <div class ="tutorialContentMain">
+            <div class="tutorialColumn">
+              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" class="tutorialImgGame flipImage" >
               <p>MOVE LEFT</p>
-              <img src="img/icon/left-arrow.png" alt="" style="height: 60px; width: 60px;">
-              <img src="img/icon/arrowLeft.svg" alt="" style="height: 40px; width: 40px;">
+              <img src="img/icon/left-arrow.png" alt="" class="tutorialImgKeyboard">
+              <img src="img/icon/arrowLeft.svg" alt="" class="tutorialImgMobileDeviceButton">
               <label>(mobile device)</label>
             </div>
-            <div style="display: flex;flex-direction: column; justify-content: center; align-items: center;gap: 20px;">
-              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" style="height: 250px;">
+            <div class="tutorialColumn">
+              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" class="tutorialImgGame" >
               <p>MOVE RIGHT</p>
-              <img src="img/icon/right-arrow.png" alt="" style="height: 60px; width: 60px;">
-              <img src="img/icon/arrowRight.svg" alt="" style="height: 40px; width: 40px;">
+              <img src="img/icon/right-arrow.png" alt="" class="tutorialImgKeyboard">
+              <img src="img/icon/arrowRight.svg" alt="" class="tutorialImgMobileDeviceButton">
               <label>(mobile device)</label>
             </div>
-            <div style="display: flex;flex-direction: column; justify-content: center; align-items: center;gap: 20px;">
-              <img src="img/2_character_pepe/3_jump/J-34.png" alt="" style="height: 250px;">
+            <div class="tutorialColumn">
+              <img src="img/2_character_pepe/3_jump/J-34.png" alt="" class="tutorialImgGame" >
               <p>JUMP</p>
-              <img src="img/icon/up-arrow.png" alt="" style="height: 60px; width: 60px;">
-              <img src="img/icon/arrowUp.svg" alt="" style="height: 40px; width: 40px;">
+              <img src="img/icon/up-arrow.png" alt="" class="tutorialImgKeyboard">
+              <img src="img/icon/arrowUp.svg" alt="" class="tutorialImgMobileDeviceButton">
               <label>(mobile device)</label>
             </div>
-            <div style="display: flex;flex-direction: column; justify-content: center; align-items: center;gap: 20px;">
-              <img src="img/6_salsa_bottle/bottle_throw.png" alt="" style="height: 150px;padding-top: 96px">
+            <div class="tutorialColumn">
+              <img src="img/6_salsa_bottle/bottle_throw.png" alt="" class="tutorialBottle">
               <p>THROW BOTTLE</p>
-              <img src="img/icon/letter-d.png" alt="" style="height: 60px; width: 60px;">
-              <img src="img/icon/bottleThrow.svg" alt="" style="height: 40px; width: 40px;">
+              <img src="img/icon/letter-d.png" alt="" class="tutorialImgKeyboard">
+              <img src="img/icon/bottleThrow.svg" alt="" class="tutorialImgMobileDeviceButton">
               <label>(mobile device)</label>
             </div>
           </div>
@@ -233,9 +225,7 @@
 
     <div id="turnScreen">
       <div id="turnScreenDiv">
-        <!-- <img id="tutorialClose" class="closeIimg" src="img/icon/close-icon.svg" alt="Close"> -->
-        <div id="turnScreenContent"
-          style="width: 100%;display: flex;justify-content: center;height: 100%;align-items: center;">
+        <div id="turnScreenContent">
           <h1>TURN SCREEN TO PLAY</h1>
         </div>
       </div>

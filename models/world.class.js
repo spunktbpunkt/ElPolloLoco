@@ -23,7 +23,7 @@ class World {
 
         this.lastThrowTime = 0;
         this.now = 0;
-        this.coin_sound= new Audio('audio/coin.mp3');
+        this.coin_sound = new Audio('audio/coin.mp3');
         this.draw();
         this.setWorld();
         this.run();
@@ -31,12 +31,8 @@ class World {
 
     run() {
         setInterval(() => {
-
-            // check collisions
             this.checkCollisions();
             this.checkThrowObject();
-            // keyboard input
-
         }, 100);
     }
 
@@ -50,18 +46,29 @@ class World {
             bottle.throw();
             this.character.bottlesAmount--;
             this.statusBarBottles.setPercentage(this.character.bottlesAmount, 5);
-            if (this.character.bottlesAmount === 0 && this.level.bottles.length == 0) {
-                console.log('adding new bottles')
-                this.level.bottles.push(...createElements('bottles', 5, 200, 100));
-            }
+
+            this.addingBottlesToMap()
         }
-        if (this.keyboard.D && this.character.bottlesAmount == 0 && !this.previousKeyboardD) {
-            let errorSound = new Audio('audio/error.wav');
-            this.character.playSound(errorSound,1)
-        }
+
+        this.errorSoundBottleThrow();
+
         this.previousKeyboardD = this.keyboard.D;
     }
 
+    addingBottlesToMap() {
+        if (this.character.bottlesAmount === 0 && this.level.bottles.length == 0) {
+            console.log('adding new bottles')
+            this.level.bottles.push(...createElements('bottles', 5, 200, 100));
+        }
+    }
+
+    errorSoundBottleThrow() {
+        if (this.keyboard.D && this.character.bottlesAmount == 0 && !this.previousKeyboardD) {
+            let errorSound = new Audio('audio/error.wav');
+            this.character.playSound(errorSound, 1)
+        }
+    }
+    
     checkCollisions() {
         if (!this.gameEnd) {
             this.characterCollisionEnemy()
@@ -123,7 +130,7 @@ class World {
 
             if (this.character.isColliding(coin)) {
                 this.character.coinsAmount++;
-                this.character.playSound(this.coin_sound,1)
+                this.character.playSound(this.coin_sound, 1)
                 this.statusBarCoins.setPercentage(this.character.coinsAmount, 5);
                 this.level.coins.splice(i, 1);
             }

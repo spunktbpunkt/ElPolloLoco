@@ -224,11 +224,11 @@ class World {
         }
 
         this.ctx.translate(this.camera_x, 0);
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
-        this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.endboss);
+        this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
 
@@ -236,9 +236,6 @@ class World {
 
         this.animationFrameId = requestAnimationFrame(() => this.draw());
     }
-
-
-
 
     addObjectsToMap(array) {
         array.forEach(obj => {
@@ -250,9 +247,7 @@ class World {
         if (mo.otherDirection) {
             this.flipImage(mo)
         }
-
         mo.drawing(this.ctx)
-
         if (mo.otherDirection) {
             this.flipImageBack(mo)
         }
@@ -269,7 +264,4 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
-
-
-
 }

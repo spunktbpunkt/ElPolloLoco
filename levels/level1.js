@@ -4,6 +4,7 @@ function createLevel() {
     return new Level(
         [
             ...createElements('chicken', 3,300,50),
+            ...createElements('chickensmall', 3,300,50),
         ],
         [
             new Endboss()
@@ -69,6 +70,9 @@ function createElements(type, count,startX,minDistance, options = {}) {
             switch (type) {
                 case 'chicken':
                     element = new Chicken();
+                    break;
+                case 'chickensmall':
+                    element = new Chickensmall();
                     break;
                 case 'coins':
                     element = new Coins();

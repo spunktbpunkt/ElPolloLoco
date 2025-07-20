@@ -103,15 +103,27 @@ function pauseGame() {
     };
 }
 
+// Aktualisierte youWin() Funktion für game.js:
 function youWin() {
     // Wenn das Spiel bereits beendet wurde, nicht erneut ausführen
     if (world && world.gameEnd) return;
 
     if (world) {
         world.gameEnd = true;
-        world.endbossDead = true;   // Hier da  s Flag setzen
+        world.endbossDead = true;   // Hier das Flag setzen
         isPaused = false;
-        // Stoppe das Schnarchen des Characters
+        
+        // Stoppe das World-Interval
+        if (world.worldInterval) {
+            clearInterval(world.worldInterval);
+        }
+        
+        // Stoppe alle Character-Intervalle
+        if (world.character) {
+            world.character.stopAllIntervals();
+        }
+        
+        // Stoppe alle anderen Audio-Elemente
         stopAllAudio();
     }
 
@@ -121,7 +133,6 @@ function youWin() {
     const btnDiv = document.getElementById("outroBtnDiv");
 
     outro.classList.remove("hidden");
-    // outro.classList.remove("outro"); // Optional
     winImg.classList.remove("hidden");
     loseImg.classList.add("hidden");
     btnDiv.classList.remove("hidden");
@@ -131,7 +142,7 @@ function youWin() {
     applause.play()
 }
 
-
+// Aktualisierte youLose() Funktion für game.js:
 function youLose() {
     // Verhindere Mehrfachausführung
     if (world && world.gameEnd) return;
@@ -140,7 +151,18 @@ function youLose() {
         world.gameEnd = true;
         world.characterDead = true;
         isPaused = false;
-        // Stoppe das Schnarchen des Characters
+        
+        // Stoppe das World-Interval
+        if (world.worldInterval) {
+            clearInterval(world.worldInterval);
+        }
+        
+        // Stoppe alle Character-Intervalle
+        if (world.character) {
+            world.character.stopAllIntervals();
+        }
+        
+        // Stoppe alle anderen Audio-Elemente
         stopAllAudio();
     }
 

@@ -132,42 +132,34 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }, 1000 / 60);
     }
 
-    // animation() {
-    //     if (isPaused) return;
-    //     this.currentImageOnce = 0;
+    // Füge diese Methode zur Character-Klasse hinzu:
 
-    //     this.animationInterval = setInterval(() => {
-    //         if (this.isDead()) {
-    //             this.playAnimationOnce(this.images_dead);
-    //             clearInterval(this.movingInterval);
-    //             this.playSound(this.die_sound, 1, this.animationInterval);
+    stopAllIntervals() {
+        // Stoppe alle Character-Intervalle
+        if (this.movingInterval) {
+            clearInterval(this.movingInterval);
+            this.movingInterval = null;
+        }
+        if (this.animationInterval) {
+            clearInterval(this.animationInterval);
+            this.animationInterval = null;
+        }
+        if (this.jumpInterval) {
+            clearInterval(this.jumpInterval);
+            this.jumpInterval = null;
+        }
+        if (this.fallInterval) {
+            clearInterval(this.fallInterval);
+            this.fallInterval = null;
+        }
+        if (this.waitInterval) {
+            clearInterval(this.waitInterval);
+            this.waitInterval = null;
+        }
 
-    //             // ⏳ Warte z. B. 2 Sekunden, bevor youLose() aufgerufen wird
-    //             setTimeout(() => {
-    //                 youLose();
-    //             }, 1000);
-    //         }
-
-    //         else if (this.isHurt()) {
-    //             this.playAnimation(this.images_hurt);
-    //             this.playSound(this.hurt_sound, 1)
-    //         } else if (this.isAboveGround()) {
-    //             if (this.falling) {
-    //                 this.currentImageOnce = 0;
-    //                 this.fallAnimation();
-    //             } else {
-    //                 this.currentImageOnce = 0;
-    //                 this.jumpAnimation();
-    //             }
-    //         } else {
-    //             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-    //                 this.playAnimation(this.images_walking);
-    //             } else {
-    //                 this.playAnimation(this.images_idle);
-    //             }
-    //         }
-    //     }, 50);
-    // }
+        // Stoppe auch das Schnarchen
+        this.stopSnorring();
+    }
 
     animation() {
         if (isPaused) return;
@@ -178,81 +170,115 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
 
         this.animationInterval = setInterval(() => {
             this.frameCounter++;
-
-            // Aktualisiere lastKeyboardHit bei jeder Tasteneingabe
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.SPACE) {
-                this.lastKeyboardHit = new Date().getTime();
-                // Stoppe das Schnarchen sofort bei Tasteneingabe
-                if (this.snorring_sound) {
-                    this.snorring_sound.pause();
-                    this.snorring_sound.currentTime = 0;
-                }
-            }
-
-            // Stoppe das Schnarchen wenn das Spiel beendet ist
-            if (this.world && this.world.gameEnd) {
-                if (this.snorring_sound) {
-                    this.snorring_sound.pause();
-                    this.snorring_sound.currentTime = 0;
-                }
-            }
-
-            if (this.isDead()) {
-                this.playAnimationOnce(this.images_dead);
-                clearInterval(this.movingInterval);
-                this.playSound(this.die_sound, 1, this.animationInterval);
-
-                // ⏳ Warte z. B. 2 Sekunden, bevor youLose() aufgerufen wird
-                setTimeout(() => {
-                    youLose();
-                }, 1000);
-            }
-            else if (this.isHurt()) {
-                this.playAnimation(this.images_hurt);
-                this.playSound(this.hurt_sound, 1);
-                // Reset des Idle-Timers bei Schaden - Character "wacht auf"
-                this.lastKeyboardHit = new Date().getTime();
-                // Stoppe das Schnarchen bei Schaden
-                if (this.snorring_sound) {
-                    this.snorring_sound.pause();
-                    this.snorring_sound.currentTime = 0;
-                }
-            } else if (this.isAboveGround()) {
-                if (this.falling) {
-                    this.currentImageOnce = 0;
-                    this.fallAnimation();
-                } else {
-                    this.currentImageOnce = 0;
-                    this.jumpAnimation();
-                }
-            } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.images_walking);
-                } else {
-                    // Berechne die Zeit seit der letzten Tasteneingabe
-                    let timeSinceLastInput = new Date().getTime() - this.lastKeyboardHit;
-
-                    if (timeSinceLastInput > 7000) { // Nach 7 Sekunden: Long Idle
-                        // Nur alle 4 Frames (= alle 200ms) das Bild wechseln
-                        if (this.frameCounter % 4 === 0) {
-                            this.playAnimation(this.images_longidle);
-                        }
-                        // Schnarchen nur starten wenn es noch nicht läuft
-                        if (this.snorring_sound && this.snorring_sound.paused) {
-                            this.playSound(this.snorring_sound, 0.3);
-                        }
-                    } else if (timeSinceLastInput > 2000) { // Nach 2 Sekunden: Normal Idle
-                        // Nur alle 3 Frames (= alle 150ms) das Bild wechseln
-                        if (this.frameCounter % 3 === 0) {
-                            this.playAnimation(this.images_idle);
-                        }
-                    } else {
-                        // In den ersten 2 Sekunden: Zeige das erste Idle-Bild (Stillstand)
-                        this.loadImage(this.images_idle[0]);
-                    }
-                }
-            }
+            this.handleKeyboardInput();
+            this.handleGameEndCheck();
+            this.selectAnimation();
         }, 50);
+    }
+
+    handleKeyboardInput() {
+        // Aktualisiere lastKeyboardHit bei jeder Tasteneingabe
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.SPACE) {
+            this.lastKeyboardHit = new Date().getTime();
+            this.stopSnorring();
+        }
+    }
+
+    handleGameEndCheck() {
+        // Stoppe das Schnarchen wenn das Spiel beendet ist
+        if (this.world && this.world.gameEnd) {
+            this.stopSnorring();
+        }
+    }
+
+    stopSnorring() {
+        if (this.snorring_sound) {
+            this.snorring_sound.pause();
+            this.snorring_sound.currentTime = 0;
+        }
+    }
+
+    selectAnimation() {
+        if (this.isDead()) {
+            this.handleDeadAnimation();
+        } else if (this.isHurt()) {
+            this.handleHurtAnimation();
+        } else if (this.isAboveGround()) {
+            this.handleJumpFallAnimation();
+        } else {
+            this.handleGroundAnimation();
+        }
+    }
+
+    handleDeadAnimation() {
+        this.playAnimationOnce(this.images_dead);
+        clearInterval(this.movingInterval);
+        this.playSound(this.die_sound, 1, this.animationInterval);
+
+        setTimeout(() => {
+            youLose();
+        }, 1000);
+    }
+
+    handleHurtAnimation() {
+        this.playAnimation(this.images_hurt);
+        this.playSound(this.hurt_sound, 1);
+        // Reset des Idle-Timers bei Schaden - Character "wacht auf"
+        this.lastKeyboardHit = new Date().getTime();
+        this.stopSnorring();
+    }
+
+    handleJumpFallAnimation() {
+        if (this.falling) {
+            this.currentImageOnce = 0;
+            this.fallAnimation();
+        } else {
+            this.currentImageOnce = 0;
+            this.jumpAnimation();
+        }
+    }
+
+    handleGroundAnimation() {
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.playAnimation(this.images_walking);
+        } else {
+            this.handleIdleStates();
+        }
+    }
+
+    handleIdleStates() {
+        let timeSinceLastInput = new Date().getTime() - this.lastKeyboardHit;
+
+        if (timeSinceLastInput > 7000) {
+            this.handleLongIdle();
+        } else if (timeSinceLastInput > 2000) {
+            this.handleNormalIdle();
+        } else {
+            this.handleStillState();
+        }
+    }
+
+    handleLongIdle() {
+        // Nur alle 4 Frames (= alle 200ms) das Bild wechseln
+        if (this.frameCounter % 4 === 0) {
+            this.playAnimation(this.images_longidle);
+        }
+        // Schnarchen nur starten wenn es noch nicht läuft
+        if (this.snorring_sound && this.snorring_sound.paused) {
+            this.playSound(this.snorring_sound, 0.3);
+        }
+    }
+
+    handleNormalIdle() {
+        // Nur alle 3 Frames (= alle 150ms) das Bild wechseln
+        if (this.frameCounter % 3 === 0) {
+            this.playAnimation(this.images_idle);
+        }
+    }
+
+    handleStillState() {
+        // In den ersten 2 Sekunden: Zeige das erste Idle-Bild (Stillstand)
+        this.loadImage(this.images_idle[0]);
     }
 
     jumpAnimation() {

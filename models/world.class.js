@@ -6,7 +6,7 @@ class World {
     endbossDead = false;
     animationFrameId = null;
     previousKeyboardD = null;
-
+    worldInterval;
     constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -30,7 +30,7 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        this. worldInterval = setInterval(() => {
             this.checkCollisions();
             this.checkThrowObject();
         }, 100);
@@ -39,7 +39,6 @@ class World {
     checkThrowObject() {
         if (this.keyboard.D && this.checkCoolDown() && this.character.bottlesAmount > 0) {
             this.lastThrowTime = this.now;
-            this.setLastKeyboardHit()
 
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
             bottle.world = this;

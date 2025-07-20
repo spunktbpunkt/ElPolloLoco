@@ -39,6 +39,18 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         'img/2_character_pepe/1_idle/idle/I-9.png',
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ]
+    images_longidle = [
+        'img/2_character_pepe/1_idle/long_idle/I-11.png',
+        'img/2_character_pepe/1_idle/long_idle/I-12.png',
+        'img/2_character_pepe/1_idle/long_idle/I-13.png',
+        'img/2_character_pepe/1_idle/long_idle/I-14.png',
+        'img/2_character_pepe/1_idle/long_idle/I-15.png',
+        'img/2_character_pepe/1_idle/long_idle/I-16.png',
+        'img/2_character_pepe/1_idle/long_idle/I-17.png',
+        'img/2_character_pepe/1_idle/long_idle/I-18.png',
+        'img/2_character_pepe/1_idle/long_idle/I-19.png',
+        'img/2_character_pepe/1_idle/long_idle/I-20.png'
+    ]
 
     images_jumping = [
         'img/2_character_pepe/3_jump/J-31.png',
@@ -65,25 +77,31 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
     falling = false
     jumping = false;
     jumpInterval;
+    waitInterval;
     fallInterval;
     movingInterval;
     animationInterval;
+    lastKeyboardHit = 0;
+
 
     constructor() {
         super();
         this.loadImage('img/2_character_pepe/2_walk/W-21.png')
         this.loadImages(this.images_walking)
         this.loadImages(this.images_idle)
+        this.loadImages(this.images_longidle)
         this.loadImages(this.images_jumping)
         this.loadImages(this.images_falling)
         this.loadImages(this.images_hurt)
         this.loadImages(this.images_dead)
         this.applyGravity()
         this.animate();
+        this.lastKeyboardHit = new Date().getTime();
         this.walking_sound = new Audio('audio/footstep.mp3');
         this.hurt_sound = new Audio('audio/ouchie.mp3');
         this.die_sound = new Audio('audio/die-sound.mp3');
         this.jump_sound = new Audio('audio/jump-sound.mp3');
+        this.snorring_sound = new Audio('audio/snorring.wav');
 
     }
 
@@ -98,42 +116,92 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         this.movingInterval = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.otherDirection = false;
-                this.playSound(this.walking_sound,1);
+                this.playSound(this.walking_sound, 1);
                 this.moveRight();
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.otherDirection = true;
-                this.playSound(this.walking_sound,1);
+                this.playSound(this.walking_sound, 1);
                 this.moveLeft();
             }
             if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround()) {
-                this.playSound(this.jump_sound,1);
+                this.playSound(this.jump_sound, 1);
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
-        // console.log(this.y)
     }
+
+    // animation() {
+    //     if (isPaused) return;
+    //     this.currentImageOnce = 0;
+
+    //     this.animationInterval = setInterval(() => {
+    //         if (this.isDead()) {
+    //             this.playAnimationOnce(this.images_dead);
+    //             clearInterval(this.movingInterval);
+    //             this.playSound(this.die_sound, 1, this.animationInterval);
+
+    //             // ⏳ Warte z. B. 2 Sekunden, bevor youLose() aufgerufen wird
+    //             setTimeout(() => {
+    //                 youLose();
+    //             }, 1000);
+    //         }
+
+    //         else if (this.isHurt()) {
+    //             this.playAnimation(this.images_hurt);
+    //             this.playSound(this.hurt_sound, 1)
+    //         } else if (this.isAboveGround()) {
+    //             if (this.falling) {
+    //                 this.currentImageOnce = 0;
+    //                 this.fallAnimation();
+    //             } else {
+    //                 this.currentImageOnce = 0;
+    //                 this.jumpAnimation();
+    //             }
+    //         } else {
+    //             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+    //                 this.playAnimation(this.images_walking);
+    //             } else {
+    //                 this.playAnimation(this.images_idle);
+    //             }
+    //         }
+    //     }, 50);
+    // }
 
     animation() {
         if (isPaused) return;
         this.currentImageOnce = 0;
 
+        // Frame counter für langsamere Idle-Animationen
+        if (!this.frameCounter) this.frameCounter = 0;
+
         this.animationInterval = setInterval(() => {
+            this.frameCounter++;
+
+            // Aktualisiere lastKeyboardHit bei jeder Tasteneingabe
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.SPACE) {
+                this.lastKeyboardHit = new Date().getTime();
+                // Stoppe das Schnarchen sofort bei Tasteneingabe
+                if (this.snorring_sound) {
+                    this.snorring_sound.pause();
+                    this.snorring_sound.currentTime = 0;
+                }
+            }
+
             if (this.isDead()) {
                 this.playAnimationOnce(this.images_dead);
                 clearInterval(this.movingInterval);
                 this.playSound(this.die_sound, 1, this.animationInterval);
 
-                // ⏳ Warte z. B. 2 Sekunden, bevor youLose() aufgerufen wird
+                // ⏳ Warte z. B. 2 Sekunden, bevor youLose() aufgerufen wird
                 setTimeout(() => {
                     youLose();
                 }, 1000);
             }
-
             else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);
-                this.playSound(this.hurt_sound,1)
+                this.playSound(this.hurt_sound, 1)
             } else if (this.isAboveGround()) {
                 if (this.falling) {
                     this.currentImageOnce = 0;
@@ -146,7 +214,27 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.images_walking);
                 } else {
-                    this.playAnimation(this.images_idle);
+                    // Berechne die Zeit seit der letzten Tasteneingabe
+                    let timeSinceLastInput = new Date().getTime() - this.lastKeyboardHit;
+
+                    if (timeSinceLastInput > 7000) { // Nach 7 Sekunden: Long Idle
+                        // Nur alle 4 Frames (= alle 200ms) das Bild wechseln
+                        if (this.frameCounter % 4 === 0) {
+                            this.playAnimation(this.images_longidle);
+                        }
+                        // Schnarchen nur starten wenn es noch nicht läuft
+                        if (this.snorring_sound && this.snorring_sound.paused) {
+                            this.playSound(this.snorring_sound, 0.3);
+                        }
+                    } else if (timeSinceLastInput > 2000) { // Nach 2 Sekunden: Normal Idle
+                        // Nur alle 3 Frames (= alle 150ms) das Bild wechseln
+                        if (this.frameCounter % 3 === 0) {
+                            this.playAnimation(this.images_idle);
+                        }
+                    } else {
+                        // In den ersten 2 Sekunden: Zeige das erste Idle-Bild (Stillstand)
+                        this.loadImage(this.images_idle[0]);
+                    }
                 }
             }
         }, 50);

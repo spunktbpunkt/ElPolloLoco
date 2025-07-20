@@ -39,6 +39,7 @@ class World {
     checkThrowObject() {
         if (this.keyboard.D && this.checkCoolDown() && this.character.bottlesAmount > 0) {
             this.lastThrowTime = this.now;
+            this.setLastKeyboardHit()
 
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
             bottle.world = this;
@@ -68,7 +69,7 @@ class World {
             this.character.playSound(errorSound, 1)
         }
     }
-    
+
     checkCollisions() {
         if (!this.gameEnd) {
             this.characterCollisionEnemy()

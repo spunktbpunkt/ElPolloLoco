@@ -18,7 +18,7 @@ class Chickensmall extends MovableObject {
         bottom: 5
     }
     moveInterval;
-    isDead = false; // Standardwert
+    isDead = false;
 
     constructor() {
         super();
@@ -31,6 +31,11 @@ class Chickensmall extends MovableObject {
         this.chicken_sound = new Audio('audio/smallchicken-noise.mp3');
     }
 
+    /**
+    * Starts enemy movement and walking animation cycles.
+    * 
+    * @returns {void}
+    */
     animate() {
         if (isPaused) { return }
         setInterval(() => {
@@ -46,19 +51,20 @@ class Chickensmall extends MovableObject {
                 this.die();
             }
         }, 100);
-
-
     }
 
+    /**
+     * Handles enemy death sequence with animation, sound and removal.
+     * 
+     * @returns {void}
+     */
     die() {
         if (isPaused) return;
         this.enemyDead = true;
         this.speed = 0;
         clearInterval(this.moveInterval);
         this.playAnimationOnce(this.images_dead)
-        // console.log('chicken die')
-        // this.chickenSound();
-        this.playSound(this.chicken_sound,1);
+        this.playSound(this.chicken_sound, 1);
         setTimeout(() => {
             const index = this.world.level.enemies.indexOf(this);
             if (index !== -1) {
@@ -66,5 +72,4 @@ class Chickensmall extends MovableObject {
             }
         }, 1000);
     }
-
 }

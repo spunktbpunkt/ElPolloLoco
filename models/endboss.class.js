@@ -52,15 +52,17 @@ class Endboss extends MovableObject {
         this.loadImages(this.images_attack)
         this.loadImages(this.images_dead)
         this.chicken_sound = new Audio('audio/chicken-noise.mp3');
-        // this.animate();
-
     }
 
+    /**
+    * Starts endboss animation and behavior logic
+    * 
+    * @returns {void}
+    */
     animate() {
         if (isPaused) { return }
         let i = 0;
 
-        // this.moveLeft();
         this.intervalId = setInterval(() => {
             if (this.world.character.x < this.x - 500 && !this.hadFirstContact) {
                 i = 0;
@@ -70,51 +72,61 @@ class Endboss extends MovableObject {
                 if (i < 10) {
                     this.playAnimation(this.images_alert)
                 } else {
-                    clearInterval(this.intervalId); // stoppt aktuellen interval
-                    this.randomAttack(); // startet attack
+                    clearInterval(this.intervalId);
+                    this.randomAttack();
                 }
                 i++;
             }
         }, 150);
     }
 
+    /**
+     * Starts random attack mode with animations and movement
+     * 
+     * @returns {void}
+     */
     randomAttack() {
         if (isPaused) return;
-        // interval für animation
         this.randomAttackAnimationInterval = setInterval(() => {
             this.playAnimation(this.images_attack)
         }, 150);
 
-        //interval für bewegung
         this.randomAttackMoveInterval = setInterval(() => {
             this.speed = 3 + Math.random() * 1;
-            if (Math.random() > 0.7) {
+            if (Math.random() > 0.8) {
                 this.moveRight();
             } else {
                 this.moveLeft();
             }
-        }, 500);
+        }, 400);
     }
 
+    /**
+     * Handles endboss taking damage
+     * 
+     * @returns {void}
+     */
     hit() {
         if (isPaused) return;
         this.energy -= 20;
-        // console.log(this.energy)
         if (this.energy < 0) this.energy = 0;
-        this.playSound(this.chicken_sound,1)
+        this.playSound(this.chicken_sound, 1)
         this.world.statusBarEndboss.setPercentage(this.energy);
 
         if (this.energy === 0) {
-            this.die(); // z. B. eine Animationsmethode
+            this.die();
         }
     }
 
+    /**
+     * Executes endboss death sequence
+     * 
+     * @returns {void}
+     */
     die() {
         if (isPaused || this.isDead) return;
-
         this.isDead = true;
         this.speed = 0;
-
         let frameIndex = 0;
 
         this.dieInterval = setInterval(() => {
@@ -123,29 +135,11 @@ class Endboss extends MovableObject {
                 frameIndex++;
             } else {
                 clearInterval(this.dieInterval);
-                youWin();  // Jetzt darf gameEnd gesetzt werden
+                youWin();
             }
         }, 150);
 
         clearInterval(this.randomAttackAnimationInterval);
         clearInterval(this.randomAttackMoveInterval);
     }
-
-
-
-    // die() {
-    //     if (isPaused) return;
-    //     this.world.endbossDead = true;
-    //     // this.world.gameEnd = true;
-    //     this.isDead = true;
-    //     this.speed = 0;
-    //     this.dieInterval = setInterval(() => {
-    //         this.playAnimationOnce(this.images_dead)
-    //     }, 100);
-
-    //     // youWin();
-    //     clearInterval(this.randomAttackAnimationInterval);
-    //     clearInterval(this.randomAttackMoveInterval);
-    // }
-
 }

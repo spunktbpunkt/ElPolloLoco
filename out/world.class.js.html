@@ -1,4 +1,32 @@
-class World {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: world.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: world.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class World {
     coolDown = 250;
     gameEnd = false;
     isPaused = false;
@@ -38,25 +66,20 @@ class World {
     }
 
     /**
-     * This method start errorSoundBottleThrow, then starts
-     * newBottle() if 3 conditions are true
-     * 
+     * This method generates a new ThrowableObject (bottle) only 
+     * if the bottlesAmount is bigger then 0 and checkCoolDown is true
      * 
      */
     checkThrowObject() {
         this.errorSoundBottleThrow(); // Erst Fehlerprüfung
 
-        if (this.keyboard.D && this.checkCoolDown() && this.character.bottlesAmount > 0) {
+        if (this.keyboard.D &amp;&amp; this.checkCoolDown() &amp;&amp; this.character.bottlesAmount > 0) {
             this.newBottle()
         }
 
         this.previousKeyboardD = this.keyboard.D;
     }
 
-    /**
-     * Creates a new ThrowableObject (bottle) and throws it
-     * 
-     */
     newBottle() {
         this.lastThrowTime = this.now;
         let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
@@ -68,32 +91,21 @@ class World {
         this.addingBottlesToMap()
     }
 
-    /**
-     * New Bottles will be added to the map if 2 conditions are true
-     * 
-     */
     addingBottlesToMap() {
-        if (this.character.bottlesAmount === 0 && this.level.bottles.length == 0) {
+        if (this.character.bottlesAmount === 0 &amp;&amp; this.level.bottles.length == 0) {
+            console.log('adding new bottles')
             this.level.bottles.push(...createElements('bottles', 5, 200, 100));
         }
     }
 
-    /**
-     * Plays an error Sound if the the bottles amount is less then 1 and keyboard D is pushed
-     * 
-     */
     errorSoundBottleThrow() {
         console.log(this.character.bottlesAmount)
-        if (this.keyboard.D && this.character.bottlesAmount < 1 && !this.previousKeyboardD) {
+        if (this.keyboard.D &amp;&amp; this.character.bottlesAmount &lt; 1 &amp;&amp; !this.previousKeyboardD) {
             let errorSound = new Audio('audio/error.wav');
             this.character.playSound(errorSound, 1)
         }
     }
 
-    /**
-     * Checks different types of Collisions
-     * 
-     */
     checkCollisions() {
         if (!this.gameEnd) {
             this.characterCollisionEnemy()
@@ -103,10 +115,6 @@ class World {
         }
     }
 
-    /**
-     * Checks if the character is colliding with a normal enemy by comparing the frames of the images from the character an all enemies
-     * 
-     */
     characterCollisionEnemy() {
         for (let i = this.level.enemies.length - 1; i >= 0; i--) {
             let enemy = this.level.enemies[i];
@@ -115,23 +123,16 @@ class World {
 
             if (enemy.isDead === undefined) enemy.isDead = false;
 
-            if (this.character.isColliding(enemy) && !enemy.isDead) {
-                if (this.character.falling && this.character.y < enemy.y) {
+            if (this.character.isColliding(enemy) &amp;&amp; !enemy.isDead) {
+                if (this.character.falling &amp;&amp; this.character.y &lt; enemy.y) {
                     this.killEnemy(enemy, i);
                 } else {
-                    this.character.hit();
-                    this.statusBarEnergy.setPercentage(this.character.energy, 100);
+                    this.damageCharacter();
                 }
             }
         }
     }
 
-    /**
-     * Kills a normal enemy and removes it from the enemy-array
-     * 
-     * @param {object} enemy 
-     * @param {integer} index 
-     */
     killEnemy(enemy, index) {
         enemy.loadImages(enemy.images_dead);
         enemy.img = enemy.imageCache[enemy.images_dead[0]];
@@ -144,10 +145,11 @@ class World {
         }
     }
 
-    /**
-     * This method checks if the character is colliding with the bottles on the floor and adds them to the statusbar
-     * 
-     */
+    damageCharacter() {
+        this.character.hit();
+        this.statusBarEnergy.setPercentage(this.character.energy, 100);
+    }
+
     characterCollisionBottle() {
         for (let i = this.level.bottles.length - 1; i >= 0; i--) {
             let bottle = this.level.bottles[i];
@@ -161,11 +163,6 @@ class World {
             }
         }
     }
-
-    /**
-     * This method checks if the character is colliding with the coins in the air and adds them to the statusbar
-     * 
-     */
     characterCollisionCoin() {
         for (let i = this.level.coins.length - 1; i >= 0; i--) {
             let coin = this.level.coins[i];
@@ -181,25 +178,17 @@ class World {
         }
     }
 
-    /**
-     * Checks if the character is colliding with the endboss by comparing the frames of the images from the character an the endboss
-     * 
-     */
     characterCollisionEndboss() {
         this.level.endboss.forEach(endboss => {
             this.character.definingOffsetFrame();
             endboss.definingOffsetFrame();
-            if (this.character.isColliding(endboss) && !endboss.isDead) {
+            if (this.character.isColliding(endboss) &amp;&amp; !endboss.isDead) {
                 this.character.hit();
                 this.statusBarEnergy.setPercentage(this.character.energy)
             };
         });
     }
 
-    /**
-     * Checks the collision between the thrown bottles and the enemies/endboss
-     * 
-     */
     checkBottleCollisions() {
         this.throwableObjects.forEach(bottle => {
             this.bottleCollisionEnemy(bottle);
@@ -207,11 +196,6 @@ class World {
         });
     }
 
-    /**
-     * Starts another methods for each enemy in the array level.enemies which are needed for checking collisions
-     * 
-     * @param {object} bottle 
-     */
     bottleCollisionEnemy(bottle) {
         this.level.enemies.forEach(enemy => {
             enemy.definingOffsetFrame();
@@ -223,11 +207,6 @@ class World {
         });
     }
 
-    /**
-     * Starts another methods for each endboss in the array level.endboss which are needed for checking collisions
-     * 
-     * @param {object} bottle 
-     */
     bottleCollisionEndboss(bottle) {
         if (this.checkCoolDown()) {
             this.lastThrowTime = this.now;
@@ -242,19 +221,11 @@ class World {
         }
     }
 
-    /**
-     * checks if the difference between lastThrowTime and the current Time is equal or bigger then 250ms
-     * 
-     */
     checkCoolDown() {
         this.now = Date.now();
         return (this.now - this.lastThrowTime >= this.coolDown);
     }
 
-    /**
-     * Sets world reference for all game objects and starts enemy animations.
-     * 
-     */
     setWorld() {
         this.character.world = this;
 
@@ -273,42 +244,20 @@ class World {
         });
     }
 
-    /**
-    * Main render loop that draws all game objects to the canvas.
-    * 
-    */
     draw() {
         if (this.gameEnd) {
-            if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+            if (this.animationFrameId) {
+                cancelAnimationFrame(this.animationFrameId);
+            }
             return;
         }
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawBackground();
-        this.drawStatusBars();
-        this.drawGameObjects();
-
-        if (!isPaused) {
-            this.animationFrameId = requestAnimationFrame(() => this.draw());
-        }
-    }
-
-    /**
-     * Draws background elements with camera translation.
-     * 
-     */
-    drawBackground() {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.ctx.translate(-this.camera_x, 0);
-    }
 
-    /**
-     * Draws all status bars and UI elements.
-     * 
-     */
-    drawStatusBars() {
         this.addToMap(this.statusBarEnergy);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
@@ -316,13 +265,7 @@ class World {
         if (this.level.endboss[0]?.hadFirstContact) {
             this.addToMap(this.statusBarEndboss);
         }
-    }
 
-    /**
-     * Draws all interactive game objects with camera translation.
-     * 
-     */
-    drawGameObjects() {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
@@ -331,24 +274,18 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
+
+        if (isPaused) return;
+
+        this.animationFrameId = requestAnimationFrame(() => this.draw());
     }
 
-    /**
-     * Adds objects from an array to the map
-     * 
-     * @param {object} array 
-     */
     addObjectsToMap(array) {
         array.forEach(obj => {
             this.addToMap(obj)
         });
     }
 
-    /**
-     * Adds an single Object to the map, checks the direction of it and flip the image if necessary
-     * 
-     * @param {object} mo 
-     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo)
@@ -359,11 +296,6 @@ class World {
         }
     }
 
-    /**
-     * Flips the Image
-     * 
-     * @param {object} mo 
-     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -371,13 +303,30 @@ class World {
         mo.x = mo.x * -1;
     }
 
-    /**
-     * Flips the Image back 
-     * 
-     * @param {object} mo 
-     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Jul 20 2025 20:16:26 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

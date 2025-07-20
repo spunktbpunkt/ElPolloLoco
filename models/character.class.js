@@ -105,37 +105,76 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
 
     }
 
+    /**
+    * Starts character animation and movement
+    * 
+    * @returns {void}
+    */
     animate() {
         if (isPaused) return;
         this.moving()
         this.animation();
     }
 
+    /**
+     * Handles character movement based on keyboard input
+     * 
+     * @returns {void}
+     */
     moving() {
         if (isPaused) return;
         this.movingInterval = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.otherDirection = false;
-                this.playSound(this.walking_sound, 1);
-                this.moveRight();
+                this.movingRight()
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
-                this.otherDirection = true;
-                this.playSound(this.walking_sound, 1);
-                this.moveLeft();
+                this.movingLeft()
             }
             if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround()) {
-                this.playSound(this.jump_sound, 1);
-                this.jump();
+                this.movingJumping()
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
     }
 
-    // Füge diese Methode zur Character-Klasse hinzu:
+    /**
+     * Moves character right with sound
+     * 
+     * @returns {void}
+     */
+    movingRight() {
+        this.otherDirection = false;
+        this.playSound(this.walking_sound, 1);
+        this.moveRight();
+    }
 
+    /**
+     * Moves character left with sound
+     * 
+     * @returns {void}
+     */
+    movingLeft() {
+        this.otherDirection = true;
+        this.playSound(this.walking_sound, 1);
+        this.moveLeft();
+    }
+
+    /**
+     * Makes character jump with sound
+     * 
+     * @returns {void}
+     */
+    movingJumping() {
+        this.playSound(this.jump_sound, 1);
+        this.jump();
+    }
+
+    /**
+     * Stops all character intervals
+     * 
+     * @returns {void}
+     */
     stopAllIntervals() {
-        // Stoppe alle Character-Intervalle
         if (this.movingInterval) {
             clearInterval(this.movingInterval);
             this.movingInterval = null;
@@ -157,15 +196,18 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
             this.waitInterval = null;
         }
 
-        // Stoppe auch das Schnarchen
         this.stopSnorring();
     }
 
+    /**
+     * Handles character animation states
+     * 
+     * @returns {void}
+     */
     animation() {
         if (isPaused) return;
         this.currentImageOnce = 0;
 
-        // Frame counter für langsamere Idle-Animationen
         if (!this.frameCounter) this.frameCounter = 0;
 
         this.animationInterval = setInterval(() => {
@@ -176,21 +218,34 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }, 50);
     }
 
+    /**
+     * Handles keyboard input tracking
+     * 
+     * @returns {void}
+     */
     handleKeyboardInput() {
-        // Aktualisiere lastKeyboardHit bei jeder Tasteneingabe
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.SPACE) {
             this.lastKeyboardHit = new Date().getTime();
             this.stopSnorring();
         }
     }
 
+    /**
+     * Checks game end state and stops snoring
+     * 
+     * @returns {void}
+     */
     handleGameEndCheck() {
-        // Stoppe das Schnarchen wenn das Spiel beendet ist
         if (this.world && this.world.gameEnd) {
             this.stopSnorring();
         }
     }
 
+    /**
+     * Stops snoring sound
+     * 
+     * @returns {void}
+     */
     stopSnorring() {
         if (this.snorring_sound) {
             this.snorring_sound.pause();
@@ -198,6 +253,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }
     }
 
+    /**
+     * Selects appropriate animation based on character state
+     * 
+     * @returns {void}
+     */
     selectAnimation() {
         if (this.isDead()) {
             this.handleDeadAnimation();
@@ -210,6 +270,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }
     }
 
+    /**
+     * Handles death animation and game over
+     * 
+     * @returns {void}
+     */
     handleDeadAnimation() {
         this.playAnimationOnce(this.images_dead);
         clearInterval(this.movingInterval);
@@ -220,6 +285,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }, 1000);
     }
 
+    /**
+     * Handles hurt animation and sound
+     * 
+     * @returns {void}
+     */
     handleHurtAnimation() {
         this.playAnimation(this.images_hurt);
         this.playSound(this.hurt_sound, 1);
@@ -228,6 +298,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         this.stopSnorring();
     }
 
+    /**
+     * Handles jump and fall animations
+     * 
+     * @returns {void}
+     */
     handleJumpFallAnimation() {
         if (this.falling) {
             this.currentImageOnce = 0;
@@ -238,6 +313,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }
     }
 
+    /**
+     * Handles ground-based animations
+     * 
+     * @returns {void}
+     */
     handleGroundAnimation() {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.images_walking);
@@ -246,6 +326,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }
     }
 
+    /**
+     * Manages different idle states based on time
+     * 
+     * @returns {void}
+     */
     handleIdleStates() {
         let timeSinceLastInput = new Date().getTime() - this.lastKeyboardHit;
 
@@ -258,6 +343,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }
     }
 
+    /**
+     * Handles long idle animation with snoring
+     * 
+     * @returns {void}
+     */
     handleLongIdle() {
         // Nur alle 4 Frames (= alle 200ms) das Bild wechseln
         if (this.frameCounter % 4 === 0) {
@@ -269,6 +359,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }
     }
 
+    /**
+     * Handles normal idle animation
+     * 
+     * @returns {void}
+     */
     handleNormalIdle() {
         // Nur alle 3 Frames (= alle 150ms) das Bild wechseln
         if (this.frameCounter % 3 === 0) {
@@ -276,11 +371,21 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }
     }
 
+    /**
+     * Handles still state animation
+     * 
+     * @returns {void}
+     */
     handleStillState() {
         // In den ersten 2 Sekunden: Zeige das erste Idle-Bild (Stillstand)
         this.loadImage(this.images_idle[0]);
     }
 
+    /**
+     * Handles jump animation sequence
+     * 
+     * @returns {void}
+     */
     jumpAnimation() {
         if (isPaused) return;
         clearInterval(this.animationInterval)
@@ -294,7 +399,11 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }, 50);
     }
 
-
+    /**
+     * Handles fall animation sequence
+     * 
+     * @returns {void}
+     */
     fallAnimation() {
         if (isPaused) return;
         clearInterval(this.animationInterval)
@@ -306,7 +415,5 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
                 this.animation()
             }
         }, 50);
-
     }
-
 }

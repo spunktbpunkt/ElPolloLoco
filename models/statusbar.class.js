@@ -27,7 +27,7 @@ class Statusbar extends DrawableObject {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png'
     ];
 
-    images_energy_endboss=[
+    images_energy_endboss = [
         'img/7_statusbars/2_statusbar_endboss/green/green0.png',
         'img/7_statusbars/2_statusbar_endboss/green/green20.png',
         'img/7_statusbars/2_statusbar_endboss/green/green40.png',
@@ -80,7 +80,13 @@ class Statusbar extends DrawableObject {
         this.height = 60;
     }
 
-    //setPercentage(50)
+    /**
+    * Updates the status bar percentage and corresponding image.
+    * 
+    * @param {number} current - Current value
+    * @param {number} [max=100] - Maximum value for percentage calculation
+    * @returns {void}
+    */
     setPercentage(current, max = 100) {
         this.percentage = (current / max) * 100;
         this.max = max;
@@ -88,6 +94,11 @@ class Statusbar extends DrawableObject {
         this.img = this.imageCache[path];
     }
 
+    /**
+     * Returns the appropriate image index based on current percentage.
+     * 
+     * @returns {number} Image index (0-5) corresponding to percentage ranges
+     */
     resolveImageIndex() {
         if (this.percentage == 0) {
             return 0;
@@ -113,21 +124,4 @@ class Statusbar extends DrawableObject {
             return 5
         }
     }
-
-    // resolveImageIndex() {
-    //     if (this.percentage == 100) {
-    //         return 5;
-    //     } else if (this.percentage >= 80) {
-    //         return 4
-    //     } else if (this.percentage >= 60) {
-    //         return 3
-    //     } else if (this.percentage >= 40) {
-    //         return 2
-    //     } else if (this.percentage >= 20) {
-    //         return 1
-    //     } else {
-    //         return 0
-    //     }
-    // }
-
 }

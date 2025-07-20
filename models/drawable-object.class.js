@@ -8,12 +8,23 @@ class DrawableObject {
     height = 100;
     width = 100;
 
-
+    /**
+     * Loads a single image from path
+     * 
+    * @param {string} path - Image file path
+    * @returns {void}
+    */
     loadImage(path) {
         this.img = new Image(); // gleiche wie <img>
         this.img.src = path;
     }
 
+    /**
+     * Loads multiple images into cache
+     * 
+     * @param {string[]} array - Array of image file paths
+     * @returns {void}
+     */
     loadImages(array) {
         array.forEach(path => {
             let img = new Image();
@@ -23,6 +34,12 @@ class DrawableObject {
         });
     }
 
+    /**
+     * Draws the object on canvas context
+     * 
+     * @param {CanvasRenderingContext2D} ctx - Canvas rendering context
+     * @returns {void}
+     */
     drawing(ctx) {
         if (this.type === 'endboss') {
             ctx.save();
@@ -34,10 +51,13 @@ class DrawableObject {
             ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         }
     }
-    // drawing(ctx) {
-    //     ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-    // }
 
+    /**
+     * Draws collision frame around object
+     * 
+     * @param {CanvasRenderingContext2D} ctx - Canvas rendering context
+     * @returns {void}
+     */
     drawingFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Coins || this instanceof Bottles) {
             this.definingOffsetFrame();
@@ -54,11 +74,15 @@ class DrawableObject {
         }
     }
 
+    /**
+     * Calculates collision boundaries with offset
+     * 
+     * @returns {void}
+     */
     definingOffsetFrame() {
         this.outerLines.left = this.x + this.offset.left
         this.outerLines.right = this.outerLines.left + this.width - this.offset.right;
         this.outerLines.top = this.y + this.offset.top;
         this.outerLines.bottom = this.y + this.height - this.offset.bottom;
     }
-
 }

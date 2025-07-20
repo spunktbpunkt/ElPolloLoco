@@ -11,240 +11,314 @@ let gameStarted = false;
 let localStorageMusic
 let localStorageSound
 
+/**
+ * Sets icon source for DOM element
+ * 
+ * 
+ * @param {string} id - Element ID
+ * @param {string} src - Icon source path
+ */
+function setIconSrc(id, src) {
+    document.getElementById(id).src = src;
+}
+
+/**
+ * Toggles CSS class on DOM element
+ * 
+ * @param {string} id - Element ID
+ * @param {string} className - CSS class name
+ * @param {boolean} [add] - Force add/remove class
+ */
+function toggleClass(id, className, add) {
+    document.getElementById(id).classList.toggle(className, add);
+}
+
+/**
+ * Initializes app with saved settings
+ * 
+ */
 function initNew() {
     getLocalStorage();
-    if (localStorageMusic == 'true') {
-        document.getElementById('musicIcon').src = "img/icon/music-icon.svg"
-        musicMuted = false
-    } else {
-        document.getElementById('musicIcon').src = "img/icon/no-music-icon.svg"
-        musicMuted = true
-    }
-
-    if (localStorageSound == 'true') {
-        document.getElementById('soundIcon').src = "img/icon/sound-icon.svg"
-        soundMuted = false
-    } else {
-        document.getElementById('soundIcon').src = "img/icon/no-sound-icon.svg"
-        soundMuted = true
-    }
+    setIconSrc('musicIcon', localStorageMusic == 'true' ? "img/icon/music-icon.svg" : "img/icon/no-music-icon.svg");
+    setIconSrc('soundIcon', localStorageSound == 'true' ? "img/icon/sound-icon.svg" : "img/icon/no-sound-icon.svg");
+    musicMuted = localStorageMusic !== 'true';
+    soundMuted = localStorageSound !== 'true';
 }
+
+/**
+ * Loads settings from localStorage
+ * 
+ */
 function getLocalStorage() {
     localStorageMusic = localStorage.getItem('music')
     localStorageSound = localStorage.getItem('sound')
 }
 
+/**
+ * Initializes the game
+ * 
+ */
 function init() {
     getLocalStorage();
-
-    gameStarted = true;
-    isPaused = false;
-    world = null;
-
-    // document.getElementById("pauseIcon").src = "img/icon/pause-icon.svg";
-    document.getElementById('pauseIcon').classList.remove('hidden')
-    document.getElementById('impressumIcon').classList.add('hidden')
-
-    showGame();
+    initGameState();
+    setupUI();
     setupCanvasAndWorld();
-
-    // 🎯 Wichtig: Reset vom display-Stil für das Outro
-    const outro = document.getElementById("outro");
-    outro.style.display = ''; // ← zurücksetzen auf Standard
+    resetOutro();
 
     if (localStorageMusic == 'true') {
         playBackgroundMusic();
     }
-
     setupTouchControls();
-
 }
 
+/**
+ * Sets initial game state
+ * 
+ */
+function initGameState() {
+    gameStarted = true;
+    isPaused = false;
+    world = null;
+}
 
+/**
+ * Sets up UI elements for gameplay
+ * 
+ */
+function setupUI() {
+    toggleClass('pauseIcon', 'hidden', false);
+    toggleClass('impressumIcon', 'hidden', true);
+    showGame();
+}
+
+/**
+ * Resets outro display style
+ * 
+ */
+function resetOutro() {
+    const outro = document.getElementById("outro");
+    outro.style.display = '';
+}
+
+/**
+ * Creates canvas and world objects
+ * 
+ */
 function setupCanvasAndWorld() {
     canvas = document.getElementById("canvas");
     const level = createLevel();
     world = new World(canvas, keyboard, level);
-
-    // 💡 explizit initialisieren
     world.gameEnd = false;
     world.characterDead = false;
     world.endbossDead = false;
 }
 
+/**
+ * Shows game UI elements
+ * 
+ */
 function showGame() {
-    document.getElementById("intro").classList.add("hidden");
-    document.getElementById("outro").classList.remove("outro");
-    document.getElementById("canvasDiv").classList.remove("hidden");
-    document.getElementById("gameplayBtnDiv").classList.remove("visibilityNone");
+    toggleClass("intro", "hidden", true);
+    toggleClass("outro", "outro", false);
+    toggleClass("canvasDiv", "hidden", false);
+    toggleClass("gameplayBtnDiv", "visibilityNone", false);
 }
 
+/**
+ * Starts background music playback
+ * 
+ */
 function playBackgroundMusic() {
     backgroundMusic.loop = true;
     backgroundMusic.volume = backgroundMusicVolume;
     backgroundMusic.play();
 }
 
+/**
+ * Toggles game pause state
+ * 
+ */
 function pauseGame() {
     if (!gameStarted) return;
 
-    let iconImg = document.getElementById("pauseIcon");
-    if (isPaused) {
-        isPaused = false
-        world.draw();
-        iconImg.src = "img/icon/pause-icon.svg"
-        document.getElementById('pauseDiv').classList.add('hidden')
-        togglePlayback(true);
-    } else {
-        isPaused = true
-        iconImg.src = "img/icon/play-icon.svg"
-        togglePlayback(false);
-        document.getElementById('pauseDiv').classList.remove('hidden')
-    };
+    isPaused = !isPaused;
+    const iconSrc = isPaused ? "img/icon/play-icon.svg" : "img/icon/pause-icon.svg";
+
+    setIconSrc("pauseIcon", iconSrc);
+    toggleClass('pauseDiv', 'hidden', !isPaused);
+    togglePlayback(!isPaused);
+
+    if (!isPaused) world.draw();
 }
 
-// Aktualisierte youWin() Funktion für game.js:
-function youWin() {
-    // Wenn das Spiel bereits beendet wurde, nicht erneut ausführen
+/**
+ * Handles game end logic
+ * 
+ * @param {boolean} isWin - Whether player won
+ */
+function endGame(isWin) {
     if (world && world.gameEnd) return;
 
+    stopGame();
+    setupOutro(isWin);
+    playEndSound(isWin);
+}
+
+/**
+ * Stops all game processes
+ * 
+ */
+function stopGame() {
     if (world) {
         world.gameEnd = true;
-        world.endbossDead = true;   // Hier das Flag setzen
         isPaused = false;
-        
-        // Stoppe das World-Interval
-        if (world.worldInterval) {
-            clearInterval(world.worldInterval);
-        }
-        
-        // Stoppe alle Character-Intervalle
-        if (world.character) {
-            world.character.stopAllIntervals();
-        }
-        
-        // Stoppe alle anderen Audio-Elemente
+
+        if (world.worldInterval) clearInterval(world.worldInterval);
+        if (world.character) world.character.stopAllIntervals();
         stopAllAudio();
     }
-
-    const outro = document.getElementById("outro");
-    const winImg = document.getElementById("youWinImg");
-    const loseImg = document.getElementById("youLoseImg");
-    const btnDiv = document.getElementById("outroBtnDiv");
-
-    outro.classList.remove("hidden");
-    winImg.classList.remove("hidden");
-    loseImg.classList.add("hidden");
-    btnDiv.classList.remove("hidden");
-
     backgroundMusic.pause();
-    let applause = new Audio('audio/applause.mp3')
-    applause.play()
 }
 
-// Aktualisierte youLose() Funktion für game.js:
-function youLose() {
-    // Verhindere Mehrfachausführung
-    if (world && world.gameEnd) return;
-
-    if (world) {
-        world.gameEnd = true;
-        world.characterDead = true;
-        isPaused = false;
-        
-        // Stoppe das World-Interval
-        if (world.worldInterval) {
-            clearInterval(world.worldInterval);
-        }
-        
-        // Stoppe alle Character-Intervalle
-        if (world.character) {
-            world.character.stopAllIntervals();
-        }
-        
-        // Stoppe alle anderen Audio-Elemente
-        stopAllAudio();
-    }
-
+/**
+ * Sets up outro screen
+ * 
+ * @param {boolean} isWin - Whether player won
+ */
+function setupOutro(isWin) {
     const outro = document.getElementById("outro");
     const winImg = document.getElementById("youWinImg");
     const loseImg = document.getElementById("youLoseImg");
     const btnDiv = document.getElementById("outroBtnDiv");
 
-    outro.classList.remove("hidden");      // Zeige Outro an
-    winImg.classList.add("hidden");        // Verstecke Win-Bild
-    loseImg.classList.remove("hidden");    // Zeige Lose-Bild
-    btnDiv.classList.remove("hidden");     // Zeige Buttons
+    toggleClass("outro", "hidden", false);
+    toggleClass("youWinImg", "hidden", !isWin);
+    toggleClass("youLoseImg", "hidden", isWin);
+    toggleClass("outroBtnDiv", "hidden", false);
 
-    backgroundMusic.pause();               // Stoppe Musik
+    if (isWin) world.endbossDead = true;
+    else world.characterDead = true;
 }
 
+/**
+ * Plays end game sound
+ * 
+ * @param {boolean} isWin - Whether player won
+ */
+function playEndSound(isWin) {
+    if (isWin) {
+        let applause = new Audio('audio/applause.mp3');
+        applause.play();
+    }
+}
+
+/**
+ * Triggers win state
+ * 
+ */
+function youWin() {
+    endGame(true);
+}
+
+/**
+ * Triggers lose state
+ * 
+ */
+function youLose() {
+    endGame(false);
+}
+
+/**
+ * Stops all audio elements
+ * 
+ */
 function stopAllAudio() {
-    // Stoppe alle Audio-Elemente auf der Seite
     document.querySelectorAll('audio').forEach(audio => {
         audio.pause();
         audio.currentTime = 0;
     });
 }
 
-
+/**
+ * Controls background music playback
+ * 
+ * @param {boolean} element - Play if true, pause if false
+ */
 function togglePlayback(element) {
     if (element) {
         backgroundMusic.play();
-    }
-    else {
+    } else {
         backgroundMusic.pause();
     }
 }
 
+/**
+ * Returns to start page
+ * 
+ */
 function startPage() {
     console.log('🏁 startPage() gestartet');
+    resetGameState();
+    setupStartPageUI();
+    resetOutroElements();
+}
+
+/**
+ * Resets game state variables
+ * 
+ */
+function resetGameState() {
     gameStarted = false;
     world = null;
     backgroundMusic.pause();
-
-    document.getElementById('intro').classList.remove('hidden');
-    document.getElementById('canvasDiv').classList.add('hidden');
-    document.getElementById('gameplayBtnDiv').classList.add('visibilityNone');
-    document.getElementById('pauseIcon').classList.add('hidden')
-    document.getElementById('impressumIcon').classList.remove('hidden')
-    document.getElementById('pauseDiv').classList.add('hidden')
-
-    //   document.getElementById('pauseIcon').src = 'img/icon/info-icon.svg';
-
-    const outro = document.getElementById('outro');
-    const winImg = document.getElementById('youWinImg');
-    const loseImg = document.getElementById('youLoseImg');
-    const btnDiv = document.getElementById('outroBtnDiv');
-
-    outro.classList.add('hidden');
-    winImg.classList.add('hidden');
-    loseImg.classList.add('hidden');
-    btnDiv.classList.add('hidden');
-
-    // **Forciertes Style-Ausblenden**
-    outro.style.display = 'none';
-    console.log(
-        'DEBUG: outro-klassen:',
-        outro.className,
-        'style.display:',
-        outro.style.display
-    );
 }
 
+/**
+ * Sets up start page UI
+ * 
+ */
+function setupStartPageUI() {
+    toggleClass('intro', 'hidden', false);
+    toggleClass('canvasDiv', 'hidden', true);
+    toggleClass('gameplayBtnDiv', 'visibilityNone', true);
+    toggleClass('pauseIcon', 'hidden', true);
+    toggleClass('impressumIcon', 'hidden', false);
+    toggleClass('pauseDiv', 'hidden', true);
+}
 
+/**
+ * Resets outro elements to hidden state
+ * 
+ */
+function resetOutroElements() {
+    const outro = document.getElementById('outro');
+    const elements = ['outro', 'youWinImg', 'youLoseImg', 'outroBtnDiv'];
 
+    elements.forEach(id => toggleClass(id, 'hidden', true));
+    outro.style.display = 'none';
 
+    console.log('DEBUG: outro-klassen:', outro.className, 'style.display:', outro.style.display);
+}
+
+/**
+ * Enters fullscreen mode
+ * 
+ * @param {HTMLElement} element - Element to make fullscreen
+ */
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen();
-    } else if (element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
+    } else if (element.msRequestFullscreen) {
         element.msRequestFullscreen();
-    } else if (element.webkitRequestFullscreen) {  // iOS Safari
+    } else if (element.webkitRequestFullscreen) {
         element.webkitRequestFullscreen();
     }
 }
 
+/**
+ * Exits fullscreen mode
+ * 
+ */
 function exitFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -253,6 +327,10 @@ function exitFullscreen() {
     }
 }
 
+/**
+ * Toggles music on/off
+ * 
+ */
 function toggleMusic() {
     musicMuted = !musicMuted;
     if (backgroundMusic.volume = musicMuted) {
@@ -264,119 +342,146 @@ function toggleMusic() {
     }
 }
 
+/**
+ * Toggles sound on/off
+ * 
+ */
 function toggleSound() {
     soundMuted = !soundMuted;
 }
 
-
+/**
+ * Changes music setting and icon
+ * 
+ * @param {string} name - Icon element ID
+ */
 function changeMusic(name) {
-    const musicIcon = document.getElementById(name)
-    if (musicIcon.src.includes('no')) {
-        musicIcon.src = "img/icon/music-icon.svg"
-        localStorage.setItem('music', 'true')
-    } else {
-        musicIcon.src = "img/icon/no-music-icon.svg"
-        localStorage.setItem('music', 'false')
-    }
+    const musicIcon = document.getElementById(name);
+    const isNoMusic = musicIcon.src.includes('no');
+
+    setIconSrc(name, isNoMusic ? "img/icon/music-icon.svg" : "img/icon/no-music-icon.svg");
+    localStorage.setItem('music', isNoMusic ? 'true' : 'false');
     toggleMusic();
 }
 
+/**
+ * Changes sound setting and icon
+ * 
+ * @param {string} name - Icon element ID
+ */
 function changeSound(name) {
-    const soundIcon = document.getElementById(name)
-    if (soundIcon.src.includes('no')) {
-        soundIcon.src = "img/icon/sound-icon.svg"
-        localStorage.setItem('sound', 'true')
-    } else {
-        soundIcon.src = "img/icon/no-sound-icon.svg"
-        localStorage.setItem('sound', 'false')
-    }
+    const soundIcon = document.getElementById(name);
+    const isNoSound = soundIcon.src.includes('no');
+
+    setIconSrc(name, isNoSound ? "img/icon/sound-icon.svg" : "img/icon/no-sound-icon.svg");
+    localStorage.setItem('sound', isNoSound ? 'true' : 'false');
     toggleSound();
 }
 
+/**
+ * Toggles fullscreen mode
+ * 
+ * @param {string} name - Screen icon element ID
+ */
 function changeScreen(name) {
-    const screenIcon = document.getElementById(name)
-    if (screenIcon.src.includes('full')) {
-        screenIcon.src = "img/icon/minimizescreen-icon.svg"
-        enterFullscreen(document.getElementById("fullscreen"))
+    const screenIcon = document.getElementById(name);
+    const isFullscreen = screenIcon.src.includes('full');
+
+    if (isFullscreen) {
+        setIconSrc(name, "img/icon/minimizescreen-icon.svg");
+        enterFullscreen(document.getElementById("fullscreen"));
     } else {
-        screenIcon.src = "img/icon/fullscreen-icon.svg"
-        exitFullscreen()
+        setIconSrc(name, "img/icon/fullscreen-icon.svg");
+        exitFullscreen();
     }
 }
 
+/**
+ * Sets up touch controls for mobile
+ * 
+ */
 function setupTouchControls() {
     const buttonImgs = document.querySelectorAll('#gameplayBtnDiv img');
 
     buttonImgs.forEach(img => {
         const key = img.dataset.key;
-
         if (!key) return;
 
-        img.addEventListener('mousedown', () => {
-            keyboard[key] = true;
-        });
-
-        img.addEventListener('mouseup', () => {
-            keyboard[key] = false;
-        });
-
-        img.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            keyboard[key] = true;
-        });
-
-        img.addEventListener('touchend', () => {
-            keyboard[key] = false;
-        });
+        addTouchEvents(img, key);
     });
 }
 
+/**
+ * Adds touch event listeners to button
+ * 
+ * @param {HTMLElement} img - Button image element
+ * @param {string} key - Keyboard key name
+ */
+function addTouchEvents(img, key) {
+    const setKey = (value) => () => keyboard[key] = value;
+    const preventDefault = (e) => { e.preventDefault(); keyboard[key] = true; };
+
+    img.addEventListener('mousedown', setKey(true));
+    img.addEventListener('mouseup', setKey(false));
+    img.addEventListener('touchstart', preventDefault);
+    img.addEventListener('touchend', setKey(false));
+}
+
+/**
+ * Toggles tutorial visibility
+ * 
+ */
 function tutorial() {
     console.log('toggle tutorial')
-    document.getElementById("tutorial").classList.toggle('hidden');
+    toggleClass("tutorial", 'hidden');
 }
+
+/**
+ * Toggles impressum visibility
+ * 
+ */
 function impressum() {
-    document.getElementById("impressum").classList.toggle('hidden');
+    toggleClass("impressum", 'hidden');
 }
 
-// warten bis seite geladen
-document.addEventListener('DOMContentLoaded', function () {
+/**
+ * Sets up modal click listeners
+ * 
+ */
+function setupModalListeners() {
+    const modals = ['impressum', 'tutorial'];
+    const closeButtons = ['impressumClose', 'tutorialClose'];
 
-    // event-handler für hintergrund
-    document.getElementById("impressum").addEventListener('click', function (event) {
-        if (event.target.id === 'impressum') {// nur schließen wenn auf hintergrund geklickt wurde
-            impressum();
-        }
+    modals.forEach((modalId, index) => {
+        document.getElementById(modalId).addEventListener('click', (event) => {
+            if (event.target.id === modalId) {
+                toggleClass(modalId, 'hidden');
+            }
+        });
+
+        document.getElementById(closeButtons[index]).addEventListener('click', () => {
+            toggleClass(modalId, 'hidden');
+        });
     });
-    document.getElementById("tutorial").addEventListener('click', function (event) {
-        if (event.target.id === 'tutorial') {// nur schließen wenn auf hintergrund geklickt wurde
-            tutorial();
-        }
-    });
+}
 
-    document.getElementById("impressumClose").addEventListener('click', function (event) {
-        impressum();
-    });
-    document.getElementById("tutorialClose").addEventListener('click', function (event) {
-        tutorial();
-    });
+document.addEventListener('DOMContentLoaded', setupModalListeners);
 
-});
+const keyMappings = {
+    39: 'RIGHT', 37: 'LEFT', 38: 'UP',
+    40: 'DOWN', 32: 'SPACE', 68: 'D'
+};
 
-window.addEventListener("keydown", (event) => {
-    if (event.keyCode === 39) keyboard.RIGHT = true;
-    if (event.keyCode === 37) keyboard.LEFT = true;
-    if (event.keyCode === 38) keyboard.UP = true;
-    if (event.keyCode === 40) keyboard.DOWN = true;
-    if (event.keyCode === 32) keyboard.SPACE = true;
-    if (event.keyCode === 68) keyboard.D = true;
-});
+/**
+ * Handles keyboard events
+ * 
+ * @param {KeyboardEvent} event - Keyboard event
+ * @param {boolean} value - Key pressed state
+ */
+function handleKeyEvent(event, value) {
+    const key = keyMappings[event.keyCode];
+    if (key) keyboard[key] = value;
+}
 
-window.addEventListener("keyup", (event) => {
-    if (event.keyCode === 39) keyboard.RIGHT = false;
-    if (event.keyCode === 37) keyboard.LEFT = false;
-    if (event.keyCode === 38) keyboard.UP = false;
-    if (event.keyCode === 40) keyboard.DOWN = false;
-    if (event.keyCode === 32) keyboard.SPACE = false;
-    if (event.keyCode === 68) keyboard.D = false;
-});
+window.addEventListener("keydown", (event) => handleKeyEvent(event, true));
+window.addEventListener("keyup", (event) => handleKeyEvent(event, false));

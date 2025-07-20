@@ -18,7 +18,7 @@ class Chicken extends MovableObject {
         bottom: 5
     }
     moveInterval;
-    isDead = false; // Standardwert
+    isDead = false;
 
     constructor() {
         super();
@@ -26,11 +26,15 @@ class Chicken extends MovableObject {
         this.loadImages(this.images_walking)
         this.loadImages(this.images_dead)
         this.x = 350 + Math.random() * 500;
-        // this.animate();
         this.speed = 0.15 + Math.random() * 0.25;
         this.chicken_sound = new Audio('audio/chicken-noise.mp3');
     }
 
+    /**
+    * Starts chicken animation and movement
+    * 
+    * @returns {void}
+    */
     animate() {
         if (isPaused) { return }
         setInterval(() => {
@@ -46,19 +50,20 @@ class Chicken extends MovableObject {
                 this.die();
             }
         }, 100);
-
-
     }
 
+    /**
+     * Handles chicken death sequence
+     * 
+     * @returns {void}
+     */
     die() {
         if (isPaused) return;
         this.enemyDead = true;
         this.speed = 0;
         clearInterval(this.moveInterval);
         this.playAnimationOnce(this.images_dead)
-        // console.log('chicken die')
-        // this.chickenSound();
-        this.playSound(this.chicken_sound,1);
+        this.playSound(this.chicken_sound, 1);
         setTimeout(() => {
             const index = this.world.level.enemies.indexOf(this);
             if (index !== -1) {

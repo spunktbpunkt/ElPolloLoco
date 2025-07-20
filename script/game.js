@@ -234,7 +234,6 @@ function toggleMusic() {
         backgroundMusicVolume;
         if (gameStarted) playBackgroundMusic();
     }
-    console.log(backgroundMusic.volume)
 }
 
 function toggleSound() {
@@ -304,9 +303,14 @@ function setupTouchControls() {
     });
 }
 
+function tutorial() {
+    console.log('toggle tutorial')
+    document.getElementById("tutorial").classList.toggle('hidden');
+}
 function impressum() {
     document.getElementById("impressum").classList.toggle('hidden');
 }
+
 // warten bis seite geladen
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -316,9 +320,17 @@ document.addEventListener('DOMContentLoaded', function () {
             impressum();
         }
     });
+    document.getElementById("tutorial").addEventListener('click', function (event) {
+        if (event.target.id === 'tutorial') {// nur schließen wenn auf hintergrund geklickt wurde
+            tutorial();
+        }
+    });
 
     document.getElementById("impressumClose").addEventListener('click', function (event) {
         impressum();
+    });
+    document.getElementById("tutorialClose").addEventListener('click', function (event) {
+        tutorial();
     });
 
 });

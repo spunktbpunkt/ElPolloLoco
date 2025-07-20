@@ -68,6 +68,10 @@
         <img onclick="impressum()" id="impressumIcon" src="img/icon/info-icon.svg" alt="Info" />
       </div>
 
+      <div id="tutorialBar">
+        <img onclick="tutorial()" id="musicIcon" src="img/icon/question-icon.svg" alt="Music" />
+      </div>
+
       <div id="gameplayBtnDiv" class="gameplayBtnDiv visibilityNone" style="width: 720px; height: 50px; display: flex;">
         <div id="leftBtns" class="gameplayBtnAside">
           <img id="btnLeft" src="img/icon/arrowLeft.svg" alt="" data-key="LEFT" class="gameplayBtn">
@@ -90,7 +94,7 @@
     </div>
     <div id="impressum" class="hidden">
       <div id="impressumDiv">
-        <img id="impressumClose" src="img/icon/close-icon.svg" alt="Close">
+        <img id="impressumClose" class="closeIimg" src="img/icon/close-icon.svg" alt="Close">
         <div id="impressumContent">
 
           <div id="impressum1" class="impressum">
@@ -182,6 +186,51 @@
               Fachanwälte für Familienrecht</a>
           </div>
 
+        </div>
+      </div>
+    </div>
+
+    <div id="tutorial">
+      <div id="tutorialDiv">
+        <img id="tutorialClose" class="closeIimg" src="img/icon/close-icon.svg" alt="Close">
+        <div id="tutorialContent" style="width: 100%;
+    display: flex
+;
+    justify-content: center;
+    height: 100%;
+    align-items: center;">
+
+          <div
+            style="display: flex; flex-direction: row; gap: 20px; justify-content: space-around;height: 100%;width: 100%;">
+            <div style="display: flex;flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
+              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" style="height: 250px;transform: scaleX(-1);">
+              <p>MOVE LEFT</p>
+              <img src="img/icon/left-arrow.png" alt="" style="height: 60px; width: 60px;">
+              <img src="img/icon/arrowLeft.svg" alt="" style="height: 40px; width: 40px;">
+              <label>(mobile device)</label>
+            </div>
+            <div style="display: flex;flex-direction: column; justify-content: center; align-items: center;gap: 20px;">
+              <img src="img/2_character_pepe/2_walk/W-21.png" alt="" style="height: 250px;">
+              <p>MOVE RIGHT</p>
+              <img src="img/icon/right-arrow.png" alt="" style="height: 60px; width: 60px;">
+              <img src="img/icon/arrowRight.svg" alt="" style="height: 40px; width: 40px;">
+              <label>(mobile device)</label>
+            </div>
+            <div style="display: flex;flex-direction: column; justify-content: center; align-items: center;gap: 20px;">
+              <img src="img/2_character_pepe/3_jump/J-34.png" alt="" style="height: 250px;">
+              <p>JUMP</p>
+              <img src="img/icon/up-arrow.png" alt="" style="height: 60px; width: 60px;">
+              <img src="img/icon/arrowUp.svg" alt="" style="height: 40px; width: 40px;">
+              <label>(mobile device)</label>
+            </div>
+            <div style="display: flex;flex-direction: column; justify-content: center; align-items: center;gap: 20px;">
+              <img src="img/6_salsa_bottle/bottle_throw.png" alt="" style="height: 150px;padding-top: 96px">
+              <p>THROW BOTTLE</p>
+              <img src="img/icon/letter-d.png" alt="" style="height: 60px; width: 60px;">
+              <img src="img/icon/bottleThrow.svg" alt="" style="height: 40px; width: 40px;">
+              <label>(mobile device)</label>
+            </div>
+          </div>
         </div>
       </div>
     </div>

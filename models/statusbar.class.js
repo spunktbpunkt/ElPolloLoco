@@ -2,10 +2,15 @@ class Statusbar extends DrawableObject {
 
     images_energy = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/10.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/30.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/50.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png',
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/70.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/90.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png'
     ];
 
@@ -105,7 +110,12 @@ class Statusbar extends DrawableObject {
     setPercentage(current, max = 100) {
         this.percentage = (current / max) * 100;
         this.max = max;
-        const path = this.currentImages[this.resolveImageIndex()];
+        let path = ''
+        if(this.type == 'energy'){
+            path = this.currentImages[this.resolveImageIndexHealth()];
+        }else{
+            path = this.currentImages[this.resolveImageIndex()];
+        }
         this.img = this.imageCache[path];
     }
 
@@ -114,6 +124,31 @@ class Statusbar extends DrawableObject {
      * 
      * @returns {number} Image index (0-5) corresponding to percentage ranges
      */
+    resolveImageIndexHealth() {
+        if (this.percentage == 0) {
+            return 0;
+        } else if (this.percentage == 10) {
+            return 1
+        } else if (this.percentage == 20) {
+            return 2
+        } else if (this.percentage == 30) {
+            return 3
+        } else if (this.percentage == 40) {
+            return 4
+        } else if (this.percentage == 50) {
+            return 5
+        } else if (this.percentage == 60) {
+            return 6
+        } else if (this.percentage == 70) {
+            return 7
+        } else if (this.percentage == 80) {
+            return 8
+        } else if (this.percentage == 90) {
+            return 9
+        } else {
+            return 10
+        }
+    }
     resolveImageIndex() {
         if (this.percentage == 0) {
             return 0;

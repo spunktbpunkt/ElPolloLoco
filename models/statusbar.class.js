@@ -122,7 +122,7 @@ class Statusbar extends DrawableObject {
     /**
      * Returns the appropriate image index based on current percentage.
      * 
-     * @returns {number} Image index (0-5) corresponding to percentage ranges
+     * @returns {number} Image index (0-10) corresponding to percentage ranges
      */
     resolveImageIndexHealth() {
         if (this.percentage == 0) {
@@ -149,6 +149,12 @@ class Statusbar extends DrawableObject {
             return 10
         }
     }
+
+    /**
+     * Returns the appropriate image index based on current percentage.
+     * 
+     * @returns {number} Image index (0-5) corresponding to percentage ranges
+     */
     resolveImageIndex() {
         if (this.percentage == 0) {
             return 0;

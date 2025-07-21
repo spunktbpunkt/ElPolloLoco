@@ -83,7 +83,6 @@ class World {
      * 
      */
     errorSoundBottleThrow() {
-        console.log(this.character.bottlesAmount)
         if (this.keyboard.D && this.character.bottlesAmount < 1 && !this.previousKeyboardD) {
             let errorSound = new Audio('audio/error.wav');
             this.character.playSound(errorSound, 1)

@@ -47,32 +47,16 @@ class Statusbar extends DrawableObject {
 
         switch (type) {
             case 'bottle':
-                this.currentImages = this.images_bottles;
-                this.loadImages(this.currentImages);
-                this.setPercentage(0, 5); // z.B. max 5 Flaschen
-                this.x = 20;
-                this.y = 50;
+                this.bottleStatusbar()
                 break;
             case 'coin':
-                this.currentImages = this.images_coins;
-                this.loadImages(this.currentImages);
-                this.setPercentage(0, 5);
-                this.x = 20;
-                this.y = 100;
+                this.coinStatusbar()
                 break;
             case 'endboss':
-                this.currentImages = this.images_energy_endboss;
-                this.loadImages(this.currentImages);
-                this.setPercentage(100, 100); // Health: 0–100%
-                this.x = 500;
-                this.y = 50;
+                this.endbossStatusbar()
                 break;
             default:
-                this.currentImages = this.images_energy;
-                this.loadImages(this.currentImages);
-                this.setPercentage(100, 100); // Health: 0–100%
-                this.x = 20;
-                this.y = 0;
+                this.defaultStatusbar()
                 break;
         }
 
@@ -80,6 +64,37 @@ class Statusbar extends DrawableObject {
         this.height = 60;
     }
 
+    bottleStatusbar() {
+        this.currentImages = this.images_bottles;
+        this.loadImages(this.currentImages);
+        this.setPercentage(0, 5); // z.B. max 5 Flaschen
+        this.x = 20;
+        this.y = 50;
+    }
+
+    coinStatusbar() {
+        this.currentImages = this.images_coins;
+        this.loadImages(this.currentImages);
+        this.setPercentage(0, 5);
+        this.x = 20;
+        this.y = 100;
+    }
+
+    endbossStatusbar() {
+        this.currentImages = this.images_energy_endboss;
+        this.loadImages(this.currentImages);
+        this.setPercentage(100, 100); // Health: 0–100%
+        this.x = 500;
+        this.y = 50;
+    }
+
+    defaultStatusbar() {
+        this.currentImages = this.images_energy;
+        this.loadImages(this.currentImages);
+        this.setPercentage(100, 100); // Health: 0–100%
+        this.x = 20;
+        this.y = 0;
+    }
     /**
     * Updates the status bar percentage and corresponding image.
     * 

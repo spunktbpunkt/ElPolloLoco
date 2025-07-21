@@ -171,7 +171,6 @@ function handleImageLoad(img, path, resolve) {
  * @param {Function} resolve - Promise resolve function
  */
 function handleImageError(path, resolve) {
-    console.warn(`Failed to load image: ${path}`);
     loadedImages++;
     updateLoadingProgress();
     checkLoadingComplete(resolve);
@@ -246,7 +245,6 @@ async function initWithLoading() {
         hideLoadingScreen();
         init();
     } catch (error) {
-        console.error('Error loading game assets:', error);
         hideLoadingScreen();
         init();
     }

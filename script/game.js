@@ -257,7 +257,6 @@ function togglePlayback(element) {
  * 
  */
 function startPage() {
-    console.log('🏁 startPage() gestartet');
     resetGameState();
     setupStartPageUI();
     resetOutroElements();
@@ -297,7 +296,6 @@ function resetOutroElements() {
     elements.forEach(id => toggleClass(id, 'hidden', true));
     outro.style.display = 'none';
 
-    console.log('DEBUG: outro-klassen:', outro.className, 'style.display:', outro.style.display);
 }
 
 /**
@@ -432,7 +430,6 @@ function addTouchEvents(img, key) {
  * 
  */
 function tutorial() {
-    console.log('toggle tutorial')
     toggleClass("tutorial", 'hidden');
 }
 

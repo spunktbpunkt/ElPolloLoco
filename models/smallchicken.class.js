@@ -12,10 +12,10 @@ class Chickensmall extends MovableObject {
     ]
     currentImage = 0;
     offset = {
-        left: 5,
-        right: 10,
-        top: 5,
-        bottom: 5
+        left: 15,
+        right: 30,
+        top: 10,
+        bottom: 10
     }
     moveInterval;
     isDead = false;

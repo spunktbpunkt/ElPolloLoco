@@ -21,6 +21,8 @@ class World {
         this.lastThrowTime = 0;
         this.now = 0;
         this.coin_sound = new Audio('audio/coin.mp3');
+        this.camera_x = 0;  // Falls noch nicht da
+        this.camera_y = 100;
         this.draw();
         this.setWorld();
         this.run();
@@ -273,13 +275,21 @@ class World {
     }
 
     /**
-    * Main render loop that draws all game objects to the canvas.
-    * 
-    */
+     * Main render loop that draws all game objects to the canvas.
+     * 
+     */
+    /**
+     * Main render loop that draws all game objects to the canvas.
+     */
     draw() {
         if (this.gameEnd) {
             if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
             return;
+        }
+
+        // Update Endboss-Statusbar Position bei Canvas-Größenänderung
+        if (this.statusBarEndboss) {
+            this.statusBarEndboss.updateEndbossPosition();
         }
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -293,14 +303,32 @@ class World {
     }
 
     /**
-     * Draws background elements with camera translation.
+    * Checks if canvas is in fullscreen and adjusts camera
+    * 
+    */
+    checkFullscreenCamera() {
+        const isFullscreen = this.canvas.height > 600; // Fullscreen detection
+
+        if (isFullscreen && (!this.camera_y || this.camera_y === 0)) {
+            console.log('Setting fullscreen camera');
+            const extraHeight = this.canvas.height - 480;
+            this.camera_y = -extraHeight + 100;
+            console.log('Camera Y set to:', this.camera_y);
+        } else if (!isFullscreen && this.camera_y !== 0) {
+            console.log('Resetting camera for normal mode');
+            this.camera_y = 0;
+        }
+    }
+
+    /**
+     * Draws background elements with camera translation
      * 
      */
     drawBackground() {
-        this.ctx.translate(this.camera_x, 0);
+        this.ctx.translate(this.camera_x, 0);  // Nur X, kein Y!
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-        this.ctx.translate(-this.camera_x, 0);
+        this.ctx.translate(-this.camera_x, 0);  // Nur X, kein Y!
     }
 
     /**
@@ -318,18 +346,18 @@ class World {
     }
 
     /**
-     * Draws all interactive game objects with camera translation.
+     * Draws all interactive game objects with camera translation
      * 
      */
     drawGameObjects() {
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.endboss);
-        this.addObjectsToMap(this.level.enemies);
+        this.ctx.translate(this.camera_x, 0);  // Nur X, kein Y!
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
+        this.addObjectsToMap(this.level.endboss);
+        this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
-        this.ctx.translate(-this.camera_x, 0);
+        this.ctx.translate(-this.camera_x, 0);  // Nur X, kein Y!
     }
 
     /**
@@ -353,6 +381,7 @@ class World {
             this.flipImage(mo)
         }
         mo.drawing(this.ctx)
+        // mo.drawingFrame(this.ctx)
         if (mo.otherDirection) {
             this.flipImageBack(mo)
         }

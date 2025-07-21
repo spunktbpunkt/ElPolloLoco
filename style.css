@@ -358,6 +358,67 @@
         visibility: hidden;
     }
 
+    #fullscreen:-webkit-full-screen canvas {
+        margin-top: calc(100vh - 480px) !important;
+    }
+
+    #fullscreen:fullscreen canvas {
+        margin-top: calc(100vh - 480px) !important;
+    }
+
+    /* IconBar positioning in fullscreen - relativ zum Canvas-Bereich */
+    #fullscreen:-webkit-full-screen #iconBar {
+        position: fixed !important;
+        top: calc(50vh - 240px + 10px) !important;
+        /* Canvas-Top + 10px */
+        right: 10px !important;
+        z-index: 1000 !important;
+    }
+
+    #fullscreen:fullscreen #iconBar {
+        position: fixed !important;
+        top: calc(50vh - 240px + 10px) !important;
+        /* Canvas-Top + 10px */
+        right: 10px !important;
+        z-index: 1000 !important;
+    }
+
+    /* TutorialBar positioning in fullscreen - relativ zum Canvas-Bereich */
+    #fullscreen:-webkit-full-screen #tutorialBar {
+        position: fixed !important;
+        bottom: calc(50vh - 240px + 10px) !important;
+        /* Canvas-Bottom + 10px */
+        right: 10px !important;
+        z-index: 1000 !important;
+    }
+
+    #fullscreen:fullscreen #tutorialBar {
+        position: fixed !important;
+        bottom: calc(50vh - 240px + 10px) !important;
+        /* Canvas-Bottom + 10px */
+        right: 10px !important;
+        z-index: 1000 !important;
+    }
+
+    /* GameplayBtnDiv positioning in fullscreen */
+    #fullscreen:-webkit-full-screen #gameplayBtnDiv {
+        position: fixed !important;
+        bottom: calc(50vh - 240px + 10px) !important;
+        /* Canvas-Bottom + 10px */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 1000 !important;
+    }
+
+    #fullscreen:fullscreen #gameplayBtnDiv {
+        position: fixed !important;
+        bottom: calc(50vh - 240px + 10px) !important;
+        /* Canvas-Bottom + 10px */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 1000 !important;
+    }
+
     .hidden {
         display: none !important;
     }

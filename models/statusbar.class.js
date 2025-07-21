@@ -89,7 +89,7 @@ class Statusbar extends DrawableObject {
         this.currentImages = this.images_energy_endboss;
         this.loadImages(this.currentImages);
         this.setPercentage(100, 100); // Health: 0–100%
-        this.x = 500;
+        this.updateEndbossPosition(); // ← Neue Funktion
         this.y = 50;
     }
 
@@ -100,6 +100,20 @@ class Statusbar extends DrawableObject {
         this.x = 20;
         this.y = 0;
     }
+
+    /**
+     * Updates endboss statusbar position based on canvas size
+     */
+    updateEndbossPosition() {
+        const canvas = document.getElementById('canvas');
+        if (canvas) {
+            // Berechne Position basierend auf aktueller Canvas-Breite
+            this.x = canvas.width - 220; // 200px Breite + 20px Abstand vom Rand
+        } else {
+            this.x = 500; // Fallback für normale Auflösung
+        }
+    }
+
     /**
     * Updates the status bar percentage and corresponding image.
     * 

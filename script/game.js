@@ -377,8 +377,7 @@ function changeSound(name) {
 }
 
 /**
- * Toggles fullscreen mode
- * 
+ * Toggles fullscreen mode and resizes canvas
  * @param {string} name - Screen icon element ID
  */
 function changeScreen(name) {
@@ -388,11 +387,45 @@ function changeScreen(name) {
     if (isFullscreen) {
         setIconSrc(name, "img/icon/minimizescreen-icon.svg");
         enterFullscreen(document.getElementById("fullscreen"));
+
+        // Warte kurz bis Fullscreen aktiv ist
+        setTimeout(() => {
+            resizeCanvasToFullscreen();
+        }, 100);
     } else {
         setIconSrc(name, "img/icon/fullscreen-icon.svg");
         exitFullscreen();
+        resetCanvasResolution();
     }
 }
+
+/**
+ * Resizes canvas to fullscreen resolution
+ * 
+ */
+function resizeCanvasToFullscreen() {
+    const canvas = document.getElementById('canvas');
+    if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+    }
+}
+
+/**
+ * Resets canvas to original resolution
+ */
+function resetCanvasResolution() {
+    const canvas = document.getElementById('canvas');
+    if (canvas) {
+        canvas.width = 720;
+        canvas.height = 480;
+        canvas.style.width = '';
+        canvas.style.height = '';
+    }
+}
+
 
 /**
  * Sets up touch controls for mobile

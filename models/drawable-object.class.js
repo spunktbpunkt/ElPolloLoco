@@ -59,7 +59,7 @@ class DrawableObject {
      * @returns {void}
      */
     drawingFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Coins || this instanceof Bottles) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Chickensmall || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Coins || this instanceof Bottles) {
             this.definingOffsetFrame();
             ctx.beginPath();
             ctx.lineWidth = "2";

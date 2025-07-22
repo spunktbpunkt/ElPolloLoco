@@ -1,15 +1,9 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let backgroundMusic = new Audio('audio/mariachi.wav');
-let backgroundMusicVolume = 0.5;
-let soundVolume = 1;
-let musicMuted = false;
-let soundMuted = false;
 let isPaused = false;
 let gameStarted = false;
-let localStorageMusic
-let localStorageSound
+
 
 /**
  * Sets icon source for DOM element
@@ -45,14 +39,7 @@ function initNew() {
     soundMuted = localStorageSound !== 'true';
 }
 
-/**
- * Loads settings from localStorage
- * 
- */
-function getLocalStorage() {
-    localStorageMusic = localStorage.getItem('music')
-    localStorageSound = localStorage.getItem('sound')
-}
+
 
 /**
  * Initializes the game
@@ -125,16 +112,6 @@ function showGame() {
 }
 
 /**
- * Starts background music playback
- * 
- */
-function playBackgroundMusic() {
-    backgroundMusic.loop = true;
-    backgroundMusic.volume = backgroundMusicVolume;
-    backgroundMusic.play();
-}
-
-/**
  * Toggles game pause state
  * 
  */
@@ -201,18 +178,6 @@ function setupOutro(isWin) {
 }
 
 /**
- * Plays end game sound
- * 
- * @param {boolean} isWin - Whether player won
- */
-function playEndSound(isWin) {
-    if (isWin) {
-        let applause = new Audio('audio/applause.mp3');
-        applause.play();
-    }
-}
-
-/**
  * Triggers win state
  * 
  */
@@ -226,30 +191,6 @@ function youWin() {
  */
 function youLose() {
     endGame(false);
-}
-
-/**
- * Stops all audio elements
- * 
- */
-function stopAllAudio() {
-    document.querySelectorAll('audio').forEach(audio => {
-        audio.pause();
-        audio.currentTime = 0;
-    });
-}
-
-/**
- * Controls background music playback
- * 
- * @param {boolean} element - Play if true, pause if false
- */
-function togglePlayback(element) {
-    if (element) {
-        backgroundMusic.play();
-    } else {
-        backgroundMusic.pause();
-    }
 }
 
 /**
@@ -296,56 +237,6 @@ function resetOutroElements() {
     elements.forEach(id => toggleClass(id, 'hidden', true));
     outro.style.display = 'none';
 
-}
-
-/**
- * Enters fullscreen mode
- * 
- * @param {HTMLElement} element - Element to make fullscreen
- */
-function enterFullscreen(element) {
-    if (element.requestFullscreen) {
-        element.requestFullscreen();
-    } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen();
-    } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen();
-    }
-}
-
-/**
- * Exits fullscreen mode
- * 
- */
-function exitFullscreen() {
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-    }
-}
-
-/**
- * Toggles music on/off
- * 
- */
-function toggleMusic() {
-    musicMuted = !musicMuted;
-    if (backgroundMusic.volume = musicMuted) {
-        0
-        backgroundMusic.pause()
-    } else {
-        backgroundMusicVolume;
-        if (gameStarted) playBackgroundMusic();
-    }
-}
-
-/**
- * Toggles sound on/off
- * 
- */
-function toggleSound() {
-    soundMuted = !soundMuted;
 }
 
 /**
@@ -398,34 +289,6 @@ function changeScreen(name) {
         resetCanvasResolution();
     }
 }
-
-/**
- * Resizes canvas to fullscreen resolution
- * 
- */
-function resizeCanvasToFullscreen() {
-    const canvas = document.getElementById('canvas');
-    if (canvas) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
-    }
-}
-
-/**
- * Resets canvas to original resolution
- */
-function resetCanvasResolution() {
-    const canvas = document.getElementById('canvas');
-    if (canvas) {
-        canvas.width = 720;
-        canvas.height = 480;
-        canvas.style.width = '';
-        canvas.style.height = '';
-    }
-}
-
 
 /**
  * Sets up touch controls for mobile

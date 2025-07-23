@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: game.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: game.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let canvas;
+let world;
+let keyboard = new Keyboard();
+let isPaused = false;
+let gameStarted = false;
+
+
+/**
+ * Sets icon source for DOM element
+ * 
+ * 
+ * @param {string} id - Element ID
+ * @param {string} src - Icon source path
+ */
+function setIconSrc(id, src) {
+    document.getElementById(id).src = src;
+}
+
+/**
+ * Toggles CSS class on DOM element
+ * 
+ * @param {string} id - Element ID
+ * @param {string} className - CSS class name
+ * @param {boolean} [add] - Force add/remove class
+ */
+function toggleClass(id, className, add) {
+    document.getElementById(id).classList.toggle(className, add);
+}
+
+/**
+ * Initializes app with saved settings
+ * 
+ */
+function initNew() {
+    getLocalStorage();
+    setIconSrc('musicIcon', localStorageMusic == 'true' ? "img/icon/music-icon.svg" : "img/icon/no-music-icon.svg");
+    setIconSrc('soundIcon', localStorageSound == 'true' ? "img/icon/sound-icon.svg" : "img/icon/no-sound-icon.svg");
+    musicMuted = localStorageMusic !== 'true';
+    soundMuted = localStorageSound !== 'true';
+}
+
+
+
+/**
+ * Initializes the game
+ * 
+ */
+function init() {
+    getLocalStorage();
+    initGameState();
+    setupUI();
+    setupCanvasAndWorld();
+    resetOutro();
+
+    if (localStorageMusic == 'true') {
+        playBackgroundMusic();
+    }
+    setupTouchControls();
+}
+
+/**
+ * Sets initial game state
+ * 
+ */
+function initGameState() {
+    gameStarted = true;
+    isPaused = false;
+    world = null;
+}
+
+/**
+ * Sets up UI elements for gameplay
+ * 
+ */
+function setupUI() {
+    toggleClass('pauseIcon', 'hidden', false);
+    toggleClass('impressumIcon', 'hidden', true);
+    showGame();
+}
+
+/**
+ * Resets outro display style
+ * 
+ */
+function resetOutro() {
+    const outro = document.getElementById("outro");
+    outro.style.display = '';
+}
+
+/**
+ * Creates canvas and world objects
+ * 
+ */
+function setupCanvasAndWorld() {
+    canvas = document.getElementById("canvas");
+    const level = createLevel();
+    world = new World(canvas, keyboard, level);
+    world.gameEnd = false;
+    world.characterDead = false;
+    world.endbossDead = false;
+}
+
+/**
+ * Shows game UI elements
+ * 
+ */
+function showGame() {
+    toggleClass("intro", "hidden", true);
+    toggleClass("outro", "outro", false);
+    toggleClass("canvasDiv", "hidden", false);
+    toggleClass("gameplayBtnDiv", "visibilityNone", false);
+}
+
+/**
+ * Toggles game pause state
+ * 
+ */
+function pauseGame() {
+    if (!gameStarted) return;
+
+    isPaused = !isPaused;
+    const iconSrc = isPaused ? "img/icon/play-icon.svg" : "img/icon/pause-icon.svg";
+
+    setIconSrc("pauseIcon", iconSrc);
+    toggleClass('pauseDiv', 'hidden', !isPaused);
+    togglePlayback(!isPaused);
+
+    if (!isPaused) world.draw();
+}
+
+/**
+ * Handles game end logic
+ * 
+ * @param {boolean} isWin - Whether player won
+ */
+function endGame(isWin) {
+    if (world &amp;&amp; world.gameEnd) return;
+
+    stopGame();
+    setupOutro(isWin);
+    playEndSound(isWin);
+}
+
+/**
+ * Stops all game processes
+ * 
+ */
+function stopGame() {
+    if (world) {
+        world.gameEnd = true;
+        isPaused = false;
+
+        if (world.worldInterval) clearInterval(world.worldInterval);
+        if (world.character) world.character.stopAllIntervals();
+        stopAllAudio();
+    }
+    backgroundMusic.pause();
+}
+
+/**
+ * Sets up outro screen
+ * 
+ * @param {boolean} isWin - Whether player won
+ */
+function setupOutro(isWin) {
+    const outro = document.getElementById("outro");
+    const winImg = document.getElementById("youWinImg");
+    const loseImg = document.getElementById("youLoseImg");
+    const btnDiv = document.getElementById("outroBtnDiv");
+
+    toggleClass("outro", "hidden", false);
+    toggleClass("youWinImg", "hidden", !isWin);
+    toggleClass("youLoseImg", "hidden", isWin);
+    toggleClass("outroBtnDiv", "hidden", false);
+
+    if (isWin) world.endbossDead = true;
+    else world.characterDead = true;
+}
+
+/**
+ * Triggers win state
+ * 
+ */
+function youWin() {
+    endGame(true);
+}
+
+/**
+ * Triggers lose state
+ * 
+ */
+function youLose() {
+    endGame(false);
+}
+
+/**
+ * Returns to start page
+ * 
+ */
+function startPage() {
+    resetGameState();
+    setupStartPageUI();
+    resetOutroElements();
+}
+
+/**
+ * Resets game state variables
+ * 
+ */
+function resetGameState() {
+    gameStarted = false;
+    world = null;
+    backgroundMusic.pause();
+}
+
+/**
+ * Sets up start page UI
+ * 
+ */
+function setupStartPageUI() {
+    toggleClass('intro', 'hidden', false);
+    toggleClass('canvasDiv', 'hidden', true);
+    toggleClass('gameplayBtnDiv', 'visibilityNone', true);
+    toggleClass('pauseIcon', 'hidden', true);
+    toggleClass('impressumIcon', 'hidden', false);
+    toggleClass('pauseDiv', 'hidden', true);
+}
+
+/**
+ * Resets outro elements to hidden state
+ * 
+ */
+function resetOutroElements() {
+    const outro = document.getElementById('outro');
+    const elements = ['outro', 'youWinImg', 'youLoseImg', 'outroBtnDiv'];
+
+    elements.forEach(id => toggleClass(id, 'hidden', true));
+    outro.style.display = 'none';
+
+}
+
+/**
+ * Changes music setting and icon
+ * 
+ * @param {string} name - Icon element ID
+ */
+function changeMusic(name) {
+    const musicIcon = document.getElementById(name);
+    const isNoMusic = musicIcon.src.includes('no');
+
+    setIconSrc(name, isNoMusic ? "img/icon/music-icon.svg" : "img/icon/no-music-icon.svg");
+    localStorage.setItem('music', isNoMusic ? 'true' : 'false');
+    toggleMusic();
+}
+
+/**
+ * Changes sound setting and icon
+ * 
+ * @param {string} name - Icon element ID
+ */
+function changeSound(name) {
+    const soundIcon = document.getElementById(name);
+    const isNoSound = soundIcon.src.includes('no');
+
+    setIconSrc(name, isNoSound ? "img/icon/sound-icon.svg" : "img/icon/no-sound-icon.svg");
+    localStorage.setItem('sound', isNoSound ? 'true' : 'false');
+    toggleSound();
+}
+
+/**
+ * Toggles fullscreen mode and resizes canvas
+ * @param {string} name - Screen icon element ID
+ */
+function changeScreen(name) {
+    const screenIcon = document.getElementById(name);
+    const isFullscreen = screenIcon.src.includes('full');
+
+    if (isFullscreen) {
+        setIconSrc(name, "img/icon/minimizescreen-icon.svg");
+        enterFullscreen(document.getElementById("fullscreen"));
+
+        // Warte kurz bis Fullscreen aktiv ist
+        setTimeout(() => {
+            resizeCanvasToFullscreen();
+        }, 100);
+    } else {
+        setIconSrc(name, "img/icon/fullscreen-icon.svg");
+        exitFullscreen();
+        resetCanvasResolution();
+    }
+}
+
+/**
+ * Sets up touch controls for mobile
+ * 
+ */
+function setupTouchControls() {
+    const buttonImgs = document.querySelectorAll('#gameplayBtnDiv img');
+
+    buttonImgs.forEach(img => {
+        const key = img.dataset.key;
+        if (!key) return;
+
+        addTouchEvents(img, key);
+    });
+}
+
+/**
+ * Adds touch event listeners to button
+ * 
+ * @param {HTMLElement} img - Button image element
+ * @param {string} key - Keyboard key name
+ */
+function addTouchEvents(img, key) {
+    const setKey = (value) => () => keyboard[key] = value;
+    const preventDefault = (e) => { e.preventDefault(); keyboard[key] = true; };
+
+    img.addEventListener('mousedown', setKey(true));
+    img.addEventListener('mouseup', setKey(false));
+    img.addEventListener('touchstart', preventDefault);
+    img.addEventListener('touchend', setKey(false));
+}
+
+/**
+ * Toggles tutorial visibility
+ * 
+ */
+function tutorial() {
+    toggleClass("tutorial", 'hidden');
+}
+
+/**
+ * Toggles impressum visibility
+ * 
+ */
+function impressum() {
+    toggleClass("impressum", 'hidden');
+}
+
+/**
+ * Sets up modal click listeners
+ * 
+ */
+function setupModalListeners() {
+    const modals = ['impressum', 'tutorial'];
+    const closeButtons = ['impressumClose', 'tutorialClose'];
+
+    modals.forEach((modalId, index) => {
+        document.getElementById(modalId).addEventListener('click', (event) => {
+            if (event.target.id === modalId) {
+                toggleClass(modalId, 'hidden');
+            }
+        });
+
+        document.getElementById(closeButtons[index]).addEventListener('click', () => {
+            toggleClass(modalId, 'hidden');
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', setupModalListeners);
+
+const keyMappings = {
+    39: 'RIGHT', 37: 'LEFT', 38: 'UP',
+    40: 'DOWN', 32: 'SPACE', 68: 'D'
+};
+
+/**
+ * Handles keyboard events
+ * 
+ * @param {KeyboardEvent} event - Keyboard event
+ * @param {boolean} value - Key pressed state
+ */
+function handleKeyEvent(event, value) {
+    const key = keyMappings[event.keyCode];
+    if (key) keyboard[key] = value;
+}
+
+window.addEventListener("keydown", (event) => handleKeyEvent(event, true));
+window.addEventListener("keyup", (event) => handleKeyEvent(event, false));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addTouchEvents">addTouchEvents</a></li><li><a href="global.html#changeMusic">changeMusic</a></li><li><a href="global.html#changeScreen">changeScreen</a></li><li><a href="global.html#changeSound">changeSound</a></li><li><a href="global.html#checkLoadingComplete">checkLoadingComplete</a></li><li><a href="global.html#endGame">endGame</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#getCachedOrNewImage">getCachedOrNewImage</a></li><li><a href="global.html#getLocalStorage">getLocalStorage</a></li><li><a href="global.html#handleImageError">handleImageError</a></li><li><a href="global.html#handleImageLoad">handleImageLoad</a></li><li><a href="global.html#handleKeyEvent">handleKeyEvent</a></li><li><a href="global.html#hideLoadingScreen">hideLoadingScreen</a></li><li><a href="global.html#impressum">impressum</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initGameState">initGameState</a></li><li><a href="global.html#initNew">initNew</a></li><li><a href="global.html#initWithLoading">initWithLoading</a></li><li><a href="global.html#loadImageOptimized">loadImageOptimized</a></li><li><a href="global.html#loadImagesOptimized">loadImagesOptimized</a></li><li><a href="global.html#loadSingleImage">loadSingleImage</a></li><li><a href="global.html#pauseGame">pauseGame</a></li><li><a href="global.html#playBackgroundMusic">playBackgroundMusic</a></li><li><a href="global.html#playEndSound">playEndSound</a></li><li><a href="global.html#preloadAllImages">preloadAllImages</a></li><li><a href="global.html#resetCanvasResolution">resetCanvasResolution</a></li><li><a href="global.html#resetGameState">resetGameState</a></li><li><a href="global.html#resetOutro">resetOutro</a></li><li><a href="global.html#resetOutroElements">resetOutroElements</a></li><li><a href="global.html#resizeCanvasToFullscreen">resizeCanvasToFullscreen</a></li><li><a href="global.html#setIconSrc">setIconSrc</a></li><li><a href="global.html#setupCanvasAndWorld">setupCanvasAndWorld</a></li><li><a href="global.html#setupModalListeners">setupModalListeners</a></li><li><a href="global.html#setupOutro">setupOutro</a></li><li><a href="global.html#setupStartPageUI">setupStartPageUI</a></li><li><a href="global.html#setupTouchControls">setupTouchControls</a></li><li><a href="global.html#setupUI">setupUI</a></li><li><a href="global.html#showGame">showGame</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#startPage">startPage</a></li><li><a href="global.html#stopAllAudio">stopAllAudio</a></li><li><a href="global.html#stopGame">stopGame</a></li><li><a href="global.html#toggleClass">toggleClass</a></li><li><a href="global.html#toggleMusic">toggleMusic</a></li><li><a href="global.html#togglePlayback">togglePlayback</a></li><li><a href="global.html#toggleSound">toggleSound</a></li><li><a href="global.html#tutorial">tutorial</a></li><li><a href="global.html#updateLoadingProgress">updateLoadingProgress</a></li><li><a href="global.html#youLose">youLose</a></li><li><a href="global.html#youWin">youWin</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jul 22 2025 22:16:48 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

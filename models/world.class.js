@@ -21,8 +21,8 @@ class World {
         this.lastThrowTime = 0;
         this.now = 0;
         this.coin_sound = new Audio('audio/coin.mp3');
-        this.camera_x = 0;  // Falls noch nicht da
-        this.camera_y = 100;
+        this.camera_x = 0;
+        // this.camera_y = 100;
         this.draw();
         this.setWorld();
         this.run();
@@ -87,7 +87,7 @@ class World {
     errorSoundBottleThrow() {
         if (this.keyboard.D && this.character.bottlesAmount < 1 && !this.previousKeyboardD) {
             let errorSound = new Audio('audio/error.wav');
-            this.character.playSound(errorSound, 1)
+            this.character.playSound(errorSound, soundVolume)
         }
     }
 
@@ -175,7 +175,7 @@ class World {
 
             if (this.character.isColliding(coin)) {
                 this.character.coinsAmount++;
-                this.character.playSound(this.coin_sound, 1)
+                this.character.playSound(this.coin_sound, soundVolume)
                 this.statusBarCoins.setPercentage(this.character.coinsAmount, 5);
                 this.level.coins.splice(i, 1);
             }

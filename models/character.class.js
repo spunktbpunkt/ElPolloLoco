@@ -144,7 +144,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
      */
     movingRight() {
         this.otherDirection = false;
-        this.playSound(this.walking_sound, 1);
+        this.playSound(this.walking_sound, soundVolume);
         this.moveRight();
     }
 
@@ -155,7 +155,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
      */
     movingLeft() {
         this.otherDirection = true;
-        this.playSound(this.walking_sound, 1);
+        this.playSound(this.walking_sound, soundVolume);
         this.moveLeft();
     }
 
@@ -165,7 +165,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
      * @returns {void}
      */
     movingJumping() {
-        this.playSound(this.jump_sound, 1);
+        this.playSound(this.jump_sound, soundVolume);
         this.jump();
     }
 
@@ -224,7 +224,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
      * @returns {void}
      */
     handleKeyboardInput() {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.SPACE) {
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.SPACE || this.world.keyboard.D) {
             this.lastKeyboardHit = new Date().getTime();
             this.stopSnorring();
         }
@@ -278,7 +278,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
     handleDeadAnimation() {
         this.playAnimationOnce(this.images_dead);
         clearInterval(this.movingInterval);
-        this.playSound(this.die_sound, 1, this.animationInterval);
+        this.playSound(this.die_sound, soundVolume, this.animationInterval);
 
         setTimeout(() => {
             youLose();
@@ -292,7 +292,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
      */
     handleHurtAnimation() {
         this.playAnimation(this.images_hurt);
-        this.playSound(this.hurt_sound, 1);
+        this.playSound(this.hurt_sound, soundVolume);
         // Reset des Idle-Timers bei Schaden - Character "wacht auf"
         this.lastKeyboardHit = new Date().getTime();
         this.stopSnorring();
@@ -355,7 +355,7 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
         }
         // Schnarchen nur starten wenn es noch nicht läuft
         if (this.snorring_sound && this.snorring_sound.paused) {
-            this.playSound(this.snorring_sound, 0.3);
+            this.playSound(this.snorring_sound, soundVolume);
         }
     }
 

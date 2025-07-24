@@ -264,6 +264,16 @@ function changeSound(name) {
 
     setIconSrc(name, isNoSound ? "img/icon/sound-icon.svg" : "img/icon/no-sound-icon.svg");
     localStorage.setItem('sound', isNoSound ? 'true' : 'false');
+    
+    // Erst alle laufenden Sounds stoppen, dann toggleSound() aufrufen
+    if (!isNoSound) {  // Wenn Sound ausgeschaltet werden soll
+        stopAllAudio();
+        // Speziell das Schnarchen stoppen wenn der Character existiert
+        if (world && world.character) {
+            world.character.stopSnorring();
+        }
+    }
+    
     toggleSound();
 }
 

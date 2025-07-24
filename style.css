@@ -14,6 +14,8 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
+        min-width: 720px;
+        min-height: 300px;
     }
 
     .fullscreen {
@@ -36,6 +38,7 @@
         justify-content: center;
         align-items: center;
         position: relative;
+        aspect-ratio: 720 / 480;
     }
 
     #impressum {
@@ -53,6 +56,8 @@
     }
 
     #impressumDiv {
+        max-height: 600px;
+        max-width: 700px;
         height: 80vh;
         width: 80%;
         position: absolute;
@@ -81,6 +86,8 @@
 
 
     #tutorialDiv {
+        max-height: 600px;
+        max-width: 700px;
         height: 80vh;
         width: 80%;
         position: absolute;
@@ -533,6 +540,10 @@
         animation: pulse 2s ease-in-out infinite;
     }
 
+    .gameplayBtnDiv {
+        height: 50px;
+    }
+
     @keyframes pulse {
 
         0%,
@@ -555,6 +566,8 @@
             visibility: hidden;
         }
     }
+
+    /* @media (max-height: 480px) {} */
 
     @media only screen and (max-width: 720px) {
         .loading-title {
@@ -592,6 +605,28 @@
             bottom: 20px;
             font-size: 11px;
         }
+
+        canvas {
+            /* height: 100vh; */
+            height: calc(100vh - 20px);
+        }
+
+        #mainContent {
+            height: calc(100vh - 20px);
+            width: auto;
+        }
+
+        #intro button {
+            bottom: 10px;
+        }
+
+        .pauseDiv img {
+            height: 60px;
+        }
+
+        .gameplayBtnDiv {
+            height: 40px;
+        }
     }
 
 
@@ -607,21 +642,19 @@
         }
     }
 
-    @media only screen and (max-height: 480px) {
-        canvas {
-            height: 100vh;
-        }
-    }
+    /* @media only screen and (max-height: 480px) {} */
 
     @media (pointer: coarse) {
         .gameplayBtnDiv {
             position: absolute;
             bottom: 0px;
-            right: 0px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             gap: 10px;
-            width: 720px;
-            height: 50px;
+            width: 100%;
+            max-width: 720px;
+            /* height: 50px; */
             justify-content: space-around;
             padding-bottom: 10px;
         }

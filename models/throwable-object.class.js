@@ -47,7 +47,7 @@ class ThrowableObject extends MovableObject {
     throw() {
         if (isPaused) { return }
         this.applyGravity();
-        this.playSound(this.throw_sound, 1)
+        this.playSound(this.throw_sound, soundVolume)
         let direction = this.world.character.otherDirection ? (this.x -= 100, -1) : 1;
 
         this.throwMove(direction)
@@ -94,7 +94,7 @@ class ThrowableObject extends MovableObject {
         let i = 0;
 
         this.removeGravity();
-        this.playSound(this.breaking_sound, 1)
+        this.playSound(this.breaking_sound, soundVolume)
         clearInterval(this.moveInterval);
         clearInterval(this.animationInterval);
         this.bottleSplashInterval(i)

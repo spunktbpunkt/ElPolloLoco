@@ -1,6 +1,6 @@
 let backgroundMusic = new Audio('audio/mariachi.wav');
-let backgroundMusicVolume = 0.5;
-let soundVolume = 1;
+let backgroundMusicVolume = 0.1;
+let soundVolume = 0.2;
 let musicMuted = false;
 let soundMuted = false;
 
@@ -22,6 +22,7 @@ function playBackgroundMusic() {
 function playEndSound(isWin) {
     if (isWin) {
         let applause = new Audio('audio/applause.mp3');
+        applause.volume = soundVolume
         applause.play();
     }
 }

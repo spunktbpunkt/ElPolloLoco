@@ -189,22 +189,27 @@ class MovableObject extends DrawableObject {
 
     }
 
-    /**
-     * Checks if object is dead and updates world state accordingly.
-     * 
-     * @returns {boolean} True if energy is zero, false otherwise
-     */
-    isDead() {
-        if (isPaused) return;
-        let myValue = this.energy == 0;
+/**
+ * Checks if object is dead and updates world state accordingly.
+ * 
+ * @returns {boolean} True if energy is zero, false otherwise
+ */
+isDead() {
+    if (isPaused) return;
+    let myValue = this.energy == 0;
+    
+    // Sicherheitscheck für world
+    if (this.world) {
         if (this instanceof Character && myValue) {
             this.world.characterDead = true;
         }
         if (this instanceof Endboss && myValue) {
             this.world.endbossDead = true;
         }
-        return myValue;
     }
+    
+    return myValue;
+}
 
     /**
      * Plays walking sound if not muted or paused.

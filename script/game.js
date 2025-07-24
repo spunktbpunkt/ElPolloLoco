@@ -59,6 +59,20 @@ function init() {
 }
 
 /**
+ * Resets outro elements to hidden state
+ * 
+ */
+function resetOutroElements() {
+    const outro = document.getElementById('outro');
+    // const youWinImg = document.getElementById('youWinImg');
+    // const youLoseImg = document.getElementById('youLoseImg');
+    const elements = ['outro', 'youWinImg', 'youLoseImg', 'outroBtnDiv'];
+    elements.forEach(id => toggleClass(id, 'hidden', true));
+    
+    outro.style.display = 'none';
+}
+
+/**
  * Sets initial game state
  * 
  */
@@ -123,7 +137,21 @@ function pauseGame() {
 
     setIconSrc("pauseIcon", iconSrc);
     toggleClass('pauseDiv', 'hidden', !isPaused);
-    togglePlayback(!isPaused);
+    
+    // Nur Musik abspielen wenn nicht gemutet UND nicht pausiert
+    if (!isPaused && !musicMuted) {
+        togglePlayback(true);
+    } else {
+        togglePlayback(false);
+    }
+
+    // Bei Resume: Alle Sounds stoppen wenn sie gemutet sind
+    if (!isPaused && soundMuted) {
+        stopAllAudio();
+        if (world && world.character) {
+            world.character.stopSnorring();
+        }
+    }
 
     if (!isPaused) world.draw();
 }
@@ -226,18 +254,7 @@ function setupStartPageUI() {
     toggleClass('pauseDiv', 'hidden', true);
 }
 
-/**
- * Resets outro elements to hidden state
- * 
- */
-function resetOutroElements() {
-    const outro = document.getElementById('outro');
-    const elements = ['outro', 'youWinImg', 'youLoseImg', 'outroBtnDiv'];
 
-    elements.forEach(id => toggleClass(id, 'hidden', true));
-    outro.style.display = 'none';
-
-}
 
 /**
  * Changes music setting and icon

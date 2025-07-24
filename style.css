@@ -14,8 +14,6 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        min-width: 720px;
-        min-height: 300px;
     }
 
     .fullscreen {
@@ -49,6 +47,8 @@
         justify-content: center;
         align-items: center;
         background-color: rgba(100, 100, 100, 0.7);
+        font-size: 16px;
+
     }
 
     #impressum a {
@@ -69,7 +69,6 @@
         padding: 15px 25px 15px 15px;
         font-family: lato-thin, sans-serif;
         font-weight: 100;
-        font-size: 16px;
     }
 
     #tutorial {
@@ -314,7 +313,9 @@
     }
 
     .tutorialImgGame {
-        height: 250px;
+        height: 150px;
+        flex-shrink: 0;
+        width: auto;
     }
 
     .flipImage {
@@ -331,26 +332,50 @@
         width: 40px;
     }
 
-    .tutorialBottle {
-        height: 150px;
-        padding-top: 96px
-    }
-
     .tutorialContentMain {
         display: flex;
         flex-direction: row;
         gap: 20px;
         justify-content: space-around;
-        height: 100%;
         width: 100%;
+        padding: 20px 10px;
     }
 
     #tutorialContent {
         width: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         height: 100%;
         align-items: center;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    #tutorialContent::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    #tutorialContent::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+    }
+
+    #tutorialContent::-webkit-scrollbar-thumb {
+        background: rgb(255, 206, 0);
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
+
+    #tutorialContent::-webkit-scrollbar-thumb:hover {
+        background: #FFA500;
+        background-clip: content-box;
+    }
+
+    #tutorialContent {
+        scrollbar-width: thin;
+        scrollbar-color: #FFD700 transparent;
     }
 
     .tutorialColumn {
@@ -359,6 +384,9 @@
         justify-content: center;
         align-items: center;
         gap: 20px;
+        flex-shrink: 0;
+        min-height: min-content;
+        padding: 10px;
     }
 
     .visibilityNone {
@@ -401,21 +429,6 @@
         right: 10px !important;
     }
 
-    #fullscreen:-webkit-full-screen #gameplayBtnDiv {
-        position: fixed !important;
-        bottom: calc(50vh - 240px + 10px) !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        z-index: 1000 !important;
-    }
-
-    #fullscreen:fullscreen #gameplayBtnDiv {
-        position: fixed !important;
-        bottom: calc(50vh - 240px + 10px) !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        z-index: 1000 !important;
-    }
 
     .hidden {
         display: none !important;
@@ -567,8 +580,6 @@
         }
     }
 
-    /* @media (max-height: 480px) {} */
-
     @media only screen and (max-width: 720px) {
         .loading-title {
             font-size: 28px;
@@ -607,7 +618,6 @@
         }
 
         canvas {
-            /* height: 100vh; */
             height: calc(100vh - 20px);
         }
 
@@ -642,8 +652,6 @@
         }
     }
 
-    /* @media only screen and (max-height: 480px) {} */
-
     @media (pointer: coarse) {
         .gameplayBtnDiv {
             position: absolute;
@@ -652,11 +660,21 @@
             transform: translateX(-50%);
             display: flex;
             gap: 10px;
-            width: 100%;
+            width: 100% !important;
             max-width: 720px;
-            /* height: 50px; */
             justify-content: space-around;
             padding-bottom: 10px;
+        }
+
+        #fullscreen:-webkit-full-screen .gameplayBtnDiv,
+        #fullscreen:fullscreen .gameplayBtnDiv {
+            position: fixed !important;
+            bottom: calc(50vh - 240px + 10px) !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            z-index: 1000 !important;
+            width: 100vw !important;
+            max-width: none !important;
         }
 
         .gameplayBtnAside {
@@ -673,5 +691,34 @@
 
         .gameplayBtnAside {
             display: none;
+        }
+
+    }
+
+    @media (max-height: 520px) {
+
+        #tutorialDiv {
+            max-height: 95vh;
+            padding: 10px 15px;
+        }
+
+        .tutorialColumn {
+            gap: 8px;
+            justify-content: flex-start;
+        }
+
+
+        .tutorialImgGame {
+            height: 100px;
+        }
+
+        .tutorialImgKeyboard {
+            height: 35px;
+            width: 35px;
+        }
+
+        .tutorialImgMobileDeviceButton {
+            height: 25px;
+            width: 25px;
         }
     }

@@ -20,9 +20,12 @@ function playBackgroundMusic() {
  * @param {boolean} isWin - Whether player won
  */
 function playEndSound(isWin) {
+    // Prüfe ob Sound gemutet ist
+    if (soundMuted) return;
+
     if (isWin) {
         let applause = new Audio('audio/applause.mp3');
-        applause.volume = soundVolume
+        applause.volume = soundVolume;
         applause.play();
     }
 }

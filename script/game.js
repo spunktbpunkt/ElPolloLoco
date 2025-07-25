@@ -333,14 +333,6 @@ function addTouchEvents(img, key) {
 }
 
 /**
- * Toggles tutorial visibility
- * 
- */
-function tutorial() {
-    toggleClass("tutorial", 'hidden');
-}
-
-/**
  * Toggles impressum visibility
  * 
  */
@@ -349,9 +341,39 @@ function impressum() {
 }
 
 /**
- * Sets up modal click listeners
+ * Opens tutorial and pauses game if running
  * 
  */
+function openTutorial() {
+    const wasPaused = isPaused;
+
+    if (gameStarted && !isPaused) {
+        pauseGame();
+    }
+
+    if (gameStarted && !wasPaused) {
+        window.tutorialFromRunningGame = true;
+    }
+
+    toggleClass("tutorial", 'hidden');
+}
+
+/**
+ * Closes tutorial - game stays paused if opened during gameplay
+ * 
+ */
+function closeTutorial() {
+    toggleClass("tutorial", 'hidden');
+}
+
+/**
+ * Original tutorial function - only toggles visibility
+ * 
+ */
+function tutorial() {
+    toggleClass("tutorial", 'hidden');
+}
+
 function setupModalListeners() {
     const modals = ['impressum', 'tutorial'];
     const closeButtons = ['impressumClose', 'tutorialClose'];
@@ -359,12 +381,20 @@ function setupModalListeners() {
     modals.forEach((modalId, index) => {
         document.getElementById(modalId).addEventListener('click', (event) => {
             if (event.target.id === modalId) {
-                toggleClass(modalId, 'hidden');
+                if (modalId === 'tutorial') {
+                    closeTutorial();
+                } else {
+                    toggleClass(modalId, 'hidden');
+                }
             }
         });
 
         document.getElementById(closeButtons[index]).addEventListener('click', () => {
-            toggleClass(modalId, 'hidden');
+            if (modalId === 'tutorial') {
+                closeTutorial();
+            } else {
+                toggleClass(modalId, 'hidden');
+            }
         });
     });
 }

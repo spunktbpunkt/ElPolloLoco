@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: character-animation.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: character-animation.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Handles character animation states
+ * 
+ * @returns {void}
+ */
+Character.prototype.animation = function() {
+    if (isPaused) return;
+    this.currentImageOnce = 0;
+    if (!this.frameCounter) this.frameCounter = 0;
+    this.animationInterval = setInterval(() => {
+        this.frameCounter++;
+        this.handleKeyboardInput();
+        this.handleGameEndCheck();
+        this.selectAnimation();
+    }, 50);
+}
+
+/**
+ * Handles keyboard input tracking
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleKeyboardInput = function() {
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.SPACE || this.world.keyboard.D) {
+        this.lastKeyboardHit = new Date().getTime();
+        this.stopSnorring();
+    }
+}
+
+/**
+ * Checks game end state and stops snoring
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleGameEndCheck = function() {
+    if (this.world &amp;&amp; this.world.gameEnd) {
+        this.stopSnorring();
+    }
+}
+
+/**
+ * Selects appropriate animation based on character state
+ * 
+ * @returns {void}
+ */
+Character.prototype.selectAnimation = function() {
+    if (this.isDead()) {
+        this.handleDeadAnimation();
+    } else if (this.isHurt()) {
+        this.handleHurtAnimation();
+    } else if (this.isAboveGround()) {
+        this.handleJumpFallAnimation();
+    } else {
+        this.handleGroundAnimation();
+    }
+}
+
+/**
+ * Handles death animation and game over
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleDeadAnimation = function() {
+    this.playAnimationOnce(this.images_dead);
+    clearInterval(this.movingInterval);
+    this.playSound(this.die_sound, soundVolume, this.animationInterval);
+    setTimeout(() => {
+        youLose();
+    }, 1000);
+}
+
+/**
+ * Handles hurt animation and sound
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleHurtAnimation = function() {
+    this.playAnimation(this.images_hurt);
+    this.playSound(this.hurt_sound, soundVolume);
+    this.lastKeyboardHit = new Date().getTime();
+    this.stopSnorring();
+}
+
+/**
+ * Handles jump and fall animations
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleJumpFallAnimation = function() {
+    if (this.falling) {
+        this.currentImageOnce = 0;
+        this.fallAnimation();
+    } else {
+        this.currentImageOnce = 0;
+        this.jumpAnimation();
+    }
+}
+
+/**
+ * Handles ground-based animations
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleGroundAnimation = function() {
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        this.playAnimation(this.images_walking);
+    } else {
+        this.handleIdleStates();
+    }
+}
+
+/**
+ * Manages different idle states based on time
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleIdleStates = function() {
+    let timeSinceLastInput = new Date().getTime() - this.lastKeyboardHit;
+    if (timeSinceLastInput > 5500) {
+        this.handleLongIdle();
+    } else if (timeSinceLastInput > 500) {
+        this.handleNormalIdle();
+    } else {
+        this.handleStillState();
+    }
+}
+
+/**
+ * Handles long idle animation with snoring
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleLongIdle = function() {
+    if (this.frameCounter % 4 === 0) {
+        this.playAnimation(this.images_longidle);
+    }
+    if (this.snorring_sound &amp;&amp; this.snorring_sound.paused) {
+        this.playSound(this.snorring_sound, soundVolume);
+    }
+}
+
+/**
+ * Handles normal idle animation
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleNormalIdle = function() {
+    if (this.frameCounter % 3 === 0) {
+        this.playAnimation(this.images_idle);
+    }
+}
+
+/**
+ * Handles still state animation
+ * 
+ * @returns {void}
+ */
+Character.prototype.handleStillState = function() {
+    this.loadImage(this.images_idle[0]);
+}
+
+/**
+ * Handles jump animation sequence
+ * 
+ * @returns {void}
+ */
+Character.prototype.jumpAnimation = function() {
+    if (isPaused) return;
+    clearInterval(this.animationInterval)
+    this.jumpInterval = setInterval(() => {
+        if (!this.falling) {
+            this.playAnimationOnce(this.images_jumping)
+        } else {
+            clearInterval(this.jumpInterval)
+            this.animation()
+        }
+    }, 50);
+}
+
+/**
+ * Handles fall animation sequence
+ * 
+ * @returns {void}
+ */
+Character.prototype.fallAnimation = function() {
+    if (isPaused) return;
+    clearInterval(this.animationInterval)
+    this.fallInterval = setInterval(() => {
+        if (this.falling) {
+            this.playAnimationOnce(this.images_falling)
+        } else {
+            clearInterval(this.fallInterval)
+            this.animation()
+        }
+    }, 50);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addTouchEvents">addTouchEvents</a></li><li><a href="global.html#changeMusic">changeMusic</a></li><li><a href="global.html#changeScreen">changeScreen</a></li><li><a href="global.html#changeSound">changeSound</a></li><li><a href="global.html#checkLoadingComplete">checkLoadingComplete</a></li><li><a href="global.html#endGame">endGame</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#getCachedOrNewImage">getCachedOrNewImage</a></li><li><a href="global.html#getLocalStorage">getLocalStorage</a></li><li><a href="global.html#handleImageError">handleImageError</a></li><li><a href="global.html#handleImageLoad">handleImageLoad</a></li><li><a href="global.html#handleKeyEvent">handleKeyEvent</a></li><li><a href="global.html#hideLoadingScreen">hideLoadingScreen</a></li><li><a href="global.html#impressum">impressum</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initGameState">initGameState</a></li><li><a href="global.html#initNew">initNew</a></li><li><a href="global.html#initWithLoading">initWithLoading</a></li><li><a href="global.html#loadImageOptimized">loadImageOptimized</a></li><li><a href="global.html#loadImagesOptimized">loadImagesOptimized</a></li><li><a href="global.html#loadSingleImage">loadSingleImage</a></li><li><a href="global.html#pauseGame">pauseGame</a></li><li><a href="global.html#playBackgroundMusic">playBackgroundMusic</a></li><li><a href="global.html#playEndSound">playEndSound</a></li><li><a href="global.html#preloadAllImages">preloadAllImages</a></li><li><a href="global.html#resetCanvasResolution">resetCanvasResolution</a></li><li><a href="global.html#resetGameState">resetGameState</a></li><li><a href="global.html#resetOutro">resetOutro</a></li><li><a href="global.html#resetOutroElements">resetOutroElements</a></li><li><a href="global.html#resizeCanvasToFullscreen">resizeCanvasToFullscreen</a></li><li><a href="global.html#setIconSrc">setIconSrc</a></li><li><a href="global.html#setupCanvasAndWorld">setupCanvasAndWorld</a></li><li><a href="global.html#setupModalListeners">setupModalListeners</a></li><li><a href="global.html#setupOutro">setupOutro</a></li><li><a href="global.html#setupStartPageUI">setupStartPageUI</a></li><li><a href="global.html#setupTouchControls">setupTouchControls</a></li><li><a href="global.html#setupUI">setupUI</a></li><li><a href="global.html#showGame">showGame</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#startPage">startPage</a></li><li><a href="global.html#stopAllAudio">stopAllAudio</a></li><li><a href="global.html#stopCharacterSounds">stopCharacterSounds</a></li><li><a href="global.html#stopEnemySounds">stopEnemySounds</a></li><li><a href="global.html#stopGame">stopGame</a></li><li><a href="global.html#stopThrowableSounds">stopThrowableSounds</a></li><li><a href="global.html#toggleClass">toggleClass</a></li><li><a href="global.html#toggleMusic">toggleMusic</a></li><li><a href="global.html#togglePlayback">togglePlayback</a></li><li><a href="global.html#toggleSound">toggleSound</a></li><li><a href="global.html#tutorial">tutorial</a></li><li><a href="global.html#updateLoadingProgress">updateLoadingProgress</a></li><li><a href="global.html#youLose">youLose</a></li><li><a href="global.html#youWin">youWin</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Fri Jul 25 2025 21:00:10 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

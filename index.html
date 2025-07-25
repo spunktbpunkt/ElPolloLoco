@@ -35,8 +35,6 @@
 
 </head>
 
-<!-- <body> -->
-
 <body onload="initNew()">
   <div id="fullscreen" class="fullscreen">
 
@@ -46,7 +44,6 @@
       <div id="intro">
         <img id="introImage" src="img/9_intro_outro_screens/start/startscreen_2.svg" alt="" />
         <button onclick="initWithLoading()" id="startBtn">START</button>
-        <!-- <button onclick="init()" id="startBtn">START</button> -->
       </div>
 
       <div id="loadingScreen" class="loadingScreen">
@@ -57,9 +54,6 @@
           <div class="loading-bar" id="loadingBar"></div>
         </div>
         <div class="loading-percentage" id="loadingPercentage">0%</div>
-        <!-- <div class="loading-tips">
-          <p>💡 Tip: Use arrow keys to move and 'D' key to throw bottles!</p>
-        </div> -->
       </div>
 
       <div id="outro" class="outro hidden">
@@ -74,7 +68,6 @@
 
       <div id="canvasDiv" class="hidden">
         <canvas id="canvas" width="720" height="480"></canvas>
-        <!-- <canvas id="canvas" width="1920" height="480"></canvas> -->
       </div>
 
       <div id="iconBar">
@@ -86,7 +79,7 @@
       </div>
 
       <div id="tutorialBar">
-        <img onclick="tutorial(),pauseGame()" id="musicIcon" src="img/icon/question-icon.svg" alt="Music" />
+        <img onclick="openTutorial()" id="tutorialIcon" src="img/icon/question-icon.svg" alt="Music" />
       </div>
 
       <div id="gameplayBtnDiv" class="gameplayBtnDiv visibilityNone">

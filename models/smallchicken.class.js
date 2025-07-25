@@ -26,7 +26,7 @@ class Chickensmall extends MovableObject {
         this.loadImages(this.images_walking)
         this.loadImages(this.images_dead)
         this.x = 350 + Math.random() * 500;
-        this.speed = 0.15 + Math.random() * 1;
+        this.speed = 0.15 + Math.random() * 3;
         this.chicken_sound = new Audio('audio/smallchicken-noise.mp3');
     }
 

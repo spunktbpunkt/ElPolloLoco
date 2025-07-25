@@ -1,7 +1,6 @@
 class ThrowableObject extends MovableObject {
     speedY = 30;
     speedX = 20;
-    // otherDirection = false;
     moveInterval;
     animationInterval;
     offset = {
@@ -79,7 +78,7 @@ class ThrowableObject extends MovableObject {
             if (isPaused) return
             this.playAnimation(this.bottle_rotation);
             if (this.y > 335) {
-                this.bottleSplash(); // 🔄 Ruft jetzt alles auf
+                this.bottleSplash();
             }
         }, 75);
     }
@@ -113,8 +112,7 @@ class ThrowableObject extends MovableObject {
                 this.playAnimation(this.bottle_splash);
             } else {
                 clearInterval(this.intervalId);
-                // Entferne Flasche aus der Welt
-                this.world.throwableObjects = this.world.throwableObjects.filter(obj => obj !== this);
+                this.world.throwableObjects = his.world.throwableObjects.filter(obj => obj !== this);
             }
             i++;
         }, 50);

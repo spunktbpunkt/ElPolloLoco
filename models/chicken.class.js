@@ -12,10 +12,10 @@ class Chicken extends MovableObject {
     ]
     currentImage = 0;
     offset = {
-        left: 5,
-        right: 10,
-        top: 5,
-        bottom: 5
+        left: 10,
+        right: 15,
+        top: 10,
+        bottom: 10
     }
     moveInterval;
     isDead = false;
@@ -26,7 +26,7 @@ class Chicken extends MovableObject {
         this.loadImages(this.images_walking)
         this.loadImages(this.images_dead)
         this.x = 350 + Math.random() * 500;
-        this.speed = 0.15 + Math.random() * 2;
+        this.speed = 0.15 + Math.random() * 1.5;
         this.chicken_sound = new Audio('audio/chicken-noise.mp3');
     }
 

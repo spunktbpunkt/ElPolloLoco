@@ -3,8 +3,8 @@
     function createLevel() {
         return new Level(
             [
-                ...createElements('chicken', 5, 300, 50),
-                ...createElements('chickensmall', 3, 300, 50),
+                ...createElements('chicken', 5, 500, 50),
+                ...createElements('chickensmall', 3, 500, 50),
             ],
             [
                 new Endboss()

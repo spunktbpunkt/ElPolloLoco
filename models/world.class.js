@@ -22,7 +22,6 @@ class World {
         this.now = 0;
         this.coin_sound = new Audio('audio/coin.mp3');
         this.camera_x = 0;
-        // this.camera_y = 100;
         this.draw();
         this.setWorld();
         this.run();
@@ -46,7 +45,7 @@ class World {
      * 
      */
     checkThrowObject() {
-        this.errorSoundBottleThrow(); // Erst Fehlerprüfung
+        this.errorSoundBottleThrow();
 
         if (this.keyboard.D && this.checkCoolDown() && this.character.bottlesAmount > 0) {
             this.newBottle()
@@ -287,7 +286,6 @@ class World {
             return;
         }
 
-        // Update Endboss-Statusbar Position bei Canvas-Größenänderung
         if (this.statusBarEndboss) {
             this.statusBarEndboss.updateEndbossPosition();
         }
@@ -307,7 +305,7 @@ class World {
     * 
     */
     checkFullscreenCamera() {
-        const isFullscreen = this.canvas.height > 600; // Fullscreen detection
+        const isFullscreen = this.canvas.height > 600;
 
         if (isFullscreen && (!this.camera_y || this.camera_y === 0)) {
             console.log('Setting fullscreen camera');
@@ -325,10 +323,10 @@ class World {
      * 
      */
     drawBackground() {
-        this.ctx.translate(this.camera_x, 0);  // Nur X, kein Y!
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-        this.ctx.translate(-this.camera_x, 0);  // Nur X, kein Y!
+        this.ctx.translate(-this.camera_x, 0);
     }
 
     /**
@@ -350,14 +348,14 @@ class World {
      * 
      */
     drawGameObjects() {
-        this.ctx.translate(this.camera_x, 0);  // Nur X, kein Y!
+        this.ctx.translate(this.camera_x, 0); 
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
-        this.ctx.translate(-this.camera_x, 0);  // Nur X, kein Y!
+        this.ctx.translate(-this.camera_x, 0);
     }
 
     /**
@@ -381,7 +379,7 @@ class World {
             this.flipImage(mo)
         }
         mo.drawing(this.ctx)
-        // mo.drawingFrame(this.ctx)
+        mo.drawingFrame(this.ctx)
         if (mo.otherDirection) {
             this.flipImageBack(mo)
         }

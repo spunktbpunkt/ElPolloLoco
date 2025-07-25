@@ -2,7 +2,6 @@ class Bottles extends MovableObject {
     height = 80;
     width = this.height / 98 * 95;
     y = 350;
-    // x = 1000;
     offset = {
         top: 15,
         bottom: 10,

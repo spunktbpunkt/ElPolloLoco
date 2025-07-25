@@ -117,7 +117,7 @@ class MovableObject extends DrawableObject {
             this.currentImageOnce == 0
             if (!(this instanceof Character)) clearInterval(this.animationInterval)
         } else {
-            i = this.currentImageOnce;// % images.length;
+            i = this.currentImageOnce;
         }
         let path = images[i]
         this.img = this.imageCache[path]
@@ -181,35 +181,34 @@ class MovableObject extends DrawableObject {
      * 
      * @returns {boolean} True if hurt recently, false otherwise
      */
-    isHurt() { //vergleicht lasthit mit aktueller zeit, true so lange differenz kleiner als 1 sekunde ist
+    isHurt() {
         if (isPaused) return;
-        let timePassed = new Date().getTime() - this.lastHit; // Differenz in ms
-        timePassed = timePassed / 1000; // Differenz in Sekunden
+        let timePassed = new Date().getTime() - this.lastHit;
+        timePassed = timePassed / 1000;
         return timePassed < 1;
 
     }
 
-/**
- * Checks if object is dead and updates world state accordingly.
- * 
- * @returns {boolean} True if energy is zero, false otherwise
- */
-isDead() {
-    if (isPaused) return;
-    let myValue = this.energy == 0;
-    
-    // Sicherheitscheck für world
-    if (this.world) {
-        if (this instanceof Character && myValue) {
-            this.world.characterDead = true;
+    /**
+     * Checks if object is dead and updates world state accordingly.
+     * 
+     * @returns {boolean} True if energy is zero, false otherwise
+     */
+    isDead() {
+        if (isPaused) return;
+        let myValue = this.energy == 0;
+
+        if (this.world) {
+            if (this instanceof Character && myValue) {
+                this.world.characterDead = true;
+            }
+            if (this instanceof Endboss && myValue) {
+                this.world.endbossDead = true;
+            }
         }
-        if (this instanceof Endboss && myValue) {
-            this.world.endbossDead = true;
-        }
+
+        return myValue;
     }
-    
-    return myValue;
-}
 
     /**
      * Plays walking sound if not muted or paused.

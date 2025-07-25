@@ -2,7 +2,6 @@ class Coins extends MovableObject {
     height = 110;
     width = this.height / 98 * 95;
     y = 100;
-    // x = 1000;
     offset = {
         top: 37,
         bottom: 37,

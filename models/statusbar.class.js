@@ -44,7 +44,7 @@ class Statusbar extends DrawableObject {
     percentage = 100;
     currentImages = [];
     type;
-    max = 100; // Default max
+    max = 100;
 
     constructor(type) {
         super();
@@ -72,7 +72,7 @@ class Statusbar extends DrawableObject {
     bottleStatusbar() {
         this.currentImages = this.images_bottles;
         this.loadImages(this.currentImages);
-        this.setPercentage(0, 5); // z.B. max 5 Flaschen
+        this.setPercentage(0, 5); 
         this.x = 20;
         this.y = 50;
     }
@@ -88,15 +88,15 @@ class Statusbar extends DrawableObject {
     endbossStatusbar() {
         this.currentImages = this.images_energy_endboss;
         this.loadImages(this.currentImages);
-        this.setPercentage(100, 100); // Health: 0–100%
-        this.updateEndbossPosition(); // ← Neue Funktion
+        this.setPercentage(100, 100);
+        this.updateEndbossPosition();
         this.y = 50;
     }
 
     defaultStatusbar() {
         this.currentImages = this.images_energy;
         this.loadImages(this.currentImages);
-        this.setPercentage(100, 100); // Health: 0–100%
+        this.setPercentage(100, 100);
         this.x = 20;
         this.y = 0;
     }
@@ -107,10 +107,9 @@ class Statusbar extends DrawableObject {
     updateEndbossPosition() {
         const canvas = document.getElementById('canvas');
         if (canvas) {
-            // Berechne Position basierend auf aktueller Canvas-Breite
-            this.x = canvas.width - 220; // 200px Breite + 20px Abstand vom Rand
+            this.x = canvas.width - 220; 
         } else {
-            this.x = 500; // Fallback für normale Auflösung
+            this.x = 500;
         }
     }
 

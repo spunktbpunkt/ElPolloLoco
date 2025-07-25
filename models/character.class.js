@@ -1,5 +1,5 @@
-class Character extends MovableObject {  // durch 'extends' alle Variablen und Funktionen von MovableObject verfügbar
-    y = 130; //130
+class Character extends MovableObject {
+    y = 130;
     height = 300;
     width = 160;
     speed = 10;
@@ -69,8 +69,8 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
 
     world;
     offset = {
-        left: 25,
-        right: 60,
+        left: 30,
+        right: 70,
         top: 115,
         bottom: 10
     }
@@ -293,7 +293,6 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
     handleHurtAnimation() {
         this.playAnimation(this.images_hurt);
         this.playSound(this.hurt_sound, soundVolume);
-        // Reset des Idle-Timers bei Schaden - Character "wacht auf"
         this.lastKeyboardHit = new Date().getTime();
         this.stopSnorring();
     }
@@ -334,9 +333,9 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
     handleIdleStates() {
         let timeSinceLastInput = new Date().getTime() - this.lastKeyboardHit;
 
-        if (timeSinceLastInput > 7000) {
+        if (timeSinceLastInput > 5500) {
             this.handleLongIdle();
-        } else if (timeSinceLastInput > 2000) {
+        } else if (timeSinceLastInput > 500) {
             this.handleNormalIdle();
         } else {
             this.handleStillState();
@@ -349,11 +348,9 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
      * @returns {void}
      */
     handleLongIdle() {
-        // Nur alle 4 Frames (= alle 200ms) das Bild wechseln
         if (this.frameCounter % 4 === 0) {
             this.playAnimation(this.images_longidle);
         }
-        // Schnarchen nur starten wenn es noch nicht läuft
         if (this.snorring_sound && this.snorring_sound.paused) {
             this.playSound(this.snorring_sound, soundVolume);
         }
@@ -365,7 +362,6 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
      * @returns {void}
      */
     handleNormalIdle() {
-        // Nur alle 3 Frames (= alle 150ms) das Bild wechseln
         if (this.frameCounter % 3 === 0) {
             this.playAnimation(this.images_idle);
         }
@@ -377,7 +373,6 @@ class Character extends MovableObject {  // durch 'extends' alle Variablen und F
      * @returns {void}
      */
     handleStillState() {
-        // In den ersten 2 Sekunden: Zeige das erste Idle-Bild (Stillstand)
         this.loadImage(this.images_idle[0]);
     }
 

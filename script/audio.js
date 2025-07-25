@@ -20,7 +20,6 @@ function playBackgroundMusic() {
  * @param {boolean} isWin - Whether player won
  */
 function playEndSound(isWin) {
-    // Prüfe ob Sound gemutet ist
     if (soundMuted) return;
 
     if (isWin) {

@@ -64,8 +64,6 @@ function init() {
  */
 function resetOutroElements() {
     const outro = document.getElementById('outro');
-    // const youWinImg = document.getElementById('youWinImg');
-    // const youLoseImg = document.getElementById('youLoseImg');
     const elements = ['outro', 'youWinImg', 'youLoseImg', 'outroBtnDiv'];
     elements.forEach(id => toggleClass(id, 'hidden', true));
     
@@ -138,14 +136,12 @@ function pauseGame() {
     setIconSrc("pauseIcon", iconSrc);
     toggleClass('pauseDiv', 'hidden', !isPaused);
     
-    // Nur Musik abspielen wenn nicht gemutet UND nicht pausiert
     if (!isPaused && !musicMuted) {
         togglePlayback(true);
     } else {
         togglePlayback(false);
     }
 
-    // Bei Resume: Alle Sounds stoppen wenn sie gemutet sind
     if (!isPaused && soundMuted) {
         stopAllAudio();
         if (world && world.character) {
@@ -282,10 +278,8 @@ function changeSound(name) {
     setIconSrc(name, isNoSound ? "img/icon/sound-icon.svg" : "img/icon/no-sound-icon.svg");
     localStorage.setItem('sound', isNoSound ? 'true' : 'false');
     
-    // Erst alle laufenden Sounds stoppen, dann toggleSound() aufrufen
-    if (!isNoSound) {  // Wenn Sound ausgeschaltet werden soll
+    if (!isNoSound) { 
         stopAllAudio();
-        // Speziell das Schnarchen stoppen wenn der Character existiert
         if (world && world.character) {
             world.character.stopSnorring();
         }
@@ -296,6 +290,7 @@ function changeSound(name) {
 
 /**
  * Toggles fullscreen mode and resizes canvas
+ * 
  * @param {string} name - Screen icon element ID
  */
 function changeScreen(name) {
@@ -305,8 +300,6 @@ function changeScreen(name) {
     if (isFullscreen) {
         setIconSrc(name, "img/icon/minimizescreen-icon.svg");
         enterFullscreen(document.getElementById("fullscreen"));
-
-        // Warte kurz bis Fullscreen aktiv ist
         setTimeout(() => {
             resizeCanvasToFullscreen();
         }, 100);

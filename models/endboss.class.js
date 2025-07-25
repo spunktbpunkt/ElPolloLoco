@@ -33,8 +33,8 @@ class Endboss extends MovableObject {
 
     currentImage = 0;
     offset = {
-        left: 10,
-        right: 15,
+        left: 20,
+        right: 25,
         top: 50,
         bottom: 10
     }
@@ -43,7 +43,7 @@ class Endboss extends MovableObject {
     randomAttackAnimationInterval;
     randomAttackIntervalTwo;
     dieInterval;
-    isDead = false; // Standardwert
+    isDead = false;
 
     constructor() {
         super();

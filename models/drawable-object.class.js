@@ -15,7 +15,7 @@ class DrawableObject {
     * @returns {void}
     */
     loadImage(path) {
-        this.img = new Image(); // gleiche wie <img>
+        this.img = new Image(); 
         this.img.src = path;
     }
 
@@ -44,7 +44,7 @@ class DrawableObject {
         if (this.type === 'endboss') {
             ctx.save();
             ctx.translate(this.x + this.width, this.y);
-            ctx.scale(-1, 1); // Spiegelt das Bild horizontal
+            ctx.scale(-1, 1);
             ctx.drawImage(this.img, 0, 0, this.width, this.height);
             ctx.restore();
         } else {

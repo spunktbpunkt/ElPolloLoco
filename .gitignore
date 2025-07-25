@@ -4,3 +4,4 @@ script/loader.js
 style copy.css
 models/sonstiges/game copy.js
 models/character.class-old.js
+models/character.class copy.js

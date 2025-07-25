@@ -112,7 +112,7 @@ class ThrowableObject extends MovableObject {
                 this.playAnimation(this.bottle_splash);
             } else {
                 clearInterval(this.intervalId);
-                this.world.throwableObjects = his.world.throwableObjects.filter(obj => obj !== this);
+                this.world.throwableObjects = this.world.throwableObjects.filter(obj => obj !== this);
             }
             i++;
         }, 50);

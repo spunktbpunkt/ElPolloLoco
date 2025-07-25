@@ -66,7 +66,7 @@ function resetOutroElements() {
     const outro = document.getElementById('outro');
     const elements = ['outro', 'youWinImg', 'youLoseImg', 'outroBtnDiv'];
     elements.forEach(id => toggleClass(id, 'hidden', true));
-    
+
     outro.style.display = 'none';
 }
 
@@ -129,26 +129,17 @@ function showGame() {
  */
 function pauseGame() {
     if (!gameStarted) return;
-
     isPaused = !isPaused;
     const iconSrc = isPaused ? "img/icon/play-icon.svg" : "img/icon/pause-icon.svg";
-
     setIconSrc("pauseIcon", iconSrc);
     toggleClass('pauseDiv', 'hidden', !isPaused);
-    
-    if (!isPaused && !musicMuted) {
-        togglePlayback(true);
-    } else {
+    if (isPaused) {
         togglePlayback(false);
-    }
-
-    if (!isPaused && soundMuted) {
+        if (world && world.character) world.character.stopSnorring();
         stopAllAudio();
-        if (world && world.character) {
-            world.character.stopSnorring();
-        }
+    } else {
+        if (!musicMuted) togglePlayback(true);
     }
-
     if (!isPaused) world.draw();
 }
 
@@ -277,14 +268,14 @@ function changeSound(name) {
 
     setIconSrc(name, isNoSound ? "img/icon/sound-icon.svg" : "img/icon/no-sound-icon.svg");
     localStorage.setItem('sound', isNoSound ? 'true' : 'false');
-    
-    if (!isNoSound) { 
+
+    if (!isNoSound) {
         stopAllAudio();
         if (world && world.character) {
             world.character.stopSnorring();
         }
     }
-    
+
     toggleSound();
 }
 

@@ -3,3 +3,4 @@ models/world.class copy.js
 script/loader.js
 style copy.css
 models/sonstiges/game copy.js
+models/character.class-old.js

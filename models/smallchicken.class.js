@@ -13,7 +13,7 @@ class Chickensmall extends MovableObject {
     currentImage = 0;
     offset = {
         left: 20,
-        right: 40,
+        right: 60,
         top: 15,
         bottom: 15
     }

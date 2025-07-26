@@ -92,7 +92,7 @@ class Endboss extends MovableObject {
         }, 150);
 
         this.randomAttackMoveInterval = setInterval(() => {
-            this.speed = 25 + Math.random() * 1;
+            this.speed = 35 + Math.random() * 1;
             if (Math.random() > 0.8) {
                 this.moveRight();
             } else {

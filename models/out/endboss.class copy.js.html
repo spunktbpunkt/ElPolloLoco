@@ -1,4 +1,32 @@
-class Endboss extends MovableObject {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: endboss.class copy.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: endboss.class copy.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class Endboss extends MovableObject {
     x = 1500;
     y = 140;
     width = 250;
@@ -24,6 +52,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ]
+
     images_dead = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
@@ -43,8 +72,6 @@ class Endboss extends MovableObject {
     randomAttackIntervalTwo;
     dieInterval;
     isDead = false;
-    lastThrowTime = 0;
-    throwCooldown = 2000;
 
     constructor() {
         super();
@@ -65,12 +92,12 @@ class Endboss extends MovableObject {
         let i = 0;
 
         this.intervalId = setInterval(() => {
-            if (this.world.character.x < this.x - 500 && !this.hadFirstContact) {
+            if (this.world.character.x &lt; this.x - 500 &amp;&amp; !this.hadFirstContact) {
                 i = 0;
                 this.playAnimation(this.images_alert)
             } else {
                 this.hadFirstContact = true;
-                if (i < 10) {
+                if (i &lt; 10) {
                     this.playAnimation(this.images_alert)
                 } else {
                     clearInterval(this.intervalId);
@@ -82,7 +109,7 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * Starts random attack mode with animations, movement and throwing
+     * Starts random attack mode with animations and movement
      * 
      * @returns {void}
      */
@@ -99,39 +126,7 @@ class Endboss extends MovableObject {
             } else {
                 this.moveLeft();
             }
-            this.tryThrowProjectile();
         }, 400);
-    }
-
-    /**
-     * Attempts to throw projectile if cooldown allows and character is in range
-     * 
-     * @returns {void}
-     */
-    tryThrowProjectile() {
-        const now = Date.now();
-        const distanceToCharacter = Math.abs(this.x - this.world.character.x);
-        const inRange = distanceToCharacter < 800;
-        const cooldownReady = now - this.lastThrowTime > this.throwCooldown;
-
-        if (inRange && cooldownReady && Math.random() > 0.6) {
-            this.throwProjectile();
-            this.lastThrowTime = now;
-        }
-    }
-
-    /**
-     * Creates and throws a projectile towards character
-     * 
-     * @returns {void}
-     */
-    throwProjectile() {
-        if (isPaused) return;
-        const direction = this.world.character.x < this.x ? -1 : 1;
-        const projectile = new EndbossProjectile(this.x + 50, this.y + 100, direction);
-        projectile.world = this.world;
-        this.world.endbossProjectiles.push(projectile);
-        projectile.throw();
     }
 
     /**
@@ -142,7 +137,7 @@ class Endboss extends MovableObject {
     hit() {
         if (isPaused) return;
         this.energy -= 20;
-        if (this.energy < 0) this.energy = 0;
+        if (this.energy &lt; 0) this.energy = 0;
         this.playSound(this.chicken_sound, soundVolume)
         this.world.statusBarEndboss.setPercentage(this.energy);
 
@@ -163,7 +158,7 @@ class Endboss extends MovableObject {
         let frameIndex = 0;
 
         this.dieInterval = setInterval(() => {
-            if (frameIndex < this.images_dead.length) {
+            if (frameIndex &lt; this.images_dead.length) {
                 this.img = this.imageCache[this.images_dead[frameIndex]];
                 frameIndex++;
             } else {
@@ -175,28 +170,26 @@ class Endboss extends MovableObject {
         clearInterval(this.randomAttackAnimationInterval);
         clearInterval(this.randomAttackMoveInterval);
     }
+}</code></pre>
+        </article>
+    </section>
 
-    /**
- * Stops all endboss intervals and clears resources
- * 
- * @returns {void}
- */
-    stopAllIntervals() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-        }
-        if (this.randomAttackAnimationInterval) {
-            clearInterval(this.randomAttackAnimationInterval);
-            this.randomAttackAnimationInterval = null;
-        }
-        if (this.randomAttackMoveInterval) {
-            clearInterval(this.randomAttackMoveInterval);
-            this.randomAttackMoveInterval = null;
-        }
-        if (this.dieInterval) {
-            clearInterval(this.dieInterval);
-            this.dieInterval = null;
-        }
-    }
-}
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Character.html">Character</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Jul 26 2025 16:56:03 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -22,6 +22,8 @@ class World {
         this.now = 0;
         this.coin_sound = new Audio('audio/coin.mp3');
         this.camera_x = 0;
+        this.endbossProjectiles = [];
+        this.brokenProjectiles = [];
         this.draw();
         this.setWorld();
         this.run();
@@ -35,7 +37,28 @@ class World {
         this.worldInterval = setInterval(() => {
             checkCollisions();
             this.checkThrowObject();
+            this.checkEndbossProjectileCollisions();
         }, 100);
+    }
+
+    /**
+     * Checks collision between endboss projectiles and character
+     * 
+     * @returns {void}
+     */
+    checkEndbossProjectileCollisions() {
+        for (let i = this.endbossProjectiles.length - 1; i >= 0; i--) {
+            let projectile = this.endbossProjectiles[i];
+            this.character.definingOffsetFrame();
+            projectile.definingOffsetFrame();
+
+            if (this.character.isColliding(projectile)) {
+                this.character.hit();
+                this.statusBarEnergy.setPercentage(this.character.energy, 100);
+                projectile.projectileBreak();
+                break;
+            }
+        }
     }
 
     /**
@@ -211,13 +234,15 @@ class World {
      * 
      */
     drawGameObjects() {
-        this.ctx.translate(this.camera_x, 0); 
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.endbossProjectiles); 
+        this.addObjectsToMap(this.brokenProjectiles);
         this.ctx.translate(-this.camera_x, 0);
     }
 

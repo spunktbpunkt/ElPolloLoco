@@ -26,8 +26,8 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>class Character extends MovableObject {  // durch 'extends' alle Variablen und Funktionen von MovableObject verfügbar
-    y = 130; //130
+            <pre class="prettyprint source linenums"><code>class Character extends MovableObject {
+    y = 130;
     height = 300;
     width = 160;
     speed = 10;
@@ -39,7 +39,6 @@
         'img/2_character_pepe/2_walk/W-25.png',
         'img/2_character_pepe/2_walk/W-26.png'
     ]
-
     images_dead = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
@@ -54,7 +53,6 @@
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png',
     ]
-
     images_idle = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -79,14 +77,12 @@
         'img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ]
-
     images_jumping = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
         'img/2_character_pepe/3_jump/J-34.png'
     ];
-
     images_falling = [
         'img/2_character_pepe/3_jump/J-35.png',
         'img/2_character_pepe/3_jump/J-36.png',
@@ -97,8 +93,8 @@
 
     world;
     offset = {
-        left: 25,
-        right: 60,
+        left: 30,
+        right: 70,
         top: 115,
         bottom: 10
     }
@@ -111,10 +107,27 @@
     animationInterval;
     lastKeyboardHit = 0;
 
-
+    /**
+     * Creates a new Character instance and initializes all properties
+     * 
+     * @returns {void}
+     */
     constructor() {
         super();
         this.loadImage('img/2_character_pepe/2_walk/W-21.png')
+        this.loadAllImages();
+        this.initializeAudio();
+        this.applyGravity()
+        this.animate();
+        this.lastKeyboardHit = new Date().getTime();
+    }
+
+    /**
+     * Loads all character animation images into cache
+     * 
+     * @returns {void}
+     */
+    loadAllImages() {
         this.loadImages(this.images_walking)
         this.loadImages(this.images_idle)
         this.loadImages(this.images_longidle)
@@ -122,22 +135,26 @@
         this.loadImages(this.images_falling)
         this.loadImages(this.images_hurt)
         this.loadImages(this.images_dead)
-        this.applyGravity()
-        this.animate();
-        this.lastKeyboardHit = new Date().getTime();
+    }
+
+    /**
+     * Initializes all character audio elements
+     * 
+     * @returns {void}
+     */
+    initializeAudio() {
         this.walking_sound = new Audio('audio/footstep.mp3');
         this.hurt_sound = new Audio('audio/ouchie.mp3');
         this.die_sound = new Audio('audio/die-sound.mp3');
         this.jump_sound = new Audio('audio/jump-sound.mp3');
         this.snorring_sound = new Audio('audio/snorring.wav');
-
     }
 
     /**
-    * Starts character animation and movement
-    * 
-    * @returns {void}
-    */
+     * Starts character animation and movement systems
+     * 
+     * @returns {void}
+     */
     animate() {
         if (isPaused) return;
         this.moving()
@@ -145,68 +162,34 @@
     }
 
     /**
-     * Handles character movement based on keyboard input
-     * 
-     * @returns {void}
-     */
-    moving() {
-        if (isPaused) return;
-        this.movingInterval = setInterval(() => {
-            if (this.world.keyboard.RIGHT &amp;&amp; this.x &lt; this.world.level.level_end_x) {
-                this.movingRight()
-            }
-            if (this.world.keyboard.LEFT &amp;&amp; this.x > 0) {
-                this.movingLeft()
-            }
-            if ((this.world.keyboard.UP || this.world.keyboard.SPACE) &amp;&amp; !this.isAboveGround()) {
-                this.movingJumping()
-            }
-            this.world.camera_x = -this.x + 100;
-        }, 1000 / 60);
-    }
-
-    /**
-     * Moves character right with sound
-     * 
-     * @returns {void}
-     */
-    movingRight() {
-        this.otherDirection = false;
-        this.playSound(this.walking_sound, 1);
-        this.moveRight();
-    }
-
-    /**
-     * Moves character left with sound
-     * 
-     * @returns {void}
-     */
-    movingLeft() {
-        this.otherDirection = true;
-        this.playSound(this.walking_sound, 1);
-        this.moveLeft();
-    }
-
-    /**
-     * Makes character jump with sound
-     * 
-     * @returns {void}
-     */
-    movingJumping() {
-        this.playSound(this.jump_sound, 1);
-        this.jump();
-    }
-
-    /**
-     * Stops all character intervals
+     * Stops all character intervals and clears resources
      * 
      * @returns {void}
      */
     stopAllIntervals() {
+        this.clearMovementIntervals();
+        this.clearAnimationIntervals();
+        this.stopSnorring();
+    }
+
+    /**
+     * Clears movement-related intervals
+     * 
+     * @returns {void}
+     */
+    clearMovementIntervals() {
         if (this.movingInterval) {
             clearInterval(this.movingInterval);
             this.movingInterval = null;
         }
+    }
+
+    /**
+     * Clears animation-related intervals
+     * 
+     * @returns {void}
+     */
+    clearAnimationIntervals() {
         if (this.animationInterval) {
             clearInterval(this.animationInterval);
             this.animationInterval = null;
@@ -223,54 +206,10 @@
             clearInterval(this.waitInterval);
             this.waitInterval = null;
         }
-
-        this.stopSnorring();
     }
 
     /**
-     * Handles character animation states
-     * 
-     * @returns {void}
-     */
-    animation() {
-        if (isPaused) return;
-        this.currentImageOnce = 0;
-
-        if (!this.frameCounter) this.frameCounter = 0;
-
-        this.animationInterval = setInterval(() => {
-            this.frameCounter++;
-            this.handleKeyboardInput();
-            this.handleGameEndCheck();
-            this.selectAnimation();
-        }, 50);
-    }
-
-    /**
-     * Handles keyboard input tracking
-     * 
-     * @returns {void}
-     */
-    handleKeyboardInput() {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.SPACE) {
-            this.lastKeyboardHit = new Date().getTime();
-            this.stopSnorring();
-        }
-    }
-
-    /**
-     * Checks game end state and stops snoring
-     * 
-     * @returns {void}
-     */
-    handleGameEndCheck() {
-        if (this.world &amp;&amp; this.world.gameEnd) {
-            this.stopSnorring();
-        }
-    }
-
-    /**
-     * Stops snoring sound
+     * Stops snoring sound and resets audio element
      * 
      * @returns {void}
      */
@@ -279,170 +218,6 @@
             this.snorring_sound.pause();
             this.snorring_sound.currentTime = 0;
         }
-    }
-
-    /**
-     * Selects appropriate animation based on character state
-     * 
-     * @returns {void}
-     */
-    selectAnimation() {
-        if (this.isDead()) {
-            this.handleDeadAnimation();
-        } else if (this.isHurt()) {
-            this.handleHurtAnimation();
-        } else if (this.isAboveGround()) {
-            this.handleJumpFallAnimation();
-        } else {
-            this.handleGroundAnimation();
-        }
-    }
-
-    /**
-     * Handles death animation and game over
-     * 
-     * @returns {void}
-     */
-    handleDeadAnimation() {
-        this.playAnimationOnce(this.images_dead);
-        clearInterval(this.movingInterval);
-        this.playSound(this.die_sound, 1, this.animationInterval);
-
-        setTimeout(() => {
-            youLose();
-        }, 1000);
-    }
-
-    /**
-     * Handles hurt animation and sound
-     * 
-     * @returns {void}
-     */
-    handleHurtAnimation() {
-        this.playAnimation(this.images_hurt);
-        this.playSound(this.hurt_sound, 1);
-        // Reset des Idle-Timers bei Schaden - Character "wacht auf"
-        this.lastKeyboardHit = new Date().getTime();
-        this.stopSnorring();
-    }
-
-    /**
-     * Handles jump and fall animations
-     * 
-     * @returns {void}
-     */
-    handleJumpFallAnimation() {
-        if (this.falling) {
-            this.currentImageOnce = 0;
-            this.fallAnimation();
-        } else {
-            this.currentImageOnce = 0;
-            this.jumpAnimation();
-        }
-    }
-
-    /**
-     * Handles ground-based animations
-     * 
-     * @returns {void}
-     */
-    handleGroundAnimation() {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.playAnimation(this.images_walking);
-        } else {
-            this.handleIdleStates();
-        }
-    }
-
-    /**
-     * Manages different idle states based on time
-     * 
-     * @returns {void}
-     */
-    handleIdleStates() {
-        let timeSinceLastInput = new Date().getTime() - this.lastKeyboardHit;
-
-        if (timeSinceLastInput > 7000) {
-            this.handleLongIdle();
-        } else if (timeSinceLastInput > 2000) {
-            this.handleNormalIdle();
-        } else {
-            this.handleStillState();
-        }
-    }
-
-    /**
-     * Handles long idle animation with snoring
-     * 
-     * @returns {void}
-     */
-    handleLongIdle() {
-        // Nur alle 4 Frames (= alle 200ms) das Bild wechseln
-        if (this.frameCounter % 4 === 0) {
-            this.playAnimation(this.images_longidle);
-        }
-        // Schnarchen nur starten wenn es noch nicht läuft
-        if (this.snorring_sound &amp;&amp; this.snorring_sound.paused) {
-            this.playSound(this.snorring_sound, 0.3);
-        }
-    }
-
-    /**
-     * Handles normal idle animation
-     * 
-     * @returns {void}
-     */
-    handleNormalIdle() {
-        // Nur alle 3 Frames (= alle 150ms) das Bild wechseln
-        if (this.frameCounter % 3 === 0) {
-            this.playAnimation(this.images_idle);
-        }
-    }
-
-    /**
-     * Handles still state animation
-     * 
-     * @returns {void}
-     */
-    handleStillState() {
-        // In den ersten 2 Sekunden: Zeige das erste Idle-Bild (Stillstand)
-        this.loadImage(this.images_idle[0]);
-    }
-
-    /**
-     * Handles jump animation sequence
-     * 
-     * @returns {void}
-     */
-    jumpAnimation() {
-        if (isPaused) return;
-        clearInterval(this.animationInterval)
-        this.jumpInterval = setInterval(() => {
-            if (!this.falling) {
-                this.playAnimationOnce(this.images_jumping)
-            } else {
-                clearInterval(this.jumpInterval)
-                this.animation()
-            }
-        }, 50);
-    }
-
-    /**
-     * Handles fall animation sequence
-     * 
-     * @returns {void}
-     */
-    fallAnimation() {
-        if (isPaused) return;
-        clearInterval(this.animationInterval)
-        this.fallInterval = setInterval(() => {
-            if (this.falling) {
-                this.playAnimationOnce(this.images_falling)
-            } else {
-                clearInterval(this.fallInterval)
-                this.animation()
-            }
-        }, 50);
     }
 }</code></pre>
         </article>
@@ -454,13 +229,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Character.html">Character</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Jul 20 2025 21:27:30 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Jul 26 2025 16:56:03 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

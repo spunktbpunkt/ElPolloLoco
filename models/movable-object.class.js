@@ -62,7 +62,7 @@ class MovableObject extends DrawableObject {
      */
     isAboveGround() {
         if (isPaused) { return }
-        if (this instanceof ThrowableObject) {
+        if (this instanceof ThrowableObject || this instanceof EndbossProjectile) {
             return true
         } else {
             return this.y < 130

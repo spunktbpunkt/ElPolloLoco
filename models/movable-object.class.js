@@ -241,4 +241,25 @@ class MovableObject extends DrawableObject {
             element.play();
         }
     }
+
+    /**
+    * Default implementation to stop common intervals
+    * Can be overridden by subclasses for specific behavior
+    * 
+    * @returns {void}
+    */
+    stopAllIntervals() {
+        if (this.moveInterval) {
+            clearInterval(this.moveInterval);
+            this.moveInterval = null;
+        }
+        if (this.animationInterval) {
+            clearInterval(this.animationInterval);
+            this.animationInterval = null;
+        }
+        if (this.gravityInterval) {
+            clearInterval(this.gravityInterval);
+            this.gravityInterval = null;
+        }
+    }
 }

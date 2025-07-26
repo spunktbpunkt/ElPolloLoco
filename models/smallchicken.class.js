@@ -71,4 +71,5 @@ class Chickensmall extends MovableObject {
             }
         }, 1000);
     }
+
 }

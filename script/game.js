@@ -99,8 +99,9 @@ function endGame(isWin) {
     playEndSound(isWin);
 }
 
+
 /**
- * Stops all game processes
+ * Stops all game processes including enemies
  * 
  */
 function stopGame() {
@@ -111,18 +112,45 @@ function stopGame() {
         if (world.worldInterval) clearInterval(world.worldInterval);
         if (world.character) world.character.stopAllIntervals();
 
-        clearProjectiles()
+        // Stoppe alle Enemy-Intervalle
+        if (world.level && world.level.enemies) {
+            world.level.enemies.forEach(enemy => {
+                if (enemy.stopAllIntervals) {
+                    enemy.stopAllIntervals();
+                }
+            });
+        }
+
+        // Stoppe alle Endboss-Intervalle
+        if (world.level && world.level.endboss) {
+            world.level.endboss.forEach(endboss => {
+                if (endboss.stopAllIntervals) {
+                    endboss.stopAllIntervals();
+                }
+            });
+        }
+
+        clearProjectiles();
         stopAllAudio();
     }
     backgroundMusic.pause();
 }
 
+/**
+ * Extended clearProjectiles function
+ * 
+ */
 function clearProjectiles() {
     if (world.endbossProjectiles) {
         world.endbossProjectiles.forEach(projectile => {
             projectile.destroy();
         });
         world.endbossProjectiles = [];
+    }
+
+    // Auch zerbrochene Projektile bereinigen
+    if (world.brokenProjectiles) {
+        world.brokenProjectiles = [];
     }
 }
 

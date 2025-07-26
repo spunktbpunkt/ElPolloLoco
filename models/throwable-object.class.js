@@ -64,7 +64,8 @@ class ThrowableObject extends MovableObject {
         this.moveInterval = setInterval(() => {
             if (isPaused) return
             this.x += 4 * direction;
-            this.world.checkBottleCollisions();
+            // this.world.checkBottleCollisions();
+            checkBottleCollisions();
         }, 10);
     }
 

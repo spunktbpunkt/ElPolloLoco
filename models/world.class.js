@@ -33,7 +33,7 @@ class World {
      */
     run() {
         this.worldInterval = setInterval(() => {
-            this.checkCollisions();
+            checkCollisions();
             this.checkThrowObject();
         }, 100);
     }
@@ -91,42 +91,6 @@ class World {
     }
 
     /**
-     * Checks different types of Collisions
-     * 
-     */
-    checkCollisions() {
-        if (!this.gameEnd) {
-            this.characterCollisionEnemy()
-            this.characterCollisionEndboss()
-            this.characterCollisionCoin()
-            this.characterCollisionBottle()
-        }
-    }
-
-    /**
-     * Checks if the character is colliding with a normal enemy by comparing the frames of the images from the character an all enemies
-     * 
-     */
-    characterCollisionEnemy() {
-        for (let i = this.level.enemies.length - 1; i >= 0; i--) {
-            let enemy = this.level.enemies[i];
-            this.character.definingOffsetFrame();
-            enemy.definingOffsetFrame();
-
-            if (enemy.isDead === undefined) enemy.isDead = false;
-
-            if (this.character.isColliding(enemy) && !enemy.isDead) {
-                if (this.character.falling && this.character.y < enemy.y) {
-                    this.killEnemy(enemy, i);
-                } else {
-                    this.character.hit();
-                    this.statusBarEnergy.setPercentage(this.character.energy, 100);
-                }
-            }
-        }
-    }
-
-    /**
      * Kills a normal enemy and removes it from the enemy-array
      * 
      * @param {object} enemy 
@@ -141,104 +105,6 @@ class World {
             setTimeout(() => {
                 this.level.enemies.splice(index, 1);
             }, 500);
-        }
-    }
-
-    /**
-     * This method checks if the character is colliding with the bottles on the floor and adds them to the statusbar
-     * 
-     */
-    characterCollisionBottle() {
-        for (let i = this.level.bottles.length - 1; i >= 0; i--) {
-            let bottle = this.level.bottles[i];
-            this.character.definingOffsetFrame();
-            bottle.definingOffsetFrame();
-
-            if (this.character.isColliding(bottle)) {
-                this.character.bottlesAmount++;
-                this.statusBarBottles.setPercentage(this.character.bottlesAmount, 5);
-                this.level.bottles.splice(i, 1);
-            }
-        }
-    }
-
-    /**
-     * This method checks if the character is colliding with the coins in the air and adds them to the statusbar
-     * 
-     */
-    characterCollisionCoin() {
-        for (let i = this.level.coins.length - 1; i >= 0; i--) {
-            let coin = this.level.coins[i];
-            this.character.definingOffsetFrame();
-            coin.definingOffsetFrame();
-
-            if (this.character.isColliding(coin)) {
-                this.character.coinsAmount++;
-                this.character.playSound(this.coin_sound, soundVolume)
-                this.statusBarCoins.setPercentage(this.character.coinsAmount, 5);
-                this.level.coins.splice(i, 1);
-            }
-        }
-    }
-
-    /**
-     * Checks if the character is colliding with the endboss by comparing the frames of the images from the character an the endboss
-     * 
-     */
-    characterCollisionEndboss() {
-        this.level.endboss.forEach(endboss => {
-            this.character.definingOffsetFrame();
-            endboss.definingOffsetFrame();
-            if (this.character.isColliding(endboss) && !endboss.isDead) {
-                this.character.hit();
-                this.statusBarEnergy.setPercentage(this.character.energy)
-            };
-        });
-    }
-
-    /**
-     * Checks the collision between the thrown bottles and the enemies/endboss
-     * 
-     */
-    checkBottleCollisions() {
-        this.throwableObjects.forEach(bottle => {
-            this.bottleCollisionEnemy(bottle);
-            this.bottleCollisionEndboss(bottle);
-        });
-    }
-
-    /**
-     * Starts another methods for each enemy in the array level.enemies which are needed for checking collisions
-     * 
-     * @param {object} bottle 
-     */
-    bottleCollisionEnemy(bottle) {
-        this.level.enemies.forEach(enemy => {
-            enemy.definingOffsetFrame();
-            bottle.definingOffsetFrame();
-            if (bottle.isColliding(enemy)) {
-                enemy.die();
-                bottle.bottleSplash();
-            }
-        });
-    }
-
-    /**
-     * Starts another methods for each endboss in the array level.endboss which are needed for checking collisions
-     * 
-     * @param {object} bottle 
-     */
-    bottleCollisionEndboss(bottle) {
-        if (this.checkCoolDown()) {
-            this.lastThrowTime = this.now;
-            this.level.endboss.forEach(endboss => {
-                endboss.definingOffsetFrame();
-                bottle.definingOffsetFrame();
-                if (bottle.isColliding(endboss)) {
-                    endboss.hit();
-                    bottle.bottleSplash();
-                }
-            });
         }
     }
 
@@ -276,9 +142,6 @@ class World {
     /**
      * Main render loop that draws all game objects to the canvas.
      * 
-     */
-    /**
-     * Main render loop that draws all game objects to the canvas.
      */
     draw() {
         if (this.gameEnd) {
